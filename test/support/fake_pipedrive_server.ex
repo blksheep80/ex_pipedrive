@@ -154,6 +154,12 @@ defmodule LineDrive.FakePipedriveServer do
     |> handle_list_pipelines()
   end
 
+  get "/api/v1/leads" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_leads(conn.query_params)
+  end
+
   post "/api/v1/leads" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")

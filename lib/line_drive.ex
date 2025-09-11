@@ -20,6 +20,7 @@ defmodule LineDrive do
   defdelegate list_activity_types(client), to: LineDrive.ActivityTypes
   defdelegate list_deals(client, opts), to: LineDrive.Deals
   defdelegate list_deal_fields(client, opts), to: LineDrive.DealFields
+  defdelegate list_leads(client, opts \\ []), to: LineDrive.Leads
   defdelegate list_organizations(client, opts), to: LineDrive.Organizations
   defdelegate list_organization_fields(client, opts), to: LineDrive.OrganizationFields
   defdelegate list_own_activities(client, opts \\ []), to: LineDrive.Activities
