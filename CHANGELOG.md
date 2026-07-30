@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- API v2 Deal, Person, and Organization Fields list/page/stream helpers plus
+  `ExPipedrive.Fields` for resolving custom-field hashes (`field_code`) and
+  human-readable labels (`field_name`)
 - `ExPipedrive.Webhooks`: API v1 webhook-subscription list, create, and delete
   helpers, with typed subscriptions and fake-server coverage. Management stays
   on v1 while newly created subscriptions default to Pipedrive's v2.0 delivery

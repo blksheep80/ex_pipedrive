@@ -12,6 +12,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeDealApiHandler
   import ExPipedrive.FakeDealFieldApiHandler
   import ExPipedrive.FakeDealV2ApiHandler
+  import ExPipedrive.FakeFieldV2ApiHandler
   import ExPipedrive.FakeLeadApiHandler
   import ExPipedrive.FakeNoteApiHandler
   import ExPipedrive.FakeOrganizationApiHandler
@@ -223,7 +224,19 @@ defmodule ExPipedrive.FakePipedriveServer do
     handle_delete_webhook(conn, conn.params)
   end
 
-  # --- API v2 (deals + persons + organizations + activities + pipelines + stages + products + search) ---
+  # --- API v2 (deals + persons + organizations + activities + pipelines + stages + products + search + fields) ---
+
+  get "/api/v2/dealFields" do
+    handle_list_fields_v2(conn, "deal", conn.query_params)
+  end
+
+  get "/api/v2/personFields" do
+    handle_list_fields_v2(conn, "person", conn.query_params)
+  end
+
+  get "/api/v2/organizationFields" do
+    handle_list_fields_v2(conn, "organization", conn.query_params)
+  end
 
   get "/api/v2/itemSearch" do
     handle_item_search_v2(conn, conn.query_params)
