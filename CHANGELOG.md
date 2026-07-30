@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.Webhooks`: API v1 webhook-subscription list, create, and delete
+  helpers, with typed subscriptions and fake-server coverage. Management stays
+  on v1 while newly created subscriptions default to Pipedrive's v2.0 delivery
+  format; it is separate from incoming webhook handling.
 - `ExPipedrive.Webhook.Event` and `ExPipedrive.Webhook.Handler`: the
   in-repository `ex_pipedrive_web` webhook surface, designed for future optional
   package extraction. `Incoming.Handler` now supports optional Basic auth,

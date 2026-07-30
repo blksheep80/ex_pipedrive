@@ -25,6 +25,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeItemSearchV2ApiHandler
   import ExPipedrive.FakeProductV2ApiHandler
   import ExPipedrive.FakeStageV2ApiHandler
+  import ExPipedrive.FakeWebhookApiHandler
 
   plug(:match)
 
@@ -208,6 +209,18 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_list_own_activities()
+  end
+
+  get "/api/v1/webhooks" do
+    handle_list_webhooks(conn)
+  end
+
+  post "/api/v1/webhooks" do
+    handle_create_webhook(conn)
+  end
+
+  delete "/api/v1/webhooks/:id" do
+    handle_delete_webhook(conn, conn.params)
   end
 
   # --- API v2 (deals + persons + organizations + activities + pipelines + stages + products + search) ---
