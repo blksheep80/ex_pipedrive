@@ -2,6 +2,12 @@
 
 Status as of 2026-07-30. Use this when starting a new agent session in this repo.
 
+## Current state
+
+- Setup merged via [#31](https://github.com/blksheep80/ex_pipedrive/pull/31): README, `HANDOFF.md`, beads (`expd-`), devenv, agent guidance.
+- **Code is still LineDrive-branded** (`:line_drive`, `LineDrive.*`). Rebrand has not started.
+- On `main`, up to date with `origin/main` after the setup merge.
+
 ## Locked decisions
 
 | Item | Decision |
@@ -19,9 +25,19 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - `origin` → `blksheep80/ex_pipedrive`
 - `upstream` → `tmecklem/line_drive`
 
+**gh CLI:** this clone must default to the fork, not upstream:
+
+```bash
+gh repo set-default origin
+gh repo set-default --view   # expect blksheep80/ex_pipedrive
+```
+
+Without that, `gh pr create` can open PRs against `tmecklem/line_drive`.
+
 ## Local tooling
 
-- **Beads** (`bd`, prefix `expd-`): execution-of-record alongside GitHub issues. Cursor rule at `.cursor/rules/beads.mdc`. Fresh clone: `bd bootstrap`.
+- **Beads** (`bd`, prefix `expd-`): execution-of-record for work in flight. Cursor rule at `.cursor/rules/beads.mdc`. Fresh clone: `bd bootstrap`.
+- **GitHub issues**: product backlog / roadmap (acceptance criteria, milestones).
 - **devenv** (optional, NixOS-friendly): `devenv.nix` pins Elixir 1.17 / OTP 27 + `dolt` for beads. `direnv allow` or `devenv shell`.
 - **asdf / mise**: `.tool-versions` remains the non-Nix source of truth for Elixir/OTP.
 
@@ -51,6 +67,9 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 Open HANDOFF.md and GitHub issue #1. Rebrand the inherited LineDrive codebase to ExPipedrive (package, OTP app, modules, docs) with upstream attribution. Do not start API v2 work until #1 and #2 are done or explicitly scoped in.
 ```
 
-## Prior chat
+## How to resume
 
-Planning conversation lived under the nixos-configs workspace. Prefer this file + GitHub issues as source of truth over chat transcript memory.
+1. Read this file.
+2. `bd ready` for in-flight execution items.
+3. Prefer GitHub issues for the broader backlog; create/claim a bead when starting concrete work.
+4. Prefer this file + GitHub issues + beads over chat transcript memory.
