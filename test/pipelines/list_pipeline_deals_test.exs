@@ -1,8 +1,8 @@
-defmodule LineDrive.Pipelines.ListPipelineDealsTest do
+defmodule ExPipedrive.Pipelines.ListPipelineDealsTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase, async: false
+  use ExPipedrive.PipedriveClientCase, async: false
 
-  alias LineDrive.{
+  alias ExPipedrive.{
     Deal,
     Pipelines
   }

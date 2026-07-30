@@ -1,4 +1,4 @@
-defmodule LineDrive.FakeDealApiHandler do
+defmodule ExPipedrive.FakeDealApiHandler do
   @moduledoc false
 
   import Plug.Conn

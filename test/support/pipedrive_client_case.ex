@@ -1,10 +1,10 @@
-defmodule LineDrive.PipedriveClientCase do
+defmodule ExPipedrive.PipedriveClientCase do
   @moduledoc """
   Case for tests that require configuration of the client to point to a fake pipedrive API server for testing
   """
 
   use ExUnit.CaseTemplate
-  alias LineDrive.FakePipedriveServer
+  alias ExPipedrive.FakePipedriveServer
 
   # using do
   #   quote do
@@ -16,7 +16,7 @@ defmodule LineDrive.PipedriveClientCase do
       {Plug.Cowboy, scheme: :http, plug: FakePipedriveServer, options: [port: 4006]}
     )
 
-    client = LineDrive.client("api_token", "http://localhost:4006/")
+    client = ExPipedrive.client("api_token", "http://localhost:4006/")
     {:ok, client: client}
   end
 end

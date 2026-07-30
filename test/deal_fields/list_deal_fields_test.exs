@@ -1,11 +1,11 @@
-defmodule LineDrive.DealFields.ListDealFieldsTest do
+defmodule ExPipedrive.DealFields.ListDealFieldsTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase, async: false
+  use ExPipedrive.PipedriveClientCase, async: false
 
-  alias LineDrive.DealFields
-  alias LineDrive.Field
-  alias LineDrive.FieldOption
-  alias LineDrive.PagedResult
+  alias ExPipedrive.DealFields
+  alias ExPipedrive.Field
+  alias ExPipedrive.FieldOption
+  alias ExPipedrive.PagedResult
 
   describe "list_deal_fields" do
     test "it forms a correct request and returns a list of deal field objects", %{

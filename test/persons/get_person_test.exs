@@ -1,8 +1,8 @@
-defmodule LineDrive.Contacts.GetPersonTest do
+defmodule ExPipedrive.Contacts.GetPersonTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase
+  use ExPipedrive.PipedriveClientCase
 
-  alias LineDrive.{
+  alias ExPipedrive.{
     Person,
     Persons
   }

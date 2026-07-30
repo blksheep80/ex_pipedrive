@@ -1,8 +1,8 @@
-defmodule LineDrive.Notes.AddNoteTest do
+defmodule ExPipedrive.Notes.AddNoteTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase, async: false
+  use ExPipedrive.PipedriveClientCase, async: false
 
-  alias LineDrive.{
+  alias ExPipedrive.{
     Note,
     Notes
   }

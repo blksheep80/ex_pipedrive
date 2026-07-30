@@ -1,7 +1,7 @@
-defmodule LineDrive.DealTest do
+defmodule ExPipedrive.DealTest do
   use ExUnit.Case, async: true
 
-  alias LineDrive.Deal
+  alias ExPipedrive.Deal
 
   describe "new/1" do
     test "it accepts string keys" do

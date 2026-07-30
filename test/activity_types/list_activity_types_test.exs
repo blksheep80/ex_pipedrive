@@ -1,9 +1,9 @@
-defmodule LineDrive.ActivityTypes.ListActivityTypesTest do
+defmodule ExPipedrive.ActivityTypes.ListActivityTypesTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase, async: false
+  use ExPipedrive.PipedriveClientCase, async: false
 
-  alias LineDrive.ActivityType
-  alias LineDrive.ActivityTypes
+  alias ExPipedrive.ActivityType
+  alias ExPipedrive.ActivityTypes
 
   describe "list_activity_types" do
     test "it forms a correct request and returns a list of activity types", %{client: client} do

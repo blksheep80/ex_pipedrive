@@ -1,8 +1,8 @@
-defmodule LineDrive.Deals.ListDealsTest do
+defmodule ExPipedrive.Deals.ListDealsTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase
+  use ExPipedrive.PipedriveClientCase
 
-  alias LineDrive.{
+  alias ExPipedrive.{
     Deal,
     Deals,
     PagedResult

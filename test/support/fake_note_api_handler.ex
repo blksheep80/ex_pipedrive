@@ -1,4 +1,4 @@
-defmodule LineDrive.FakeNoteApiHandler do
+defmodule ExPipedrive.FakeNoteApiHandler do
   @moduledoc false
 
   import Plug.Conn

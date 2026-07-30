@@ -1,4 +1,4 @@
-defmodule LineDrive.FakePipedriveServer do
+defmodule ExPipedrive.FakePipedriveServer do
   @moduledoc """
   Fake (yet also real HTTP) server to handle requests that conform to
   pipedrive's api and return responses that look like real pipedrive responses.
@@ -6,17 +6,17 @@ defmodule LineDrive.FakePipedriveServer do
 
   use Plug.Router
 
-  import LineDrive.FakeActivityApiHandler
-  import LineDrive.FakeActivityTypeApiHandler
-  import LineDrive.FakeDealApiHandler
-  import LineDrive.FakeDealFieldApiHandler
-  import LineDrive.FakeLeadApiHandler
-  import LineDrive.FakeNoteApiHandler
-  import LineDrive.FakeOrganizationApiHandler
-  import LineDrive.FakeOrganizationFieldApiHandler
-  import LineDrive.FakePersonApiHandler
-  import LineDrive.FakePersonFieldApiHandler
-  import LineDrive.FakePipelineApiHandler
+  import ExPipedrive.FakeActivityApiHandler
+  import ExPipedrive.FakeActivityTypeApiHandler
+  import ExPipedrive.FakeDealApiHandler
+  import ExPipedrive.FakeDealFieldApiHandler
+  import ExPipedrive.FakeLeadApiHandler
+  import ExPipedrive.FakeNoteApiHandler
+  import ExPipedrive.FakeOrganizationApiHandler
+  import ExPipedrive.FakeOrganizationFieldApiHandler
+  import ExPipedrive.FakePersonApiHandler
+  import ExPipedrive.FakePersonFieldApiHandler
+  import ExPipedrive.FakePipelineApiHandler
 
   plug(:match)
 

@@ -5,7 +5,7 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 ## Current state
 
 - Setup merged via [#31](https://github.com/blksheep80/ex_pipedrive/pull/31): README, `HANDOFF.md`, beads (`expd-`), devenv, agent guidance.
-- **Code is still LineDrive-branded** (`:line_drive`, `LineDrive.*`). Rebrand has not started.
+- **Rebrand complete** ([#1](https://github.com/blksheep80/ex_pipedrive/issues/1)): `:ex_pipedrive`, `ExPipedrive.*`, upstream attribution preserved.
 - On `main`, up to date with `origin/main` after the setup merge.
 
 ## Locked decisions
@@ -48,7 +48,7 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **Start here (v0.1 foundation):**
 
-1. #1 Rebrand LineDrive → ExPipedrive
+1. ~~#1 Rebrand LineDrive → ExPipedrive~~ (done)
 2. #2 Audit inherited keep/drop decisions
 3. #14 Remove silent OTP Application/Registry coupling
 4. #27 Slim core dependencies

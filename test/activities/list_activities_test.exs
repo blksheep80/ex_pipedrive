@@ -1,10 +1,10 @@
-defmodule LineDrive.Activities.ListActivitiesTest do
+defmodule ExPipedrive.Activities.ListActivitiesTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase, async: false
+  use ExPipedrive.PipedriveClientCase, async: false
 
-  alias LineDrive.Activities
-  alias LineDrive.Activity
-  alias LineDrive.PagedResult
+  alias ExPipedrive.Activities
+  alias ExPipedrive.Activity
+  alias ExPipedrive.PagedResult
 
   describe "list_activities" do
     test "it forms a correct request and returns a paged result", %{client: client} do
