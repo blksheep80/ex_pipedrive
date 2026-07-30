@@ -116,6 +116,24 @@ Each hit is an `%ExPipedrive.SearchResult{type: "deal", item: %ExPipedrive.Deal{
 API token auth remains the simple path for single-tenant scripts. Legacy v1
 list/search helpers remain available (e.g. `ExPipedrive.list_deals/2`).
 
+### Raw escape hatch
+
+For endpoints without a first-class module, call through auth/JSON/error
+normalization:
+
+```elixir
+{:ok, body} =
+  ExPipedrive.Raw.request(client, :get, "dealFields",
+    api_version: :v1,
+    query: [limit: 100]
+  )
+
+{:ok, body} =
+  ExPipedrive.Raw.request(client, :post, "/api/v2/deals",
+    body: %{title: "From raw", value: 100, currency: "USD"}
+  )
+```
+
 ## Development
 
 ### Tooling
