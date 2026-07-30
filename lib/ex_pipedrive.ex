@@ -17,6 +17,8 @@ defmodule ExPipedrive do
   defdelegate get_organization(client, org_id), to: ExPipedrive.Organizations
   defdelegate get_person(client, person_id), to: ExPipedrive.Persons
   defdelegate list_activities(client, opts \\ []), to: ExPipedrive.Activities
+  defdelegate list_activities_page(client, opts \\ []), to: ExPipedrive.Activities
+  defdelegate stream_activities(client, opts \\ []), to: ExPipedrive.Activities
   defdelegate list_activity_types(client), to: ExPipedrive.ActivityTypes
   defdelegate list_deals(client, opts), to: ExPipedrive.Deals
   defdelegate list_deals_page(client, opts \\ []), to: ExPipedrive.Deals

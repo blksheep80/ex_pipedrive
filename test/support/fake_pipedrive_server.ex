@@ -8,6 +8,7 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   import ExPipedrive.FakeActivityApiHandler
   import ExPipedrive.FakeActivityTypeApiHandler
+  import ExPipedrive.FakeActivityV2ApiHandler
   import ExPipedrive.FakeDealApiHandler
   import ExPipedrive.FakeDealFieldApiHandler
   import ExPipedrive.FakeDealV2ApiHandler
@@ -193,7 +194,7 @@ defmodule ExPipedrive.FakePipedriveServer do
     |> handle_list_own_activities()
   end
 
-  # --- API v2 (deals + persons + organizations) ---
+  # --- API v2 (deals + persons + organizations + activities) ---
 
   get "/api/v2/deals" do
     handle_list_deals_v2(conn, conn.query_params)
@@ -249,6 +250,26 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   get "/api/v2/organizations/:id" do
     handle_get_organization_v2(conn, conn.params)
+  end
+
+  get "/api/v2/activities" do
+    handle_list_activities_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/activities" do
+    handle_create_activity_v2(conn)
+  end
+
+  patch "/api/v2/activities/:id" do
+    handle_update_activity_v2(conn)
+  end
+
+  delete "/api/v2/activities/:id" do
+    handle_delete_activity_v2(conn, conn.params)
+  end
+
+  get "/api/v2/activities/:id" do
+    handle_get_activity_v2(conn, conn.params)
   end
 
   match _ do
