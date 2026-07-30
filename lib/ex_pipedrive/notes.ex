@@ -6,21 +6,15 @@ defmodule ExPipedrive.Notes do
   alias ExPipedrive.Note
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
+  alias ExPipedrive.Response
   alias Tesla.Client
 
   def add_note(%Client{} = client, %Note{id: nil} = note) do
     client
     |> Request.post("notes", note, api_version: :v1)
-    |> case do
-      {:ok, %Tesla.Env{status: 201, body: %{"data" => note_data}}} ->
-        {:ok, Note.new(note_data)}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([201], fn %{body: %{"data" => note_data}} ->
+      Note.new(note_data)
+    end)
   end
 
   def get_all_org_notes(%Client{} = client, org_id, opts \\ []) do
@@ -33,22 +27,9 @@ defmodule ExPipedrive.Notes do
       api_version: :v1,
       query: [org_id: org_id, start: start, limit: limit, sort: sort]
     )
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
-        notes =
-          data
-          |> Enum.map(fn note_container ->
-            Note.new(note_container)
-          end)
-
-        {:ok, notes}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([200], fn %{body: %{"success" => true, "data" => data}} ->
+      Enum.map(data, &Note.new/1)
+    end)
   end
 
   def list_notes(%Client{} = client, opts \\ []) do
@@ -73,19 +54,13 @@ defmodule ExPipedrive.Notes do
 
     client
     |> Request.get("notes", api_version: :v1, query: query_params)
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
-        {:ok, PagedResult.new([], body)}
+    |> Response.map([200], fn
+      %{body: %{"success" => true, "data" => nil} = body} ->
+        PagedResult.new([], body)
 
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data} = body}} ->
-        {:ok, PagedResult.new(Enum.map(data, &Note.new/1), body)}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+      %{body: %{"success" => true, "data" => data} = body} ->
+        PagedResult.new(Enum.map(data, &Note.new/1), body)
+    end)
   end
 
   defp maybe_add_filter(query_params, opts, key) do

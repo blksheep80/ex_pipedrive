@@ -6,36 +6,23 @@ defmodule ExPipedrive.Leads do
   alias ExPipedrive.Lead
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
+  alias ExPipedrive.Response
   alias Tesla.Client
 
   def create_lead(%Client{} = client, %Lead{id: nil} = lead) do
     client
     |> Request.post("leads", lead, api_version: :v1)
-    |> case do
-      {:ok, %Tesla.Env{status: 201, body: %{"data" => lead_data}}} ->
-        {:ok, Lead.new(lead_data)}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([201], fn %{body: %{"data" => lead_data}} ->
+      Lead.new(lead_data)
+    end)
   end
 
   def get_lead(%Client{} = client, lead_id) do
     client
     |> Request.get("leads/:id", api_version: :v1, opts: [path_params: [id: lead_id]])
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"data" => lead_data}}} ->
-        {:ok, Lead.new(lead_data)}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([200], fn %{body: %{"data" => lead_data}} ->
+      Lead.new(lead_data)
+    end)
   end
 
   def list_leads(%Client{} = client, opts \\ []) do
@@ -52,26 +39,13 @@ defmodule ExPipedrive.Leads do
 
     client
     |> Request.get("leads", api_version: :v1, query: query_params)
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
-        {:ok, PagedResult.new([], body)}
+    |> Response.map([200], fn
+      %{body: %{"success" => true, "data" => nil} = body} ->
+        PagedResult.new([], body)
 
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data} = body}} ->
-        {:ok, PagedResult.new(Enum.map(data, &Lead.new/1), body)}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
-  end
-
-  defp maybe_add_filter(query_params, opts, key) do
-    case Keyword.get(opts, key) do
-      nil -> query_params
-      value -> Keyword.put(query_params, key, value)
-    end
+      %{body: %{"success" => true, "data" => data} = body} ->
+        PagedResult.new(Enum.map(data, &Lead.new/1), body)
+    end)
   end
 
   def search_leads(%Client{} = client, term, opts \\ []) do
@@ -83,20 +57,17 @@ defmodule ExPipedrive.Leads do
       api_version: :v1,
       query: [term: term, start: start, limit: limit]
     )
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
-        leads =
-          data
-          |> Map.get("items")
-          |> Enum.map(fn item_container -> Lead.new(Map.get(item_container, "item")) end)
+    |> Response.map([200], fn %{body: %{"success" => true, "data" => data}} ->
+      data
+      |> Map.get("items")
+      |> Enum.map(fn item_container -> Lead.new(Map.get(item_container, "item")) end)
+    end)
+  end
 
-        {:ok, leads}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
+  defp maybe_add_filter(query_params, opts, key) do
+    case Keyword.get(opts, key) do
+      nil -> query_params
+      value -> Keyword.put(query_params, key, value)
     end
   end
 end

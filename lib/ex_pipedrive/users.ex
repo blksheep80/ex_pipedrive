@@ -4,6 +4,7 @@ defmodule ExPipedrive.Users do
   """
 
   alias ExPipedrive.Request
+  alias ExPipedrive.Response
   alias ExPipedrive.User
   alias Tesla.Client
 
@@ -15,18 +16,9 @@ defmodule ExPipedrive.Users do
       api_version: :v1,
       query: [term: term, search_by_email: search_int(search_by_email?)]
     )
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
-        users = Enum.map(data, &User.new/1)
-
-        {:ok, users}
-
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([200], fn %{body: %{success: true, data: data}} ->
+      Enum.map(data, &User.new/1)
+    end)
   end
 
   defp search_int(true), do: 1

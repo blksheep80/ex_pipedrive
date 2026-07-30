@@ -6,6 +6,7 @@ defmodule ExPipedrive.PersonFields do
   alias ExPipedrive.Field
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
+  alias ExPipedrive.Response
   alias Tesla.Client
 
   def list_person_fields(%Client{} = client, opts \\ []) do
@@ -14,22 +15,12 @@ defmodule ExPipedrive.PersonFields do
 
     client
     |> Request.get("personFields", api_version: :v1, query: [start: start, limit: limit])
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
-        {:ok, PagedResult.new([], body)}
+    |> Response.map([200], fn
+      %{body: %{"success" => true, "data" => nil} = body} ->
+        PagedResult.new([], body)
 
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data} = body}} ->
-        person_fields =
-          data
-          |> Enum.map(fn person_field -> Field.new(person_field) end)
-
-        {:ok, PagedResult.new(person_fields, body)}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+      %{body: %{"success" => true, "data" => data} = body} ->
+        PagedResult.new(Enum.map(data, &Field.new/1), body)
+    end)
   end
 end
