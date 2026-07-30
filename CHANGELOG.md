@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- API v1 Leads / Notes shims with explicit routing, map-based create helpers,
+  and consistent `get/2`, `create/2`, and `list/2` aliases for future v2 migration
 - Rate-limit aware retry middleware + request telemetry (`ExPipedrive.Middleware.Retry`,
   `ExPipedrive.Middleware.Telemetry`, `ExPipedrive.RateLimit`); Client opts
   `:retry`, `:telemetry`, `:middleware`; `Error.rate_limit` metadata

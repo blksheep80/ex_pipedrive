@@ -84,6 +84,12 @@ defmodule ExPipedrive.FakePipedriveServer do
     |> handle_list_notes(conn.query_params)
   end
 
+  get "/api/v1/notes/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_note(conn.params)
+  end
+
   get "/api/v1/organizationFields/" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
@@ -172,6 +178,12 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_create_lead()
+  end
+
+  patch "/api/v1/leads/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_update_lead(conn.params)
   end
 
   get "/api/v1/leads/search" do

@@ -27,5 +27,26 @@ defmodule ExPipedrive.Leads.CreateLeadTest do
                  value: %{amount: 150_000, currency: "USD"}
                })
     end
+
+    test "accepts map attributes through the create alias", %{client: client} do
+      assert {:ok, %Lead{title: "Farkel Deal Lead"}} =
+               Leads.create(client, %{
+                 title: "Farkel Deal Lead",
+                 person_id: 7,
+                 organization_id: 1,
+                 value: %{amount: 150_000, currency: "USD"}
+               })
+    end
+
+    test "accepts map attributes through the update alias", %{client: client} do
+      assert {:ok,
+              %Lead{
+                id: "d8648e28-debe-45c8-9725-4e742bfbf2c4",
+                title: "Updated Farkel Deal Lead"
+              }} =
+               Leads.update(client, "d8648e28-debe-45c8-9725-4e742bfbf2c4", %{
+                 title: "Updated Farkel Deal Lead"
+               })
+    end
   end
 end
