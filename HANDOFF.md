@@ -22,7 +22,7 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - On `main`, v0.1 foundation is complete. **v0.2** resource epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17) children [#47](https://github.com/blksheep80/ex_pipedrive/issues/47)–[#52](https://github.com/blksheep80/ex_pipedrive/issues/52) are done (Organizations–Search). Product variations remain a follow-up. Upstream search-options decision [#24](https://github.com/blksheep80/ex_pipedrive/issues/24): v2 `Search` uses explicit opts (`item_types`, `fields`, `exact_match`, …) instead of opaque keyword merge from LineDrive PR #22.
 - **Raw escape hatch** ([#15](https://github.com/blksheep80/ex_pipedrive/issues/15), [#59](https://github.com/blksheep80/ex_pipedrive/pull/59)): `ExPipedrive.Raw.request/4` for unsupported v1/v2 endpoints (query/body/headers pass-through; shared auth/JSON/`Error` normalization).
 - **Resource behaviour** ([#16](https://github.com/blksheep80/ex_pipedrive/issues/16), [#60](https://github.com/blksheep80/ex_pipedrive/pull/60)): `ExPipedrive.Resource` path/decode/encode + CRUD/list/stream helpers; Products/Stages adopt the pattern.
-- **Rate-limit / telemetry** ([#13](https://github.com/blksheep80/ex_pipedrive/issues/13)): on `feature/rate-limit-telemetry` (ready to PR).
+- **Rate-limit / telemetry** ([#13](https://github.com/blksheep80/ex_pipedrive/issues/13), [#61](https://github.com/blksheep80/ex_pipedrive/pull/61)): `Middleware.Retry` (429/`Retry-After`, 502–504), `Middleware.Telemetry` (`[:ex_pipedrive, :request, …]`), `RateLimit` parser, Client `:retry`/`:telemetry`/`:middleware`.
 
 ## Locked decisions
 
@@ -68,17 +68,17 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **Next v0.2:**
 
-1. [#13](https://github.com/blksheep80/ex_pipedrive/issues/13) rate-limit/telemetry (branch `feature/rate-limit-telemetry`)
-2. [#18](https://github.com/blksheep80/ex_pipedrive/issues/18) Leads/Notes v1 shim, [#19](https://github.com/blksheep80/ex_pipedrive/issues/19) ex_pipedrive_web
+1. [#18](https://github.com/blksheep80/ex_pipedrive/issues/18) Leads/Notes v1 shim
+2. [#19](https://github.com/blksheep80/ex_pipedrive/issues/19) ex_pipedrive_web
 
-Also: close [#24](https://github.com/blksheep80/ex_pipedrive/issues/24) with the Search redesign decision.
+Also: close [#24](https://github.com/blksheep80/ex_pipedrive/issues/24) with the Search redesign decision (already implemented in Search v2).
 
 **Upstream carryovers:** no open upstream *issues* at fork time. Open PRs tracked as decisions: #24 (PR #22 search options — **redesign under v2 Search**: explicit opts on `ExPipedrive.Search`, not opaque merge; record formal decision on #24), #25 (PR #26 weighted pipeline history).
 
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Next v0.2: #13 rate-limit/telemetry. Prefer small PRs. Do not publish Hex unless asked.
+Open HANDOFF.md. Next v0.2: #18 Leads/Notes v1 shim or #19 ex_pipedrive_web. Close #24 with Search redesign decision if still open. Prefer small PRs. Do not publish Hex unless asked.
 ```
 
 ## How to resume
