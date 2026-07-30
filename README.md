@@ -124,7 +124,35 @@ v2 endpoints are unavailable. Use their consistent `get/2`, `create/2`, and
 `create_lead/2`, `add_note/2`, and
 `list_*` names); these aliases will make migration to v2 straightforward.
 
-### Webhooks (`ex_pipedrive_web` surface)
+### Webhook subscriptions (API v1 management)
+
+`ExPipedrive.Webhooks` manages outgoing Pipedrive webhook subscriptions through
+the current API v1 management endpoints. This is distinct from
+`ExPipedrive.Webhook.*` / `ExPipedrive.Incoming.*`, which receive deliveries in
+your app. New subscriptions default to Pipedrive's v2.0 delivery format; pass
+`version: "1.0"` only when an existing receiver requires its legacy payload.
+
+```elixir
+{:ok, subscription} =
+  ExPipedrive.Webhooks.create(client, %{
+    subscription_url: "https://example.com/pipedrive/webhooks",
+    event_action: "change",
+    event_object: "deal",
+    name: "Deal changes"
+  })
+
+{:ok, subscriptions} = ExPipedrive.Webhooks.list(client)
+{:ok, :ok} = ExPipedrive.Webhooks.delete(client, subscription.id)
+```
+
+For OAuth apps, request `webhooks:read` to list subscriptions, or
+`webhooks:full` to create, list, and delete them. API-token calls use the
+permissions of their owning user: regular users can manage their own
+subscriptions and only receive events they can see. Use a top-level admin user
+(or its `user_id` when creating) for company-wide event coverage. Pipedrive
+allows up to 40 webhook subscriptions per user.
+
+### Incoming webhook deliveries (`ex_pipedrive_web` surface)
 
 The webhook API is designed to extract unchanged into a future optional
 `ex_pipedrive_web` package. It does not start an OTP application, Registry, or
