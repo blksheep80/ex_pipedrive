@@ -74,7 +74,29 @@ client
   })
 ```
 
-Legacy v1 list/search helpers remain available (e.g. `ExPipedrive.list_deals/2`).
+### OAuth (multi-tenant)
+
+```elixir
+{:ok, token} =
+  ExPipedrive.Oauth.exchange_authorization_code(
+    auth_code,
+    client_id,
+    client_secret,
+    redirect_uri
+  )
+
+# Persist via your TokenStore implementation (Ecto, etc.)
+:ok = MyApp.PipedriveTokenStore.put(tenant_id, token)
+
+{:ok, client, token} =
+  ExPipedrive.Client.from_token_store(token, client_id, client_secret,
+    store: MyApp.PipedriveTokenStore,
+    store_id: tenant_id
+  )
+```
+
+API token auth remains the simple path for single-tenant scripts. Legacy v1
+list/search helpers remain available (e.g. `ExPipedrive.list_deals/2`).
 
 ## Development
 
