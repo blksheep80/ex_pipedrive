@@ -45,9 +45,36 @@ Core runtime deps are Tesla, Jason, and TypedStruct. **Plug is optional** — ad
 
 ```elixir
 client = ExPipedrive.client("your-api-token", "your-company.pipedrive.com")
-
-{:ok, deals} = ExPipedrive.list_deals(client, status: "open")
 ```
+
+### Stream open deals (API v2 cursor pagination)
+
+```elixir
+client
+|> ExPipedrive.Deals.stream(status: "open", limit: 500)
+|> Stream.each(&IO.inspect/1)
+|> Stream.run()
+```
+
+### Create a person, then a deal
+
+```elixir
+{:ok, person} =
+  ExPipedrive.Persons.create(client, %{
+    name: "Jane Doe",
+    emails: [%{label: "work", value: "jane@example.com", primary: true}]
+  })
+
+{:ok, deal} =
+  ExPipedrive.Deals.create(client, %{
+    title: "Jane opportunity",
+    person_id: person.id,
+    value: 2500.0,
+    currency: "USD"
+  })
+```
+
+Legacy v1 list/search helpers remain available (e.g. `ExPipedrive.list_deals/2`).
 
 ## Development
 

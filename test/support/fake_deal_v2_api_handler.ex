@@ -36,6 +36,17 @@ defmodule ExPipedrive.FakeDealV2ApiHandler do
     json_ok(conn, V2Deals.update_response(int, body))
   end
 
+  def handle_delete_deal_v2(conn, %{"id" => "404"}) do
+    json_error(conn, 404, "Deal not found")
+  end
+
+  def handle_delete_deal_v2(conn, %{"id" => id}) do
+    case Integer.parse(id) do
+      {int, ""} -> json_ok(conn, V2Deals.delete_response(int))
+      _ -> json_error(conn, 400, "invalid deal id")
+    end
+  end
+
   defp json_ok(conn, body) do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")

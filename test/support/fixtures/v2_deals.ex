@@ -66,7 +66,9 @@ defmodule ExPipedrive.Fixtures.V2Deals do
         "title" => Map.get(attrs, "title", base["title"]),
         "person_id" => Map.get(attrs, "person_id", base["person_id"]),
         "org_id" => Map.get(attrs, "org_id", base["org_id"]),
-        "value" => Map.get(attrs, "value", base["value"])
+        "value" => Map.get(attrs, "value", base["value"]),
+        "currency" => Map.get(attrs, "currency", base["currency"]),
+        "status" => Map.get(attrs, "status", base["status"])
       })
 
     %{"success" => true, "data" => data}
@@ -74,6 +76,10 @@ defmodule ExPipedrive.Fixtures.V2Deals do
 
   def update_response(id, attrs) when is_map(attrs) do
     %{"success" => true, "data" => Map.merge(deal(id), attrs)}
+  end
+
+  def delete_response(id) do
+    %{"success" => true, "data" => %{"id" => id}}
   end
 
   def error_response(status, message) do
