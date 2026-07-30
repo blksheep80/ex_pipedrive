@@ -19,6 +19,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakePersonFieldApiHandler
   import ExPipedrive.FakePersonV2ApiHandler
   import ExPipedrive.FakePipelineApiHandler
+  import ExPipedrive.FakeStageV2ApiHandler
 
   plug(:match)
 
@@ -228,6 +229,26 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   get "/api/v2/persons/:id" do
     handle_get_person_v2(conn, conn.params)
+  end
+
+  get "/api/v2/stages" do
+    handle_list_stages_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/stages" do
+    handle_create_stage_v2(conn)
+  end
+
+  patch "/api/v2/stages/:id" do
+    handle_update_stage_v2(conn)
+  end
+
+  delete "/api/v2/stages/:id" do
+    handle_delete_stage_v2(conn, conn.params)
+  end
+
+  get "/api/v2/stages/:id" do
+    handle_get_stage_v2(conn, conn.params)
   end
 
   match _ do
