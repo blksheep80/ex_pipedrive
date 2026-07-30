@@ -15,22 +15,20 @@ This repository is a fork of [tmecklem/line_drive](https://github.com/tmecklem/l
 
 ## Installation
 
-Not yet published to Hex. Until the first release, depend on GitHub:
+```elixir
+def deps do
+  [
+    {:ex_pipedrive, "~> 0.1.0"}
+  ]
+end
+```
+
+Until the package is on Hex, you can depend on GitHub:
 
 ```elixir
 def deps do
   [
     {:ex_pipedrive, github: "blksheep80/ex_pipedrive"}
-  ]
-end
-```
-
-After the package lands on Hex:
-
-```elixir
-def deps do
-  [
-    {:ex_pipedrive, "~> 0.1.0"}
   ]
 end
 ```
@@ -111,7 +109,14 @@ mix deps.get
 mix test
 mix format --check-formatted
 mix credo --strict
+mix docs
 ```
+
+### Hex release
+
+1. Bump `@version` in `mix.exs` and update [CHANGELOG.md](CHANGELOG.md).
+2. Tag `vX.Y.Z` and publish a GitHub Release (triggers `.github/workflows/hex-publish.yml`), **or** run `mix hex.publish` locally with `HEX_API_KEY`.
+3. Confirm docs on HexDocs after publish.
 
 ### Beads
 
