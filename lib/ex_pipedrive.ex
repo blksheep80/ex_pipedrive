@@ -19,6 +19,8 @@ defmodule ExPipedrive do
   defdelegate list_activities(client, opts \\ []), to: ExPipedrive.Activities
   defdelegate list_activity_types(client), to: ExPipedrive.ActivityTypes
   defdelegate list_deals(client, opts), to: ExPipedrive.Deals
+  defdelegate list_deals_page(client, opts \\ []), to: ExPipedrive.Deals
+  defdelegate stream_deals(client, opts \\ []), to: ExPipedrive.Deals
   defdelegate list_deal_fields(client, opts), to: ExPipedrive.DealFields
   defdelegate list_leads(client, opts \\ []), to: ExPipedrive.Leads
   defdelegate list_notes(client, opts \\ []), to: ExPipedrive.Notes
@@ -27,6 +29,8 @@ defmodule ExPipedrive do
   defdelegate list_own_activities(client, opts \\ []), to: ExPipedrive.Activities
   defdelegate list_person_fields(client, opts), to: ExPipedrive.PersonFields
   defdelegate list_persons(client, opts), to: ExPipedrive.Persons
+  defdelegate list_persons_page(client, opts \\ []), to: ExPipedrive.Persons
+  defdelegate stream_persons(client, opts \\ []), to: ExPipedrive.Persons
   defdelegate list_pipeline_deals(client, pipeline_id), to: ExPipedrive.Pipelines
   defdelegate list_pipelines(client), to: ExPipedrive.Pipelines
   defdelegate search_deals(client, term, opts), to: ExPipedrive.Deals

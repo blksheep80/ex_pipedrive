@@ -14,7 +14,8 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **Structured errors** ([#5](https://github.com/blksheep80/ex_pipedrive/issues/5), [#39](https://github.com/blksheep80/ex_pipedrive/pull/39)): `ExPipedrive.Error` + `ExPipedrive.Response` normalize API vs transport failures.
 - **Entity structs (Deal/Person)** ([#11](https://github.com/blksheep80/ex_pipedrive/issues/11), [#40](https://github.com/blksheep80/ex_pipedrive/pull/40)): v2-aware decoding — flat IDs, `custom_fields`, RFC3339 timestamps; v1 nested IDs still work; `original_object` retained.
 - **v2 fake fixtures** ([#12](https://github.com/blksheep80/ex_pipedrive/issues/12), [#41](https://github.com/blksheep80/ex_pipedrive/pull/41)): FakePipedriveServer serves `/api/v2/deals` + `/api/v2/persons` with cursor + error samples.
-- On `main`, up to date with `origin/main`. Next foundation item: [#7](https://github.com/blksheep80/ex_pipedrive/issues/7) cursor pagination + Stream.
+- **Cursor pagination + Stream** ([#7](https://github.com/blksheep80/ex_pipedrive/issues/7)): `ExPipedrive.Page` / `Cursor.stream/2`; `list_deals_page` / `stream_deals` (+ persons).
+- Branch `feat/cursor-pagination-stream` (bead `expd-9ao`) — not yet on `main`.
 
 ## Locked decisions
 
@@ -65,7 +66,7 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 7. ~~#5 Structured `ExPipedrive.Error`~~ (done)
 8. ~~#11 Entity structs for v2 shapes~~ (done — Deal/Person)
 9. ~~#12 Rebuild fake-server fixtures for v2~~ (done)
-10. #7 Cursor pagination + Stream
+10. ~~#7 Cursor pagination + Stream~~ (done on `feat/cursor-pagination-stream`)
 11. #8 Deals v2 / #9 Persons v2 / #10 MVP docs+tests
 
 **Upstream carryovers:** no open upstream *issues* at fork time. Open PRs tracked as decisions: #24 (PR #22 search options), #25 (PR #26 weighted pipeline history).

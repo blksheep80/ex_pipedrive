@@ -3,6 +3,8 @@ defmodule ExPipedrive.Persons do
   This module encapsulates calls to the pipedrive person resource API
   """
 
+  alias ExPipedrive.Cursor
+  alias ExPipedrive.Page
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Person
   alias ExPipedrive.Request
@@ -38,6 +40,45 @@ defmodule ExPipedrive.Persons do
       %{body: %{"success" => true, "data" => data} = body} ->
         PagedResult.new(Enum.map(data, &Person.new/1), body)
     end)
+  end
+
+  @doc """
+  Lists one page of persons via API v2 cursor pagination.
+
+  Options: `:cursor`, `:limit` (clamped to 500).
+  """
+  def list_persons_page(%Client{} = client, opts \\ []) do
+    limit = Cursor.clamp_limit(Keyword.get(opts, :limit))
+
+    query =
+      opts
+      |> Keyword.take([:cursor, :owner_id, :org_id])
+      |> Keyword.put(:limit, limit)
+      |> Enum.reject(fn {_k, v} -> is_nil(v) end)
+
+    client
+    |> Request.get("persons", query: query)
+    |> Response.map([200], fn %{body: body} ->
+      items =
+        body
+        |> Map.get("data")
+        |> List.wrap()
+        |> Enum.map(&Person.new/1)
+
+      Page.from_items(items, body)
+    end)
+  end
+
+  @doc """
+  Lazily streams persons across all v2 cursor pages until `next_cursor` is nil.
+  """
+  def stream_persons(%Client{} = client, opts \\ []) do
+    Cursor.stream(
+      fn page_opts ->
+        list_persons_page(client, Keyword.merge(opts, page_opts))
+      end,
+      opts
+    )
   end
 
   def search_persons(%Client{} = client, term, opts \\ []) do
