@@ -206,6 +206,10 @@ defmodule ExPipedrive.FakePipedriveServer do
     handle_update_deal_v2(conn)
   end
 
+  delete "/api/v2/deals/:id" do
+    handle_delete_deal_v2(conn, conn.params)
+  end
+
   get "/api/v2/deals/:id" do
     handle_get_deal_v2(conn, conn.params)
   end
