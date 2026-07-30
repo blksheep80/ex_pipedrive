@@ -19,7 +19,7 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **OAuth Token + TokenStore** ([#6](https://github.com/blksheep80/ex_pipedrive/issues/6), [#44](https://github.com/blksheep80/ex_pipedrive/pull/44)): `Oauth.Token`, `exchange_authorization_code` / `refresh` / `ensure_fresh`, pluggable `TokenStore` (+ Memory), `Client.from_token` / `from_token_store`.
 - **Hex / docs / CI prep** ([#28](https://github.com/blksheep80/ex_pipedrive/issues/28), [#45](https://github.com/blksheep80/ex_pipedrive/pull/45)): version `0.1.0`, CHANGELOG, ExDoc config, CI matrix, Hex publish workflow. Cut GitHub Release `v0.1.0` (with `HEX_API_KEY`) to publish.
 - **Quality tooling** ([#32](https://github.com/blksheep80/ex_pipedrive/issues/32)): `doctor` gate; TypedStruct kept; Sobelow/ExMachina skipped; Dialyzer local-only for now (AUDIT).
-- On `main`, up to date with `origin/main` after that lands. Next: v0.2 resources / Hex Release cut when ready.
+- On `main`, v0.1 foundation is complete. **v0.2** is underway: resource epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17) split into [#47](https://github.com/blksheep80/ex_pipedrive/issues/47)–[#52](https://github.com/blksheep80/ex_pipedrive/issues/52). Organizations v2 is in [#53](https://github.com/blksheep80/ex_pipedrive/pull/53); Activities v2 on `feature/activities-v2` (bead `expd-iop`).
 
 ## Locked decisions
 
@@ -59,22 +59,18 @@ Without that, `gh pr create` can open PRs against `tmecklem/line_drive`.
 
 Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
-**Start here (v0.1 foundation):**
+**Start here (v0.1 foundation):** — all done (see Current state).
 
-1. ~~#1 Rebrand LineDrive → ExPipedrive~~ (done)
-2. ~~#2 Audit inherited keep/drop decisions~~ (done — see [AUDIT.md](AUDIT.md))
-3. ~~#14 Remove silent OTP Application/Registry coupling~~ (done)
-4. ~~#27 Slim core dependencies~~ (done — Timex gone; Plug optional)
-5. ~~#3 v2-first client foundation~~ (done)
-6. ~~#4 Header-based API token auth (`x-api-token`)~~ (done)
-7. ~~#5 Structured `ExPipedrive.Error`~~ (done)
-8. ~~#11 Entity structs for v2 shapes~~ (done — Deal/Person)
-9. ~~#12 Rebuild fake-server fixtures for v2~~ (done)
-10. ~~#7 Cursor pagination + Stream~~ (done)
-11. ~~#8 Deals v2 / #9 Persons v2 / #10 MVP docs+tests~~ (done)
-12. ~~#6 OAuth token structs + pluggable TokenStore~~ (done)
-13. ~~#28 Hex / ExDoc / CHANGELOG / CI~~ (done — publish via GitHub Release + `HEX_API_KEY`)
-14. ~~#32 doctor / TypedStruct decision~~ (done)
+**v0.2 resources** (epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17)):
+
+1. [#47](https://github.com/blksheep80/ex_pipedrive/issues/47) Organizations v2 ([#53](https://github.com/blksheep80/ex_pipedrive/pull/53))
+2. [#48](https://github.com/blksheep80/ex_pipedrive/issues/48) Activities v2 (in progress)
+3. [#49](https://github.com/blksheep80/ex_pipedrive/issues/49) Pipelines v2
+4. [#50](https://github.com/blksheep80/ex_pipedrive/issues/50) Stages v2
+5. [#51](https://github.com/blksheep80/ex_pipedrive/issues/51) Products v2
+6. [#52](https://github.com/blksheep80/ex_pipedrive/issues/52) Search v2
+
+Also open for v0.2: [#15](https://github.com/blksheep80/ex_pipedrive/issues/15) Raw escape hatch, [#16](https://github.com/blksheep80/ex_pipedrive/issues/16) Resource behaviour, [#13](https://github.com/blksheep80/ex_pipedrive/issues/13) rate-limit/telemetry, [#18](https://github.com/blksheep80/ex_pipedrive/issues/18) Leads/Notes v1 shim, [#19](https://github.com/blksheep80/ex_pipedrive/issues/19) ex_pipedrive_web.
 
 **Upstream carryovers:** no open upstream *issues* at fork time. Open PRs tracked as decisions: #24 (PR #22 search options), #25 (PR #26 weighted pipeline history).
 
