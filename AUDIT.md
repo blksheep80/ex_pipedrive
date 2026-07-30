@@ -151,12 +151,24 @@ Reviewed for [#27](https://github.com/blksheep80/ex_pipedrive/issues/27) (2026-0
 |---|---|---|---|---|
 | `tesla` | runtime | All HTTP | **Keep** | Locked HTTP client (HANDOFF) |
 | `jason` | runtime | JSON | **Keep** | Required with Tesla JSON |
-| `typed_struct` | runtime | Entities | **Keep** | Re-evaluate in #32 if needed |
+| `typed_struct` | runtime | Entities | **Keep (v0.1)** | Native Elixir has no drop-in replacement; removing means rewriting entities to `defstruct` + `@type`. Revisit only if Hex weight or maintenance cost justifies a dedicated migration (#32) |
 | `plug` | **optional** | `Incoming.Handler` only | **Optional** | Consumers add `{:plug, ">= 1.16.0"}` for webhooks; module gated with `Code.ensure_loaded?(Plug.Router)` |
 | `plug_cowboy` | test | Fake server | **Keep (test)** | Rebuild with #12 |
 | `timex` | — | — | **Removed** | Was test-only; fakes use `Date.to_iso8601/1` |
-| `credo`, `dialyxir`, `ex_doc` | dev | Tooling | **Keep** | — |
+| `credo`, `dialyxir`, `ex_doc`, `doctor` | dev/test | Tooling | **Keep** | See [Tooling decisions](#tooling-decisions-32) |
+| `sobelow` | — | — | **Skip in core** | Phoenix/Plug-oriented; revisit with `ex_pipedrive_web` |
+| `ex_machina` | — | — | **Skip** | Ecto-oriented factories; no value without Ecto in core |
+| `faker` | — | — | **Defer** | Fake-server JSON fixtures are enough for now |
 | Phoenix / Oban | — | — | **Out of core** | Future optional packages |
+
+### Tooling decisions (#32)
+
+| Tool | Decision |
+|---|---|
+| TypedStruct | **Keep** for v0.1 entities (see deps table). Migration notes: replace `use TypedStruct` with `defstruct` + `@type t :: %__MODULE__{...}` per entity; keep `Structable` transforms. |
+| `doctor` | **Added** — `.doctor.exs` overall doc coverage gate (≥40%); wired into local quality gate + CI (primary OTP/Elixir cell). Module-level floors soft until v1 resources are documented. |
+| Dialyzer | **Local / optional** — `dialyxir` remains a dep; not in CI yet (PLT build cost + inherited noisy types). Run `mix dialyzer` before releases; enable CI once PLT caching and baseline clean-up land. |
+| Sobelow / ExMachina | **Wontfix in core** (see deps table). |
 
 ---
 

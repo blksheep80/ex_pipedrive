@@ -17,8 +17,9 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **Cursor pagination + Stream** ([#7](https://github.com/blksheep80/ex_pipedrive/issues/7), [#42](https://github.com/blksheep80/ex_pipedrive/pull/42)): `ExPipedrive.Page` / `Cursor.stream/2`; `list_deals_page` / `stream_deals` (+ persons).
 - **Deals / Persons v2 + MVP flows** ([#8](https://github.com/blksheep80/ex_pipedrive/issues/8) / [#9](https://github.com/blksheep80/ex_pipedrive/issues/9) / [#10](https://github.com/blksheep80/ex_pipedrive/issues/10), [#43](https://github.com/blksheep80/ex_pipedrive/pull/43)): v2 get/create/update/(deal)delete; map-in write attrs; README + fake-server MVP flows.
 - **OAuth Token + TokenStore** ([#6](https://github.com/blksheep80/ex_pipedrive/issues/6), [#44](https://github.com/blksheep80/ex_pipedrive/pull/44)): `Oauth.Token`, `exchange_authorization_code` / `refresh` / `ensure_fresh`, pluggable `TokenStore` (+ Memory), `Client.from_token` / `from_token_store`.
-- **Hex / docs / CI prep** ([#28](https://github.com/blksheep80/ex_pipedrive/issues/28)): version `0.1.0`, CHANGELOG, ExDoc config, CI matrix, Hex publish workflow. Cut GitHub Release `v0.1.0` (with `HEX_API_KEY`) to publish.
-- On `main`, up to date with `origin/main` after that lands. Next: [#32](https://github.com/blksheep80/ex_pipedrive/issues/32) quality tooling · v0.2 resources.
+- **Hex / docs / CI prep** ([#28](https://github.com/blksheep80/ex_pipedrive/issues/28), [#45](https://github.com/blksheep80/ex_pipedrive/pull/45)): version `0.1.0`, CHANGELOG, ExDoc config, CI matrix, Hex publish workflow. Cut GitHub Release `v0.1.0` (with `HEX_API_KEY`) to publish.
+- **Quality tooling** ([#32](https://github.com/blksheep80/ex_pipedrive/issues/32)): `doctor` gate; TypedStruct kept; Sobelow/ExMachina skipped; Dialyzer local-only for now (AUDIT).
+- On `main`, up to date with `origin/main` after that lands. Next: v0.2 resources / Hex Release cut when ready.
 
 ## Locked decisions
 
@@ -73,7 +74,7 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 11. ~~#8 Deals v2 / #9 Persons v2 / #10 MVP docs+tests~~ (done)
 12. ~~#6 OAuth token structs + pluggable TokenStore~~ (done)
 13. ~~#28 Hex / ExDoc / CHANGELOG / CI~~ (done — publish via GitHub Release + `HEX_API_KEY`)
-14. #32 doctor / TypedStruct decision
+14. ~~#32 doctor / TypedStruct decision~~ (done)
 
 **Upstream carryovers:** no open upstream *issues* at fork time. Open PRs tracked as decisions: #24 (PR #22 search options), #25 (PR #26 weighted pipeline history).
 
