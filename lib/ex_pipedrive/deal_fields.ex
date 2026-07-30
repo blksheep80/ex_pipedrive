@@ -1,26 +1,59 @@
 defmodule ExPipedrive.DealFields do
   @moduledoc """
-  This module encapsulates calls to the pipedrive deal field resource API
+  API v2 deal field definitions.
+
+  `field_code` is the hash used as a key in `%ExPipedrive.Deal{}.custom_fields`;
+  `field_name` is its human-readable label. Use `ExPipedrive.Fields` to resolve
+  between them.
   """
 
+  alias ExPipedrive.Cursor
   alias ExPipedrive.Field
-  alias ExPipedrive.PagedResult
+  alias ExPipedrive.Page
   alias ExPipedrive.Request
   alias ExPipedrive.Response
   alias Tesla.Client
 
-  def list_deal_fields(%Client{} = client, opts \\ []) do
-    start = Keyword.get(opts, :start, 0)
-    limit = Keyword.get(opts, :limit, 50)
+  @doc """
+  Lists one cursor page of deal field definitions via `GET /api/v2/dealFields`.
+
+  Options: `:cursor`, `:limit` (clamped to 500), and `:include_fields`.
+  """
+  @spec list_page(Client.t(), keyword()) :: {:ok, Page.t()} | {:error, ExPipedrive.Error.t()}
+  def list_page(%Client{} = client, opts \\ []) do
+    limit = Cursor.clamp_limit(Keyword.get(opts, :limit))
+
+    query =
+      opts
+      |> Keyword.take([:cursor, :include_fields])
+      |> Keyword.put(:limit, limit)
+      |> Enum.reject(fn {_key, value} -> is_nil(value) end)
 
     client
-    |> Request.get("dealFields", api_version: :v1, query: [start: start, limit: limit])
-    |> Response.map([200], fn
-      %{body: %{"success" => true, "data" => nil} = body} ->
-        PagedResult.new([], body)
+    |> Request.get("dealFields", query: query)
+    |> Response.map([200], fn %{body: body} ->
+      fields =
+        body
+        |> Map.get("data")
+        |> List.wrap()
+        |> Enum.map(&Field.new/1)
 
-      %{body: %{"success" => true, "data" => data} = body} ->
-        PagedResult.new(Enum.map(data, &Field.new/1), body)
+      Page.from_items(fields, body)
     end)
   end
+
+  @doc """
+  Lazily streams deal field definitions across API v2 cursor pages.
+  """
+  @spec stream(Client.t(), keyword()) :: Enumerable.t()
+  def stream(%Client{} = client, opts \\ []) do
+    Cursor.stream(fn page_opts -> list_page(client, Keyword.merge(opts, page_opts)) end, opts)
+  end
+
+  @doc """
+  Alias for `list_page/2`.
+  """
+  @spec list_deal_fields(Client.t(), keyword()) ::
+          {:ok, Page.t()} | {:error, ExPipedrive.Error.t()}
+  def list_deal_fields(%Client{} = client, opts \\ []), do: list_page(client, opts)
 end

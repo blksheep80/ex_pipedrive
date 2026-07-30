@@ -96,6 +96,14 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Deal,
           ExPipedrive.Person
         ],
+        Fields: [
+          ExPipedrive.Fields,
+          ExPipedrive.DealFields,
+          ExPipedrive.PersonFields,
+          ExPipedrive.OrganizationFields,
+          ExPipedrive.Field,
+          ExPipedrive.FieldOption
+        ],
         Search: [
           ExPipedrive.Search,
           ExPipedrive.SearchResult
@@ -107,6 +115,8 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Oauth.TokenStore.Memory
         ],
         Webhooks: [
+          ExPipedrive.Webhooks,
+          ExPipedrive.Webhooks.Subscription,
           ExPipedrive.Webhook.Event,
           ExPipedrive.Webhook.Handler,
           ExPipedrive.Incoming.Handler

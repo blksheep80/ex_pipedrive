@@ -92,6 +92,29 @@ ExPipedrive.Search.stream(client, "acme", item_types: ["person"])
 Each hit is an `%ExPipedrive.SearchResult{type: "deal", item: %ExPipedrive.Deal{}, ...}`
 (persons / organizations / products decode to their structs).
 
+### Custom fields (API v2 Fields)
+
+Pipedrive API v2 nests custom values under `custom_fields` on decoded
+`%ExPipedrive.Deal{}`, `%ExPipedrive.Person{}`, and
+`%ExPipedrive.Organization{}` structs. The map keys are Pipedrive field hashes
+(`field_code`), not the labels shown in the UI. Fetch the matching resource's
+field definitions, then resolve hashes and labels with `ExPipedrive.Fields`:
+
+```elixir
+{:ok, fields} = ExPipedrive.DealFields.list_page(client)
+
+{:ok, field_code} = ExPipedrive.Fields.key_for(fields, "Customer tier")
+{:ok, "Customer tier"} = ExPipedrive.Fields.label_for(fields, field_code)
+
+{:ok, deal} = ExPipedrive.Deals.get(client, deal_id)
+tier = deal.custom_fields[field_code]
+```
+
+`DealFields`, `PersonFields`, and `OrganizationFields` use Pipedrive's
+documented API v2 collection endpoints and return `%ExPipedrive.Page{}`; use
+their `stream/2` helpers when definitions span cursor pages. Their legacy
+`list_*_fields/2` names remain aliases for `list_page/2`.
+
 ### OAuth (multi-tenant)
 
 ```elixir
