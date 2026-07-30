@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.Resource` behaviour + CRUD/list/stream helpers for host-app
+  extensions; `Products` and `Stages` adopt the same pattern
 - `ExPipedrive.Raw.request/4` escape hatch for unsupported endpoints (v1/v2 paths;
   query/body/headers pass-through; shared auth/JSON/`Error` normalization)
 - Organizations v2: list/stream (cursor), get, create, update, delete; v2 fake fixtures

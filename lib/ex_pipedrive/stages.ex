@@ -3,13 +3,12 @@ defmodule ExPipedrive.Stages do
   Pipedrive stages resource.
 
   v2-first helpers (`get/2`, `create/2`, `update/3`, `delete/2`, `list_page/2`,
-  `stream/2`) talk to `/api/v2/stages`.
+  `stream/2`) talk to `/api/v2/stages` via `ExPipedrive.Resource`.
   """
 
-  alias ExPipedrive.Cursor
-  alias ExPipedrive.Page
-  alias ExPipedrive.Request
-  alias ExPipedrive.Response
+  @behaviour ExPipedrive.Resource
+
+  alias ExPipedrive.Resource
   alias ExPipedrive.Stage
   alias ExPipedrive.WriteAttrs
   alias Tesla.Client
@@ -18,15 +17,23 @@ defmodule ExPipedrive.Stages do
     name pipeline_id deal_probability is_deal_rot_enabled days_to_rotten
   )
 
+  @impl true
+  def path, do: "stages"
+
+  @impl true
+  def decode(data) when is_map(data), do: Stage.new(data)
+
+  @impl true
+  def encode(attrs), do: WriteAttrs.take(attrs, @write_fields)
+
+  @impl true
+  def list_query_keys, do: [:pipeline_id, :sort_by, :sort_direction]
+
   @doc """
   Fetches a stage by id via `GET /api/v2/stages/:id`.
   """
   def get(%Client{} = client, stage_id) do
-    client
-    |> Request.get("stages/:id", opts: [path_params: [id: stage_id]])
-    |> Response.map([200], fn %{body: %{"data" => stage_data}} ->
-      Stage.new(stage_data)
-    end)
+    Resource.get(__MODULE__, client, stage_id)
   end
 
   @doc """
@@ -35,35 +42,21 @@ defmodule ExPipedrive.Stages do
   Accepts a map (preferred) or `%Stage{}`. Returns `{:ok, %Stage{}}`.
   """
   def create(%Client{} = client, attrs) do
-    body = WriteAttrs.take(attrs, @write_fields)
-
-    client
-    |> Request.post("stages", body)
-    |> Response.map([200, 201], fn %{body: %{"data" => stage_data}} ->
-      Stage.new(stage_data)
-    end)
+    Resource.create(__MODULE__, client, attrs)
   end
 
   @doc """
   Updates a stage via `PATCH /api/v2/stages/:id`.
   """
   def update(%Client{} = client, stage_id, attrs) do
-    body = WriteAttrs.take(attrs, @write_fields)
-
-    client
-    |> Request.patch("stages/:id", body, opts: [path_params: [id: stage_id]])
-    |> Response.map([200], fn %{body: %{"data" => stage_data}} ->
-      Stage.new(stage_data)
-    end)
+    Resource.update(__MODULE__, client, stage_id, attrs)
   end
 
   @doc """
   Deletes a stage via `DELETE /api/v2/stages/:id`.
   """
   def delete(%Client{} = client, stage_id) do
-    client
-    |> Request.delete("stages/:id", opts: [path_params: [id: stage_id]])
-    |> Response.map([200], fn %{body: body} -> body end)
+    Resource.delete(__MODULE__, client, stage_id)
   end
 
   @doc """
@@ -84,33 +77,10 @@ defmodule ExPipedrive.Stages do
   end
 
   def list_stages_page(%Client{} = client, opts \\ []) do
-    limit = Cursor.clamp_limit(Keyword.get(opts, :limit))
-
-    query =
-      opts
-      |> Keyword.take([:cursor, :pipeline_id, :sort_by, :sort_direction])
-      |> Keyword.put(:limit, limit)
-      |> Enum.reject(fn {_k, v} -> is_nil(v) end)
-
-    client
-    |> Request.get("stages", query: query)
-    |> Response.map([200], fn %{body: body} ->
-      items =
-        body
-        |> Map.get("data")
-        |> List.wrap()
-        |> Enum.map(&Stage.new/1)
-
-      Page.from_items(items, body)
-    end)
+    Resource.list_page(__MODULE__, client, opts)
   end
 
   def stream_stages(%Client{} = client, opts \\ []) do
-    Cursor.stream(
-      fn page_opts ->
-        list_stages_page(client, Keyword.merge(opts, page_opts))
-      end,
-      opts
-    )
+    Resource.stream(__MODULE__, client, opts)
   end
 end

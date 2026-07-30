@@ -78,11 +78,13 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Client,
           ExPipedrive.Request,
           ExPipedrive.Raw,
+          ExPipedrive.Resource,
           ExPipedrive.Response,
           ExPipedrive.Error,
           ExPipedrive.Page,
           ExPipedrive.Cursor,
-          ExPipedrive.PagedResult
+          ExPipedrive.PagedResult,
+          ExPipedrive.WriteAttrs
         ],
         "Deals & Persons": [
           ExPipedrive.Deals,

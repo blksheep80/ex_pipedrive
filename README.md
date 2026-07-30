@@ -134,6 +134,11 @@ normalization:
   )
 ```
 
+### Custom resources
+
+For a typed extension with CRUD/list helpers, implement `ExPipedrive.Resource`
+(see its moduledoc example). Prefer `Raw` for one-off calls.
+
 ## Development
 
 ### Tooling
