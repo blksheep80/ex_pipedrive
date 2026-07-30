@@ -12,8 +12,13 @@ defmodule ExPipedrive.ErrorTest do
       assert %Error{kind: :not_found, status: 404, message: "Not Found"} =
                Error.from_env(env(404, %{"error" => "Not Found"}))
 
-      assert %Error{kind: :rate_limited, status: 429} =
-               Error.from_env(env(429, %{"error" => "rate limit"}))
+      assert %Error{kind: :rate_limited, status: 429, rate_limit: %{retry_after: 2}} =
+               Error.from_env(
+                 env(429, %{"error" => "rate limit"}, [
+                   {"retry-after", "2"},
+                   {"x-ratelimit-remaining", "0"}
+                 ])
+               )
     end
 
     test "classifies validation for other 4xx and api for 5xx" do

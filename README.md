@@ -33,7 +33,7 @@ def deps do
 end
 ```
 
-Core runtime deps are Tesla, Jason, and TypedStruct. **Plug is optional** — add it only if you mount `ExPipedrive.Incoming.Handler` for webhooks:
+Core runtime deps are Tesla, Jason, Telemetry, and TypedStruct. **Plug is optional** — add it only if you mount `ExPipedrive.Incoming.Handler` for webhooks:
 
 ```elixir
 {:plug, ">= 1.16.0"}
@@ -138,6 +138,30 @@ normalization:
 
 For a typed extension with CRUD/list helpers, implement `ExPipedrive.Resource`
 (see its moduledoc example). Prefer `Raw` for one-off calls.
+
+### Retries and telemetry
+
+Clients retry **429** / **502–504** / transport errors by default (honoring
+`Retry-After`). They also emit `[:ex_pipedrive, :request, :start|:stop|:exception]`
+— no logging is enabled; attach handlers yourself:
+
+```elixir
+:telemetry.attach(
+  "ex-pipedrive-stop",
+  [:ex_pipedrive, :request, :stop],
+  fn _event, %{duration: duration}, meta, _config ->
+    IO.inspect({duration, meta.rate_limit, meta.retry_count})
+  end,
+  nil
+)
+
+# Opt out or inject middleware:
+client =
+  ExPipedrive.client(token, domain,
+    retry: [max_retries: 5],
+    middleware: [{MyApp.TeslaDebug, []}]
+  )
+```
 
 ## Development
 
