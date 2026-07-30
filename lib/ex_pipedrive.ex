@@ -25,6 +25,8 @@ defmodule ExPipedrive do
   defdelegate list_leads(client, opts \\ []), to: ExPipedrive.Leads
   defdelegate list_notes(client, opts \\ []), to: ExPipedrive.Notes
   defdelegate list_organizations(client, opts), to: ExPipedrive.Organizations
+  defdelegate list_organizations_page(client, opts \\ []), to: ExPipedrive.Organizations
+  defdelegate stream_organizations(client, opts \\ []), to: ExPipedrive.Organizations
   defdelegate list_organization_fields(client, opts), to: ExPipedrive.OrganizationFields
   defdelegate list_own_activities(client, opts \\ []), to: ExPipedrive.Activities
   defdelegate list_person_fields(client, opts), to: ExPipedrive.PersonFields
