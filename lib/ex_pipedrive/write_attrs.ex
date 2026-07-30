@@ -1,8 +1,15 @@
 defmodule ExPipedrive.WriteAttrs do
-  @moduledoc false
+  @moduledoc """
+  Normalizes write payloads for Pipedrive create/update calls.
+
+  Used by resource modules and by host apps implementing
+  `ExPipedrive.Resource.encode/1`.
+  """
 
   @doc """
   Normalizes a map or struct into a string-keyed map limited to `allowed` keys.
+
+  Drops `:original_object` from structs.
   """
   def take(attrs, allowed) when is_map(attrs) and is_list(allowed) do
     attrs

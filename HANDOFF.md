@@ -21,6 +21,7 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **Quality tooling** ([#32](https://github.com/blksheep80/ex_pipedrive/issues/32)): `doctor` gate; TypedStruct kept; Sobelow/ExMachina skipped; Dialyzer local-only for now (AUDIT).
 - On `main`, v0.1 foundation is complete. **v0.2** resource epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17) children [#47](https://github.com/blksheep80/ex_pipedrive/issues/47)–[#52](https://github.com/blksheep80/ex_pipedrive/issues/52) are done (Organizations–Search). Product variations remain a follow-up. Upstream search-options decision [#24](https://github.com/blksheep80/ex_pipedrive/issues/24): v2 `Search` uses explicit opts (`item_types`, `fields`, `exact_match`, …) instead of opaque keyword merge from LineDrive PR #22.
 - **Raw escape hatch** ([#15](https://github.com/blksheep80/ex_pipedrive/issues/15), [#59](https://github.com/blksheep80/ex_pipedrive/pull/59)): `ExPipedrive.Raw.request/4` for unsupported v1/v2 endpoints (query/body/headers pass-through; shared auth/JSON/`Error` normalization).
+- **Resource behaviour** ([#16](https://github.com/blksheep80/ex_pipedrive/issues/16)): `ExPipedrive.Resource` on `feature/resource-behaviour` (ready to PR); Products/Stages adopt helpers.
 
 ## Locked decisions
 
@@ -66,7 +67,7 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **Next v0.2:**
 
-1. [#16](https://github.com/blksheep80/ex_pipedrive/issues/16) Resource behaviour
+1. [#16](https://github.com/blksheep80/ex_pipedrive/issues/16) Resource behaviour (branch `feature/resource-behaviour`)
 2. [#13](https://github.com/blksheep80/ex_pipedrive/issues/13) rate-limit/telemetry
 3. [#18](https://github.com/blksheep80/ex_pipedrive/issues/18) Leads/Notes v1 shim, [#19](https://github.com/blksheep80/ex_pipedrive/issues/19) ex_pipedrive_web
 
