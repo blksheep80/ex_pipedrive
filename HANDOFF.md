@@ -38,6 +38,7 @@ Without that, `gh pr create` can open PRs against `tmecklem/line_drive`.
 
 - **Beads** (`bd`, prefix `expd-`): execution-of-record for work in flight. Cursor rule at `.cursor/rules/beads.mdc`. Fresh clone: `bd bootstrap`.
 - **GitHub issues**: product backlog / roadmap (acceptance criteria, milestones).
+- **Cursor skills**: `.cursor/skills/ex-pipedrive-session`, `.cursor/skills/ex-pipedrive-pr` (plus always-on `.cursor/rules/ex-pipedrive.mdc`).
 - **devenv** (optional, NixOS-friendly): `devenv.nix` pins Elixir 1.17 / OTP 27 + `dolt` for beads. `direnv allow` or `devenv shell`.
 - **asdf / mise**: `.tool-versions` remains the non-Nix source of truth for Elixir/OTP.
 
@@ -69,7 +70,7 @@ Open HANDOFF.md and GitHub issue #1. Rebrand the inherited LineDrive codebase to
 
 ## How to resume
 
-1. Read this file.
+1. Read this file (and the `ex-pipedrive-session` skill if present).
 2. `bd ready` for in-flight execution items.
 3. Prefer GitHub issues for the broader backlog; create/claim a bead when starting concrete work.
 4. Prefer this file + GitHub issues + beads over chat transcript memory.

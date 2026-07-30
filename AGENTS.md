@@ -5,6 +5,11 @@ This project is **ExPipedrive**, an Elixir Pipedrive API client (fork of LineDri
 Canonical context: [HANDOFF.md](HANDOFF.md) and GitHub issues on `blksheep80/ex_pipedrive`.
 Day-to-day execution tracking: **bd (beads)** with prefix `expd-`.
 
+Project skills (read when relevant):
+
+- `.cursor/skills/ex-pipedrive-session/SKILL.md` — session resume / sequencing
+- `.cursor/skills/ex-pipedrive-pr/SKILL.md` — fork-safe `gh` / PRs
+
 ## Build & Test
 
 ```bash
