@@ -23,6 +23,8 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **Raw escape hatch** ([#15](https://github.com/blksheep80/ex_pipedrive/issues/15), [#59](https://github.com/blksheep80/ex_pipedrive/pull/59)): `ExPipedrive.Raw.request/4` for unsupported v1/v2 endpoints (query/body/headers pass-through; shared auth/JSON/`Error` normalization).
 - **Resource behaviour** ([#16](https://github.com/blksheep80/ex_pipedrive/issues/16), [#60](https://github.com/blksheep80/ex_pipedrive/pull/60)): `ExPipedrive.Resource` path/decode/encode + CRUD/list/stream helpers; Products/Stages adopt the pattern.
 - **Rate-limit / telemetry** ([#13](https://github.com/blksheep80/ex_pipedrive/issues/13), [#61](https://github.com/blksheep80/ex_pipedrive/pull/61)): `Middleware.Retry` (429/`Retry-After`, 502–504), `Middleware.Telemetry` (`[:ex_pipedrive, :request, …]`), `RateLimit` parser, Client `:retry`/`:telemetry`/`:middleware`.
+- **Leads / Notes v1 shims** ([#18](https://github.com/blksheep80/ex_pipedrive/issues/18), [#62](https://github.com/blksheep80/ex_pipedrive/pull/62)): explicit v1 routing, map writes, `get/create/list` aliases.
+- **Webhook surface** ([#19](https://github.com/blksheep80/ex_pipedrive/issues/19), [#63](https://github.com/blksheep80/ex_pipedrive/pull/63)): `Webhook.Event` / `Webhook.Handler`; optional Basic auth; package extract deferred.
 
 ## Locked decisions
 
@@ -66,19 +68,23 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **v0.2 resources** (epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17)): done (#47–#52).
 
-**Next v0.2:**
+**v0.2 core track:** foundation + resources + Raw/Resource/rate-limit + Leads/Notes v1 + webhook surface are done.
 
-1. [#18](https://github.com/blksheep80/ex_pipedrive/issues/18) Leads/Notes v1 shim
-2. [#19](https://github.com/blksheep80/ex_pipedrive/issues/19) ex_pipedrive_web
+**Next (v0.3 / optional):**
 
-Also: close [#24](https://github.com/blksheep80/ex_pipedrive/issues/24) with the Search redesign decision (already implemented in Search v2).
+1. [#22](https://github.com/blksheep80/ex_pipedrive/issues/22) Fields API helpers
+2. [#23](https://github.com/blksheep80/ex_pipedrive/issues/23) Webhooks API (subscription CRUD)
+3. [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) / [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) optional Oban / Phoenix OAuth packages
+4. Extract `ex_pipedrive_web` Hex package from the in-repo webhook surface (#19)
 
-**Upstream carryovers:** no open upstream *issues* at fork time. Open PRs tracked as decisions: #24 (PR #22 search options — **redesign under v2 Search**: explicit opts on `ExPipedrive.Search`, not opaque merge; record formal decision on #24), #25 (PR #26 weighted pipeline history).
+Upstream decision [#25](https://github.com/blksheep80/ex_pipedrive/issues/25) (weighted pipeline history) still open.
+
+**Upstream carryovers:** [#24](https://github.com/blksheep80/ex_pipedrive/issues/24) closed (Search redesign). Still open: [#25](https://github.com/blksheep80/ex_pipedrive/issues/25) (LineDrive PR #26 weighted pipeline history).
 
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Next v0.2: #18 Leads/Notes v1 shim or #19 ex_pipedrive_web. Close #24 with Search redesign decision if still open. Prefer small PRs. Do not publish Hex unless asked.
+Open HANDOFF.md. v0.2 core track is done. Next candidates: #22 Fields helpers, #23 Webhooks API, or #25 upstream pipeline-history decision. Prefer small PRs. Do not publish Hex unless asked.
 ```
 
 ## How to resume
