@@ -35,6 +35,10 @@ defmodule ExPipedrive.Leads.ListLeadsTest do
               }} = Leads.list_leads(client, start: 10, limit: 5)
     end
 
+    test "provides the v1 list alias", %{client: client} do
+      assert {:ok, %PagedResult{success: true}} = Leads.list(client)
+    end
+
     test "it accepts filter parameters", %{client: client} do
       # Test with various filter options
       opts = [

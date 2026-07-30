@@ -43,6 +43,33 @@ defmodule ExPipedrive.FakeNoteApiHandler do
     |> send_resp(201, response_body)
   end
 
+  def handle_get_note(conn, %{"id" => "1"}) do
+    response_body = ~s"""
+    {
+      "success": true,
+      "data": {
+        "id": 1,
+        "user_id": 123,
+        "deal_id": null,
+        "person_id": null,
+        "org_id": 1,
+        "lead_id": null,
+        "content": "Met them at such and such event",
+        "add_time": "2023-02-14 21:15:32",
+        "update_time": "2023-02-14 21:15:32",
+        "active_flag": true,
+        "pinned_to_deal_flag": false,
+        "pinned_to_person_flag": false,
+        "pinned_to_organization_flag": true,
+        "pinned_to_lead_flag": false
+      }
+    }
+    """
+
+    conn
+    |> send_resp(200, response_body)
+  end
+
   # Handle org-specific notes request
   def handle_list_notes(conn, %{"org_id" => _org_id} = params) do
     handle_get_all_org_notes(conn, params)

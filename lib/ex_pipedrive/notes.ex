@@ -1,18 +1,56 @@
 defmodule ExPipedrive.Notes do
   @moduledoc """
-  This module encapsulates calls to the pipedrive notes resource API
+  API v1 shim for Pipedrive notes.
+
+  All functions in this module explicitly route to `/api/v1/notes`. Prefer the
+  `get/2`, `create/2`, and `list/2` aliases for new code; `add_note/2` and
+  `list_notes/2` remain supported for compatibility. A v2 Notes resource can
+  replace this shim without changing callers that use those aliases.
   """
 
   alias ExPipedrive.Note
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
   alias ExPipedrive.Response
+  alias ExPipedrive.WriteAttrs
   alias Tesla.Client
 
-  def add_note(%Client{} = client, %Note{id: nil} = note) do
+  @write_fields ~w(
+    content user_id org_id person_id deal_id lead_id project_id
+    pinned_to_organization_flag pinned_to_person_flag pinned_to_deal_flag
+    pinned_to_lead_flag pinned_to_project_flag
+  )
+
+  @doc """
+  Creates a note through `POST /api/v1/notes`.
+
+  Accepts a map (preferred) or `%Note{}` and returns `{:ok, %Note{}}`.
+  """
+  def create(%Client{} = client, attrs), do: add_note(client, attrs)
+
+  @doc """
+  Creates a note through `POST /api/v1/notes`.
+  """
+  def add_note(%Client{} = client, attrs) when is_map(attrs) do
     client
-    |> Request.post("notes", note, api_version: :v1)
+    |> Request.post("notes", WriteAttrs.take(attrs, @write_fields), api_version: :v1)
     |> Response.map([201], fn %{body: %{"data" => note_data}} ->
+      Note.new(note_data)
+    end)
+  end
+
+  @doc """
+  Fetches a note by id through `GET /api/v1/notes/:id`.
+  """
+  def get(%Client{} = client, note_id), do: get_note(client, note_id)
+
+  @doc """
+  Fetches a note by id through `GET /api/v1/notes/:id`.
+  """
+  def get_note(%Client{} = client, note_id) do
+    client
+    |> Request.get("notes/:id", api_version: :v1, opts: [path_params: [id: note_id]])
+    |> Response.map([200], fn %{body: %{"data" => note_data}} ->
       Note.new(note_data)
     end)
   end
@@ -32,6 +70,17 @@ defmodule ExPipedrive.Notes do
     end)
   end
 
+  @doc """
+  Lists notes through `GET /api/v1/notes`.
+
+  Supports the legacy v1 pagination and filtering options accepted by
+  `list_notes/2`.
+  """
+  def list(%Client{} = client, opts \\ []), do: list_notes(client, opts)
+
+  @doc """
+  Lists notes through `GET /api/v1/notes`.
+  """
   def list_notes(%Client{} = client, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)
