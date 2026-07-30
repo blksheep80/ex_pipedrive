@@ -21,7 +21,7 @@ defmodule ExPipedrive.FakeActivityApiHandler do
         "reference_id": null,
         "conference_meeting_client": null,
         "conference_meeting_url": null,
-        "due_date": "#{Timex.format!(activity.due_date, "%Y-%m-%d", :strftime)}",
+        "due_date": "#{Date.to_iso8601(activity.due_date)}",
         "due_time": "#{activity.due_time}",
         "busy_flag": #{activity.busy_flag},
         "add_time": "2022-07-15 21:14:14",

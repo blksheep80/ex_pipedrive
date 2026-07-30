@@ -35,6 +35,12 @@ def deps do
 end
 ```
 
+Core runtime deps are Tesla, Jason, and TypedStruct. **Plug is optional** — add it only if you mount `ExPipedrive.Incoming.Handler` for webhooks:
+
+```elixir
+{:plug, ">= 1.16.0"}
+```
+
 ## Usage
 
 ```elixir

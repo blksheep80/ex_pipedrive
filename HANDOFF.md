@@ -8,6 +8,7 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **Rebrand complete** ([#1](https://github.com/blksheep80/ex_pipedrive/issues/1)): `:ex_pipedrive`, `ExPipedrive.*`, upstream attribution preserved.
 - **Audit complete** ([#2](https://github.com/blksheep80/ex_pipedrive/issues/2)): keep/adapt/deprecate decisions in [AUDIT.md](AUDIT.md).
 - **OTP coupling removed** ([#14](https://github.com/blksheep80/ex_pipedrive/issues/14)): no Application `mod`; webhooks use `on_event/1` callback.
+- **Core deps slimmed** ([#27](https://github.com/blksheep80/ex_pipedrive/issues/27)): Timex removed; Plug is optional (webhooks only); no Phoenix/Oban in core.
 - On `main`, up to date with `origin/main` after the rebrand merge.
 
 ## Locked decisions
@@ -53,7 +54,7 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 1. ~~#1 Rebrand LineDrive → ExPipedrive~~ (done)
 2. ~~#2 Audit inherited keep/drop decisions~~ (done — see [AUDIT.md](AUDIT.md))
 3. ~~#14 Remove silent OTP Application/Registry coupling~~ (done)
-4. #27 Slim core dependencies
+4. ~~#27 Slim core dependencies~~ (done — Timex gone; Plug optional)
 5. #3 v2-first client foundation
 6. #4 Header-based API token auth (`x-api-token`)
 7. #5 Structured `ExPipedrive.Error`

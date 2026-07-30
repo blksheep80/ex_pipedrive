@@ -27,16 +27,18 @@ defmodule ExPipedrive.MixProject do
   defp elixirc_paths(_), do: ["lib"]
 
   # Run "mix help deps" to learn about dependencies.
+  # Runtime core: jason, tesla, typed_struct.
+  # plug is optional — required only for ExPipedrive.Incoming.Handler (webhooks).
+  # plug_cowboy is test-only (fake Pipedrive server). Timex removed (#27).
   defp deps do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:jason, "~> 1.3"},
-      {:plug, ">= 1.16.0"},
+      {:plug, ">= 1.16.0", optional: true},
       {:plug_cowboy, "~> 2.7", only: [:test]},
       {:tesla, "~> 1.12"},
-      {:timex, "~> 3.7"},
       {:typed_struct, "~> 0.3.0"}
     ]
   end
