@@ -39,9 +39,12 @@ defmodule ExPipedrive do
   Builds a Tesla client authenticated with a Pipedrive API token.
 
   `api_domain` may be a full base URL or a host (e.g. `company.pipedrive.com`).
-  See `ExPipedrive.Client` and `ExPipedrive.Request` for versioned routing.
+  Defaults to `x-api-token` header auth; see `ExPipedrive.Client` for options
+  and `ExPipedrive.Request` for versioned routing.
   """
-  defdelegate client(api_token, api_domain), to: Client, as: :new
+  def client(api_token, api_domain, opts \\ []) do
+    Client.new(api_token, api_domain, opts)
+  end
 
   @doc """
   Builds a Tesla client by refreshing an OAuth access token once.

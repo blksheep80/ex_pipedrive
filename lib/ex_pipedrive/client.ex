@@ -5,26 +5,45 @@ defmodule ExPipedrive.Client do
   Centralizes base URL / `api_domain` handling. Pass either a full URL
   (`https://company.pipedrive.com`) or a host (`company.pipedrive.com`);
   versioned paths (`/api/v2`, `/api/v1`) are owned by `ExPipedrive.Request`.
+
+  ## API token auth
+
+  By default, API tokens are sent via the `x-api-token` header (compatible with
+  Pipedrive API v1 and v2). Legacy query-param auth (`?api_token=...`) is
+  available only via `auth: :query` for transitional v1 callers and should not
+  be used for new code.
   """
 
   alias ExPipedrive.Oauth
 
+  @type auth_mode :: :header | :query
+
   @doc """
   Builds a Tesla client authenticated with a Pipedrive API token.
 
-  Auth is currently sent as the `api_token` query parameter (v1-compatible).
-  Header-based `x-api-token` auth lands in a follow-up.
+  ## Options
+
+  - `:auth` — `:header` (default) sends `x-api-token`; `:query` is isolated
+    legacy v1 query-param auth (`api_token`) for transitional use only.
+  - `:adapter` — optional Tesla adapter (used in tests).
   """
-  @spec new(String.t(), String.t()) :: Tesla.Client.t()
-  def new(api_token, api_domain) when is_binary(api_token) and is_binary(api_domain) do
+  @spec new(String.t(), String.t(), keyword()) :: Tesla.Client.t()
+  def new(api_token, api_domain, opts \\ [])
+      when is_binary(api_token) and is_binary(api_domain) and is_list(opts) do
+    auth = Keyword.get(opts, :auth, :header)
+    adapter = Keyword.get(opts, :adapter)
+
     middleware = [
       {Tesla.Middleware.BaseUrl, base_url(api_domain)},
       {Tesla.Middleware.JSON, engine: Jason},
-      {Tesla.Middleware.Query, api_token: api_token},
+      auth_middleware(api_token, auth),
       Tesla.Middleware.PathParams
     ]
 
-    Tesla.client(middleware)
+    case adapter do
+      nil -> Tesla.client(middleware)
+      adapter -> Tesla.client(middleware, adapter)
+    end
   end
 
   @doc """
@@ -62,6 +81,20 @@ defmodule ExPipedrive.Client do
     |> String.trim()
     |> String.trim_trailing("/")
     |> ensure_scheme()
+  end
+
+  defp auth_middleware(api_token, :header) do
+    {Tesla.Middleware.Headers, [{"x-api-token", api_token}]}
+  end
+
+  defp auth_middleware(api_token, :query) do
+    # Isolated legacy v1 auth — prefer `:header` (default).
+    {Tesla.Middleware.Query, api_token: api_token}
+  end
+
+  defp auth_middleware(_api_token, other) do
+    raise ArgumentError,
+          "unsupported auth #{inspect(other)}; expected :header or :query"
   end
 
   defp ensure_scheme(url) do

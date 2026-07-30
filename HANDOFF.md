@@ -10,7 +10,8 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **OTP coupling removed** ([#14](https://github.com/blksheep80/ex_pipedrive/issues/14)): no Application `mod`; webhooks use `on_event/1` callback.
 - **Core deps slimmed** ([#27](https://github.com/blksheep80/ex_pipedrive/issues/27)): Timex removed; Plug is optional (webhooks only); no Phoenix/Oban in core.
 - **v2 client foundation** ([#3](https://github.com/blksheep80/ex_pipedrive/issues/3), [#37](https://github.com/blksheep80/ex_pipedrive/pull/37)): `ExPipedrive.Client` owns base URL/`api_domain`; `ExPipedrive.Request` owns versioned paths (default `/api/v2`, explicit `:v1` fallback). Inherited resources still call v1 via `api_version: :v1` until #8/#9.
-- On `main`, up to date with `origin/main`. Next foundation item: [#4](https://github.com/blksheep80/ex_pipedrive/issues/4) header auth.
+- **Header API token auth** ([#4](https://github.com/blksheep80/ex_pipedrive/issues/4)): default `x-api-token` header; legacy `auth: :query` isolated for transitional v1 only.
+- Branch `feat/header-api-token-auth` (bead `expd-jg5`) — not yet on `main`.
 
 ## Locked decisions
 
@@ -57,7 +58,7 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 3. ~~#14 Remove silent OTP Application/Registry coupling~~ (done)
 4. ~~#27 Slim core dependencies~~ (done — Timex gone; Plug optional)
 5. ~~#3 v2-first client foundation~~ (done)
-6. #4 Header-based API token auth (`x-api-token`)
+6. ~~#4 Header-based API token auth (`x-api-token`)~~ (done on `feat/header-api-token-auth`)
 7. #5 Structured `ExPipedrive.Error`
 8. #11 Entity structs for v2 shapes
 9. #12 Rebuild fake-server fixtures for v2
