@@ -19,7 +19,7 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **OAuth Token + TokenStore** ([#6](https://github.com/blksheep80/ex_pipedrive/issues/6), [#44](https://github.com/blksheep80/ex_pipedrive/pull/44)): `Oauth.Token`, `exchange_authorization_code` / `refresh` / `ensure_fresh`, pluggable `TokenStore` (+ Memory), `Client.from_token` / `from_token_store`.
 - **Hex / docs / CI prep** ([#28](https://github.com/blksheep80/ex_pipedrive/issues/28), [#45](https://github.com/blksheep80/ex_pipedrive/pull/45)): version `0.1.0`, CHANGELOG, ExDoc config, CI matrix, Hex publish workflow. Cut GitHub Release `v0.1.0` (with `HEX_API_KEY`) to publish.
 - **Quality tooling** ([#32](https://github.com/blksheep80/ex_pipedrive/issues/32)): `doctor` gate; TypedStruct kept; Sobelow/ExMachina skipped; Dialyzer local-only for now (AUDIT).
-- On `main`, v0.1 foundation is complete. **v0.2** is underway: resource epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17) split into [#47](https://github.com/blksheep80/ex_pipedrive/issues/47)–[#52](https://github.com/blksheep80/ex_pipedrive/issues/52). Organizations v2 merged via [#53](https://github.com/blksheep80/ex_pipedrive/pull/53); Activities v2 on `feature/activities-v2` (bead `expd-iop`).
+- On `main`, v0.1 foundation is complete. **v0.2** is underway: resource epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17) split into [#47](https://github.com/blksheep80/ex_pipedrive/issues/47)–[#52](https://github.com/blksheep80/ex_pipedrive/issues/52). Organizations [#53](https://github.com/blksheep80/ex_pipedrive/pull/53) and Activities [#54](https://github.com/blksheep80/ex_pipedrive/pull/54) merged; Pipelines v2 on `feature/pipelines-v2` (bead `expd-i76`).
 
 ## Locked decisions
 
@@ -64,8 +64,8 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 **v0.2 resources** (epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17)):
 
 1. [#47](https://github.com/blksheep80/ex_pipedrive/issues/47) Organizations v2 (done — [#53](https://github.com/blksheep80/ex_pipedrive/pull/53))
-2. [#48](https://github.com/blksheep80/ex_pipedrive/issues/48) Activities v2 (in progress — [#54](https://github.com/blksheep80/ex_pipedrive/pull/54))
-3. [#49](https://github.com/blksheep80/ex_pipedrive/issues/49) Pipelines v2
+2. [#48](https://github.com/blksheep80/ex_pipedrive/issues/48) Activities v2 (done — [#54](https://github.com/blksheep80/ex_pipedrive/pull/54))
+3. [#49](https://github.com/blksheep80/ex_pipedrive/issues/49) Pipelines v2 (in progress — [#55](https://github.com/blksheep80/ex_pipedrive/pull/55))
 4. [#50](https://github.com/blksheep80/ex_pipedrive/issues/50) Stages v2
 5. [#51](https://github.com/blksheep80/ex_pipedrive/issues/51) Products v2
 6. [#52](https://github.com/blksheep80/ex_pipedrive/issues/52) Search v2

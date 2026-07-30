@@ -21,6 +21,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakePersonFieldApiHandler
   import ExPipedrive.FakePersonV2ApiHandler
   import ExPipedrive.FakePipelineApiHandler
+  import ExPipedrive.FakePipelineV2ApiHandler
 
   plug(:match)
 
@@ -194,7 +195,7 @@ defmodule ExPipedrive.FakePipedriveServer do
     |> handle_list_own_activities()
   end
 
-  # --- API v2 (deals + persons + organizations + activities) ---
+  # --- API v2 (deals + persons + organizations + activities + pipelines) ---
 
   get "/api/v2/deals" do
     handle_list_deals_v2(conn, conn.query_params)
@@ -270,6 +271,26 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   get "/api/v2/activities/:id" do
     handle_get_activity_v2(conn, conn.params)
+  end
+
+  get "/api/v2/pipelines" do
+    handle_list_pipelines_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/pipelines" do
+    handle_create_pipeline_v2(conn)
+  end
+
+  patch "/api/v2/pipelines/:id" do
+    handle_update_pipeline_v2(conn)
+  end
+
+  delete "/api/v2/pipelines/:id" do
+    handle_delete_pipeline_v2(conn, conn.params)
+  end
+
+  get "/api/v2/pipelines/:id" do
+    handle_get_pipeline_v2(conn, conn.params)
   end
 
   match _ do
