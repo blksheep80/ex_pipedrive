@@ -1,10 +1,10 @@
-defmodule LineDrive.Organization do
+defmodule ExPipedrive.Organization do
   @moduledoc """
   This module and enclosed struct represent an organization in pipedrive.
   """
 
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
   typedstruct do
     field :owner_id, pos_integer()

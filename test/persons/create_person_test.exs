@@ -1,9 +1,9 @@
-defmodule LineDrive.Contacts.CreatePersonTest do
+defmodule ExPipedrive.Contacts.CreatePersonTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase
+  use ExPipedrive.PipedriveClientCase
 
-  alias LineDrive.Person
-  alias LineDrive.Persons
+  alias ExPipedrive.Person
+  alias ExPipedrive.Persons
 
   describe "create_persons" do
     test "it forms a correct request and returns the correct data structure results for new person",

@@ -1,11 +1,11 @@
-defmodule LineDrive.PagedResult do
+defmodule ExPipedrive.PagedResult do
   @moduledoc """
   This module and enclosed structs represent paged response data from pipedrive.
   """
 
   use TypedStruct
 
-  alias LineDrive.AdditionalData
+  alias ExPipedrive.AdditionalData
 
   typedstruct do
     field :success, boolean()

@@ -1,8 +1,8 @@
-defmodule LineDrive.Leads.SearchLeadsTest do
+defmodule ExPipedrive.Leads.SearchLeadsTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase
+  use ExPipedrive.PipedriveClientCase
 
-  alias LineDrive.{
+  alias ExPipedrive.{
     Lead,
     Leads,
     LeadValue

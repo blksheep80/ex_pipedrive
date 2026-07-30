@@ -1,10 +1,10 @@
-defmodule LineDrive.Pipeline do
+defmodule ExPipedrive.Pipeline do
   @moduledoc """
   This module and enclosed struct represent a pipeline in pipedrive.
   """
 
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
   typedstruct enforce: true do
     field :active, boolean()

@@ -1,10 +1,10 @@
-defmodule LineDrive.Organizations.ListOrganizationFieldsTest do
+defmodule ExPipedrive.Organizations.ListOrganizationFieldsTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase, async: false
+  use ExPipedrive.PipedriveClientCase, async: false
 
-  alias LineDrive.Field
-  alias LineDrive.OrganizationFields
-  alias LineDrive.PagedResult
+  alias ExPipedrive.Field
+  alias ExPipedrive.OrganizationFields
+  alias ExPipedrive.PagedResult
 
   describe "list_organization_fields" do
     test "it forms a correct request and returns a list of organization field objects", %{

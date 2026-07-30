@@ -1,11 +1,11 @@
-defmodule LineDrive.Incoming.Handler do
+defmodule ExPipedrive.Incoming.Handler do
   @moduledoc """
   This plug handles incoming webhook POSTs from Pipedrive and converts them into
   events published via the Registry.
 
   To subscribe to a particular event (such as updated deals in the following
   example), use:
-  `Registry.register(Registry.LineDriveEvents, :updated_deal, [])`
+  `Registry.register(Registry.ExPipedriveEvents, :updated_deal, [])`
 
   You will then need to implement a `handle_info({:updated_deal, payload})`,
   where the payload varies by event type. See
@@ -13,8 +13,8 @@ defmodule LineDrive.Incoming.Handler do
   possible event types and the expected payloads for each.
   """
 
-  use LineDrive.Incoming.DealHandler
-  use LineDrive.Incoming.PersonHandler
+  use ExPipedrive.Incoming.DealHandler
+  use ExPipedrive.Incoming.PersonHandler
   use Plug.Router
 
   require Logger
@@ -64,7 +64,7 @@ defmodule LineDrive.Incoming.Handler do
   defp notify_subscribers({event_type, message}) do
     Logger.warning("Dispatching event: #{inspect(event_type)}")
 
-    Registry.dispatch(Registry.LineDriveEvents, event_type, fn entries ->
+    Registry.dispatch(Registry.ExPipedriveEvents, event_type, fn entries ->
       for {pid, _} <- entries, do: send(pid, {event_type, message})
     end)
   end

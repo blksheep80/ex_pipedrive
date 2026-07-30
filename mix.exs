@@ -1,9 +1,9 @@
-defmodule LineDrive.MixProject do
+defmodule ExPipedrive.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :line_drive,
+      app: :ex_pipedrive,
       description: description(),
       deps: deps(),
       elixir: "~> 1.17",
@@ -19,7 +19,7 @@ defmodule LineDrive.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {LineDrive.Application, []}
+      mod: {ExPipedrive.Application, []}
     ]
   end
 
@@ -44,14 +44,18 @@ defmodule LineDrive.MixProject do
 
   defp description do
     ~s"""
-    LineDrive is a client package for communicating with Pipedrive (pipedrive.com)
+    ExPipedrive is a client package for communicating with Pipedrive (pipedrive.com)
     """
   end
 
   defp package do
     [
+      name: "ex_pipedrive",
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/tmecklem/line_drive"}
+      links: %{
+        "GitHub" => "https://github.com/blksheep80/ex_pipedrive",
+        "Upstream (LineDrive)" => "https://github.com/tmecklem/line_drive"
+      }
     ]
   end
 end

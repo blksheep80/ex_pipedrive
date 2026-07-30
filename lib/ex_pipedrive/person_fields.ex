@@ -1,12 +1,12 @@
-defmodule LineDrive.PersonFields do
+defmodule ExPipedrive.PersonFields do
   @moduledoc """
   This module encapsulates calls to the pipedrive person field resource API
   """
 
   use Tesla
 
-  alias LineDrive.Field
-  alias LineDrive.PagedResult
+  alias ExPipedrive.Field
+  alias ExPipedrive.PagedResult
   alias Tesla.Client
 
   @callback list_person_fields(Client.t(), [any()]) :: {:ok, PagedResult.t()}

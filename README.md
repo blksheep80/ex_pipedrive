@@ -2,9 +2,9 @@
 
 Elixir client for the [Pipedrive](https://www.pipedrive.com) CRM API.
 
-This repository is a fork of [tmecklem/line_drive](https://github.com/tmecklem/line_drive), rebranded and evolving toward a **v2-first** SDK (`ex_pipedrive` / `ExPipedrive.*`).
+This repository is a fork of [tmecklem/line_drive](https://github.com/tmecklem/line_drive), rebranded as **ExPipedrive** (`ex_pipedrive` / `ExPipedrive.*`) and evolving toward a **v2-first** SDK.
 
-> **Status:** early foundation. Module names and Hex metadata are still being migrated from LineDrive — see [HANDOFF.md](HANDOFF.md) and the [issue tracker](https://github.com/blksheep80/ex_pipedrive/issues).
+> **Status:** early foundation — rebrand complete; v2 client work is tracked in [HANDOFF.md](HANDOFF.md) and the [issue tracker](https://github.com/blksheep80/ex_pipedrive/issues).
 
 ## Goals
 
@@ -33,6 +33,14 @@ def deps do
     {:ex_pipedrive, "~> 0.1.0"}
   ]
 end
+```
+
+## Usage
+
+```elixir
+client = ExPipedrive.client("your-api-token", "your-company.pipedrive.com")
+
+{:ok, deals} = ExPipedrive.list_deals(client, status: "open")
 ```
 
 ## Development

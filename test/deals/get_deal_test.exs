@@ -1,8 +1,8 @@
-defmodule LineDrive.Deals.GetDealTest do
+defmodule ExPipedrive.Deals.GetDealTest do
   @moduledoc false
   use ExUnit.Case, async: true
 
-  alias LineDrive.{
+  alias ExPipedrive.{
     Deal,
     Deals,
     FakePipedriveServer
@@ -13,7 +13,7 @@ defmodule LineDrive.Deals.GetDealTest do
       {Plug.Cowboy, scheme: :http, plug: FakePipedriveServer, options: [port: 4006]}
     )
 
-    client = LineDrive.client("api_token", "http://localhost:4006/")
+    client = ExPipedrive.client("api_token", "http://localhost:4006/")
     {:ok, client: client}
   end
 

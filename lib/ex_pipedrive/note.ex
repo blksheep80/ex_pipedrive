@@ -1,10 +1,10 @@
-defmodule LineDrive.Note do
+defmodule ExPipedrive.Note do
   @moduledoc """
   This module and enclosed structs represent a note in pipedrive.
   """
 
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
   typedstruct do
     field :id, pos_integer()

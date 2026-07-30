@@ -1,12 +1,12 @@
-defmodule LineDrive.DealFields do
+defmodule ExPipedrive.DealFields do
   @moduledoc """
   This module encapsulates calls to the pipedrive deal field resource API
   """
 
   use Tesla
 
-  alias LineDrive.Field
-  alias LineDrive.PagedResult
+  alias ExPipedrive.Field
+  alias ExPipedrive.PagedResult
   alias Tesla.Client
 
   @callback list_deal_fields(Client.t(), [any()]) :: {:ok, PagedResult.t()}

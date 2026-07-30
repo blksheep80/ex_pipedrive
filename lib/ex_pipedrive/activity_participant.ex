@@ -1,10 +1,10 @@
-defmodule LineDrive.ActivityParticipant do
+defmodule ExPipedrive.ActivityParticipant do
   @moduledoc """
   This module and enclosed struct represent a activity participant in pipedrive.
   """
 
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
   typedstruct enforce: true do
     field :person_id, pos_integer()

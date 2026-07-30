@@ -1,12 +1,12 @@
-defmodule LineDrive.Organizations do
+defmodule ExPipedrive.Organizations do
   @moduledoc """
   This module encapsulates calls to the pipedrive organizations resource API
   """
 
   use Tesla
 
-  alias LineDrive.Organization
-  alias LineDrive.PagedResult
+  alias ExPipedrive.Organization
+  alias ExPipedrive.PagedResult
   alias Tesla.Client
 
   @callback get_organization(Client.t(), integer) :: {:ok, Organization.t()}

@@ -1,11 +1,11 @@
-defmodule LineDrive.Activities do
+defmodule ExPipedrive.Activities do
   @moduledoc """
   This module encapsulates calls to the pipedrive activities resource API
   """
   use Tesla
 
-  alias LineDrive.Activity
-  alias LineDrive.PagedResult
+  alias ExPipedrive.Activity
+  alias ExPipedrive.PagedResult
 
   alias Tesla.Client
 
@@ -55,7 +55,7 @@ defmodule LineDrive.Activities do
          %PagedResult{
            success: true,
            data: Enum.map(body["data"], &Activity.new/1),
-           additional_data: LineDrive.AdditionalData.new(body["additional_data"])
+           additional_data: ExPipedrive.AdditionalData.new(body["additional_data"])
          }}
 
       {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
@@ -92,7 +92,7 @@ defmodule LineDrive.Activities do
          %PagedResult{
            success: true,
            data: Enum.map(body["data"], &Activity.new/1),
-           additional_data: LineDrive.AdditionalData.new(body["additional_data"])
+           additional_data: ExPipedrive.AdditionalData.new(body["additional_data"])
          }}
 
       {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->

@@ -1,4 +1,4 @@
-defmodule LineDrive.Oauth do
+defmodule ExPipedrive.Oauth do
   @moduledoc """
   This module contains functions for authorizing with Pipedrive's OAuth server.
   """

@@ -1,12 +1,12 @@
-defmodule LineDrive.Persons do
+defmodule ExPipedrive.Persons do
   @moduledoc """
   This module encapsulates calls to the pipedrive person resource API
   """
 
   use Tesla
 
-  alias LineDrive.PagedResult
-  alias LineDrive.Person
+  alias ExPipedrive.PagedResult
+  alias ExPipedrive.Person
   alias Tesla.Client
 
   @callback create_person(Client.t(), Person.t()) :: {:ok, Person.t()}

@@ -1,12 +1,12 @@
-defmodule LineDrive.Person do
+defmodule ExPipedrive.Person do
   @moduledoc """
   This module and enclosed struct represent a person in pipedrive.
   """
 
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
-  alias LineDrive.Organization
+  alias ExPipedrive.Organization
 
   typedstruct do
     field :id, pos_integer()

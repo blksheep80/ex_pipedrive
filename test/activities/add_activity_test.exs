@@ -1,9 +1,9 @@
-defmodule LineDrive.Activities.AddActivityTest do
+defmodule ExPipedrive.Activities.AddActivityTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase, async: false
+  use ExPipedrive.PipedriveClientCase, async: false
 
-  alias LineDrive.Activities
-  alias LineDrive.Activity
+  alias ExPipedrive.Activities
+  alias ExPipedrive.Activity
 
   describe "add_activity" do
     test "it forms a correct request and returns an added activity", %{client: client} do

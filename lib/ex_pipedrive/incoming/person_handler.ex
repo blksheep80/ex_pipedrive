@@ -1,15 +1,15 @@
-defmodule LineDrive.Incoming.PersonHandler do
+defmodule ExPipedrive.Incoming.PersonHandler do
   @moduledoc """
   Payload handler for incoming person-related webhook events. This module
-  transforms the JSON into `LineDrive.Person` and related structs and returns a
+  transforms the JSON into `ExPipedrive.Person` and related structs and returns a
   tuple with the event_type (eg `updated_person`) and transformed payload.
   """
 
-  alias LineDrive.Person
+  alias ExPipedrive.Person
 
   defmacro __using__(_opts) do
     quote do
-      import LineDrive.Incoming.PersonHandler, only: [person_updated: 1]
+      import ExPipedrive.Incoming.PersonHandler, only: [person_updated: 1]
 
       def transform_event("updated.person", payload) do
         person_updated(payload)

@@ -1,10 +1,10 @@
-defmodule LineDrive.ActivityTypes do
+defmodule ExPipedrive.ActivityTypes do
   @moduledoc """
   This module encapsulates calls to the pipedrive activity_types resource API
   """
   use Tesla
 
-  alias LineDrive.ActivityType
+  alias ExPipedrive.ActivityType
 
   alias Tesla.Client
 

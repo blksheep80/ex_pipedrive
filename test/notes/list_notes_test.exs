@@ -1,8 +1,8 @@
-defmodule LineDrive.Notes.ListNotesTest do
+defmodule ExPipedrive.Notes.ListNotesTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase
+  use ExPipedrive.PipedriveClientCase
 
-  alias LineDrive.{
+  alias ExPipedrive.{
     Note,
     Notes,
     PagedResult

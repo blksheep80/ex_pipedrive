@@ -1,11 +1,11 @@
-defmodule LineDrive.Persons.ListPersonFieldsTest do
+defmodule ExPipedrive.Persons.ListPersonFieldsTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase, async: false
+  use ExPipedrive.PipedriveClientCase, async: false
 
-  alias LineDrive.Field
-  alias LineDrive.FieldOption
-  alias LineDrive.PagedResult
-  alias LineDrive.PersonFields
+  alias ExPipedrive.Field
+  alias ExPipedrive.FieldOption
+  alias ExPipedrive.PagedResult
+  alias ExPipedrive.PersonFields
 
   describe "list_person_fields" do
     test "it forms a correct request and returns a list of person field objects", %{

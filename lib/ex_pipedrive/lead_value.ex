@@ -1,9 +1,9 @@
-defmodule LineDrive.LeadValue do
+defmodule ExPipedrive.LeadValue do
   @moduledoc """
   This module represent a lead value in pipedrive.
   """
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
   typedstruct do
     field :amount, float()

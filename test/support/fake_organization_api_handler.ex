@@ -1,4 +1,4 @@
-defmodule LineDrive.FakeOrganizationApiHandler do
+defmodule ExPipedrive.FakeOrganizationApiHandler do
   @moduledoc false
 
   import Plug.Conn

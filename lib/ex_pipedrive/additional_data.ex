@@ -1,11 +1,11 @@
-defmodule LineDrive.AdditionalData do
+defmodule ExPipedrive.AdditionalData do
   @moduledoc """
   This module and enclosed structs represent additional metadata in response data from pipedrive.
   """
 
   use TypedStruct
 
-  alias LineDrive.Pagination
+  alias ExPipedrive.Pagination
 
   typedstruct do
     field :pagination, Pagination.t()

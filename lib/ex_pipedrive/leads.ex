@@ -1,12 +1,12 @@
-defmodule LineDrive.Leads do
+defmodule ExPipedrive.Leads do
   @moduledoc """
   This module encapsulates calls to the pipedrive leads resource API
   """
 
   use Tesla
 
-  alias LineDrive.Lead
-  alias LineDrive.PagedResult
+  alias ExPipedrive.Lead
+  alias ExPipedrive.PagedResult
   alias Tesla.Client
 
   @callback create_lead(Client.t(), Lead.t()) :: {:ok, Lead.t()}

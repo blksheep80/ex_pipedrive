@@ -1,13 +1,13 @@
-defmodule LineDrive.Deal do
+defmodule ExPipedrive.Deal do
   @moduledoc """
   This module and enclosed struct represent a deal in pipedrive.
   """
 
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
-  alias LineDrive.Organization
-  alias LineDrive.User
+  alias ExPipedrive.Organization
+  alias ExPipedrive.User
 
   typedstruct do
     field :expected_close_date, Date.t()

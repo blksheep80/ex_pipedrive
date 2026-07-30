@@ -1,10 +1,10 @@
-defmodule LineDrive.ActivityType do
+defmodule ExPipedrive.ActivityType do
   @moduledoc """
   This module and enclosed struct represent a activity type in pipedrive.
   """
 
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
   @type key_string :: binary()
 

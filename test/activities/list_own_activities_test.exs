@@ -1,10 +1,10 @@
-defmodule LineDrive.Activities.ListOwnActivitiesTest do
+defmodule ExPipedrive.Activities.ListOwnActivitiesTest do
   use ExUnit.Case, async: true
-  use LineDrive.PipedriveClientCase
+  use ExPipedrive.PipedriveClientCase
 
-  alias LineDrive.Activities
-  alias LineDrive.Activity
-  alias LineDrive.PagedResult
+  alias ExPipedrive.Activities
+  alias ExPipedrive.Activity
+  alias ExPipedrive.PagedResult
 
   describe "list_own_activities/2" do
     test "returns a list of activities for the authenticated user", %{client: client} do

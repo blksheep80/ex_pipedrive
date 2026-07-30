@@ -1,11 +1,11 @@
-defmodule LineDrive.Pipelines do
+defmodule ExPipedrive.Pipelines do
   @moduledoc """
   This module encapsulates calls to the pipedrive pipelines resource API
   """
   use Tesla
 
-  alias LineDrive.Deal
-  alias LineDrive.Pipeline
+  alias ExPipedrive.Deal
+  alias ExPipedrive.Pipeline
   alias Tesla.Client
 
   @callback list_pipelines(Client.t()) :: {:ok, Pipeline.t()}

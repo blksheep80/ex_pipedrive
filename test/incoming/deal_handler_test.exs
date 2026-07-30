@@ -1,8 +1,8 @@
-defmodule LineDrive.Incoming.DealHandlerTest do
+defmodule ExPipedrive.Incoming.DealHandlerTest do
   use ExUnit.Case, async: true
 
-  alias LineDrive.Deal
-  alias LineDrive.Incoming.DealHandler
+  alias ExPipedrive.Deal
+  alias ExPipedrive.Incoming.DealHandler
 
   describe "deal_updated/1" do
     test "it transforms a well formed updated deal event into the correct event type and payload tuple" do

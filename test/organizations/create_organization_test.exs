@@ -1,8 +1,8 @@
-defmodule LineDrive.Organizations.CreateOrganizationTest do
+defmodule ExPipedrive.Organizations.CreateOrganizationTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase
+  use ExPipedrive.PipedriveClientCase
 
-  alias LineDrive.{
+  alias ExPipedrive.{
     Organization,
     Organizations
   }

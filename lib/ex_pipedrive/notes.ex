@@ -1,12 +1,12 @@
-defmodule LineDrive.Notes do
+defmodule ExPipedrive.Notes do
   @moduledoc """
   This module encapsulates calls to the pipedrive notes resource API
   """
 
   use Tesla
 
-  alias LineDrive.Note
-  alias LineDrive.PagedResult
+  alias ExPipedrive.Note
+  alias ExPipedrive.PagedResult
   alias Tesla.Client
 
   @callback add_note(Client.t(), Note.t()) :: {:ok, Note.t()}

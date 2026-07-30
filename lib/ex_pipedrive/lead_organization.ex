@@ -1,9 +1,9 @@
-defmodule LineDrive.LeadOrganization do
+defmodule ExPipedrive.LeadOrganization do
   @moduledoc """
   This module represent a lead organization in pipedrive.
   """
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
   typedstruct do
     field :id, pos_integer()

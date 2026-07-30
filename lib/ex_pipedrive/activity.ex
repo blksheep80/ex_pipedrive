@@ -1,13 +1,13 @@
-defmodule LineDrive.Activity do
+defmodule ExPipedrive.Activity do
   @moduledoc """
   This module and enclosed struct represent a activity in pipedrive.
   """
 
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
-  alias LineDrive.ActivityParticipant
-  alias LineDrive.ActivityType
+  alias ExPipedrive.ActivityParticipant
+  alias ExPipedrive.ActivityType
 
   typedstruct do
     field :id, pos_integer()

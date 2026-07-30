@@ -1,11 +1,11 @@
-defmodule LineDrive.Users do
+defmodule ExPipedrive.Users do
   @moduledoc """
   This module encapsulates calls to the pipedrive user resource API.
   """
 
   use Tesla
 
-  alias LineDrive.User
+  alias ExPipedrive.User
   alias Tesla.Client
 
   @callback find_users_by_name(Client.t(), String.t()) :: {:ok, list(User.t())}

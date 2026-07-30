@@ -1,10 +1,10 @@
-defmodule LineDrive.Pagination do
+defmodule ExPipedrive.Pagination do
   @moduledoc """
   This module and enclosed structs represent pagination metadatafrom pipedrive.
   """
 
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
   typedstruct do
     field :start, non_neg_integer()

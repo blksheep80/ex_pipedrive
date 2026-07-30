@@ -1,12 +1,12 @@
-defmodule LineDrive.Deals do
+defmodule ExPipedrive.Deals do
   @moduledoc """
   This module encapsulates calls to the pipedrive deals resource API
   """
 
   use Tesla
 
-  alias LineDrive.Deal
-  alias LineDrive.PagedResult
+  alias ExPipedrive.Deal
+  alias ExPipedrive.PagedResult
   alias Tesla.Client
 
   @callback get_deal(Client.t(), integer) :: {:ok, Deal.t()}

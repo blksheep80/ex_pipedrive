@@ -1,4 +1,4 @@
-defmodule LineDrive.Application do
+defmodule ExPipedrive.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -8,14 +8,15 @@ defmodule LineDrive.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: LineDrive.Worker.start_link(arg)
-      # {LineDrive.Worker, arg}
-      {Registry, keys: :duplicate, name: Registry.LineDriveEvents, id: Registry.LineDriveEvents}
+      # Starts a worker by calling: ExPipedrive.Worker.start_link(arg)
+      # {ExPipedrive.Worker, arg}
+      {Registry,
+       keys: :duplicate, name: Registry.ExPipedriveEvents, id: Registry.ExPipedriveEvents}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: LineDrive.Supervisor]
+    opts = [strategy: :one_for_one, name: ExPipedrive.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

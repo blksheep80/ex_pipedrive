@@ -1,9 +1,9 @@
-defmodule LineDrive.LeadPerson do
+defmodule ExPipedrive.LeadPerson do
   @moduledoc """
   This module represent a lead person in pipedrive.
   """
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
   typedstruct do
     field :id, pos_integer()

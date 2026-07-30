@@ -1,39 +1,39 @@
-defmodule LineDrive do
+defmodule ExPipedrive do
   @moduledoc """
-  This is the entrypoint for making requests to pipedrive via LineDrive.
+  This is the entrypoint for making requests to pipedrive via ExPipedrive.
   """
 
   use Tesla
 
-  defdelegate add_activity(client, activity), to: LineDrive.Activities
-  defdelegate add_note(client, note), to: LineDrive.Notes
-  defdelegate create_lead(client, lead), to: LineDrive.Leads
-  defdelegate create_organization(client, org), to: LineDrive.Organizations
-  defdelegate create_person(client, person), to: LineDrive.Persons
-  defdelegate find_users_by_name(client, term, opts \\ []), to: LineDrive.Users
-  defdelegate get_all_org_notes(client, org_id, opts), to: LineDrive.Notes
-  defdelegate get_deal(client, deal_id), to: LineDrive.Deals
-  defdelegate get_lead(client, lead_id), to: LineDrive.Leads
-  defdelegate get_organization(client, org_id), to: LineDrive.Organizations
-  defdelegate get_person(client, person_id), to: LineDrive.Persons
-  defdelegate list_activities(client, opts \\ []), to: LineDrive.Activities
-  defdelegate list_activity_types(client), to: LineDrive.ActivityTypes
-  defdelegate list_deals(client, opts), to: LineDrive.Deals
-  defdelegate list_deal_fields(client, opts), to: LineDrive.DealFields
-  defdelegate list_leads(client, opts \\ []), to: LineDrive.Leads
-  defdelegate list_notes(client, opts \\ []), to: LineDrive.Notes
-  defdelegate list_organizations(client, opts), to: LineDrive.Organizations
-  defdelegate list_organization_fields(client, opts), to: LineDrive.OrganizationFields
-  defdelegate list_own_activities(client, opts \\ []), to: LineDrive.Activities
-  defdelegate list_person_fields(client, opts), to: LineDrive.PersonFields
-  defdelegate list_persons(client, opts), to: LineDrive.Persons
-  defdelegate list_pipeline_deals(client, pipeline_id), to: LineDrive.Pipelines
-  defdelegate list_pipelines(client), to: LineDrive.Pipelines
-  defdelegate search_deals(client, term, opts), to: LineDrive.Deals
-  defdelegate search_leads(client, term, opts), to: LineDrive.Leads
-  defdelegate search_organizations(client, term, opts), to: LineDrive.Organizations
-  defdelegate search_persons(client, term, opts), to: LineDrive.Persons
-  defdelegate update_organization(client, org_id, data), to: LineDrive.Organizations
+  defdelegate add_activity(client, activity), to: ExPipedrive.Activities
+  defdelegate add_note(client, note), to: ExPipedrive.Notes
+  defdelegate create_lead(client, lead), to: ExPipedrive.Leads
+  defdelegate create_organization(client, org), to: ExPipedrive.Organizations
+  defdelegate create_person(client, person), to: ExPipedrive.Persons
+  defdelegate find_users_by_name(client, term, opts \\ []), to: ExPipedrive.Users
+  defdelegate get_all_org_notes(client, org_id, opts), to: ExPipedrive.Notes
+  defdelegate get_deal(client, deal_id), to: ExPipedrive.Deals
+  defdelegate get_lead(client, lead_id), to: ExPipedrive.Leads
+  defdelegate get_organization(client, org_id), to: ExPipedrive.Organizations
+  defdelegate get_person(client, person_id), to: ExPipedrive.Persons
+  defdelegate list_activities(client, opts \\ []), to: ExPipedrive.Activities
+  defdelegate list_activity_types(client), to: ExPipedrive.ActivityTypes
+  defdelegate list_deals(client, opts), to: ExPipedrive.Deals
+  defdelegate list_deal_fields(client, opts), to: ExPipedrive.DealFields
+  defdelegate list_leads(client, opts \\ []), to: ExPipedrive.Leads
+  defdelegate list_notes(client, opts \\ []), to: ExPipedrive.Notes
+  defdelegate list_organizations(client, opts), to: ExPipedrive.Organizations
+  defdelegate list_organization_fields(client, opts), to: ExPipedrive.OrganizationFields
+  defdelegate list_own_activities(client, opts \\ []), to: ExPipedrive.Activities
+  defdelegate list_person_fields(client, opts), to: ExPipedrive.PersonFields
+  defdelegate list_persons(client, opts), to: ExPipedrive.Persons
+  defdelegate list_pipeline_deals(client, pipeline_id), to: ExPipedrive.Pipelines
+  defdelegate list_pipelines(client), to: ExPipedrive.Pipelines
+  defdelegate search_deals(client, term, opts), to: ExPipedrive.Deals
+  defdelegate search_leads(client, term, opts), to: ExPipedrive.Leads
+  defdelegate search_organizations(client, term, opts), to: ExPipedrive.Organizations
+  defdelegate search_persons(client, term, opts), to: ExPipedrive.Persons
+  defdelegate update_organization(client, org_id, data), to: ExPipedrive.Organizations
 
   def client(api_token, base_url) do
     base_url = process_base(base_url)
@@ -51,7 +51,7 @@ defmodule LineDrive do
   def build_client(refresh_token, client_id, client_secret, base_url) do
     base_url = process_base(base_url)
 
-    case LineDrive.Oauth.refresh_access_token(refresh_token, client_id, client_secret) do
+    case ExPipedrive.Oauth.refresh_access_token(refresh_token, client_id, client_secret) do
       {:ok, access_token} ->
         middleware = [
           {Tesla.Middleware.BaseUrl, base_url},

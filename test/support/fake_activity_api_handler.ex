@@ -1,9 +1,9 @@
-defmodule LineDrive.FakeActivityApiHandler do
+defmodule ExPipedrive.FakeActivityApiHandler do
   @moduledoc false
 
   import Plug.Conn
 
-  alias LineDrive.Activity
+  alias ExPipedrive.Activity
 
   def handle_add_activity(%{body_params: activity_map} = conn) do
     activity = Activity.new(activity_map |> Map.new(fn {k, v} -> {String.to_atom(k), v} end))

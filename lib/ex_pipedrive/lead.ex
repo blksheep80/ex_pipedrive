@@ -1,14 +1,14 @@
-defmodule LineDrive.Lead do
+defmodule ExPipedrive.Lead do
   @moduledoc """
   This module and enclosed structs represent a lead in pipedrive.
   """
 
   use TypedStruct
-  use LineDrive.Structable
+  use ExPipedrive.Structable
 
-  alias LineDrive.LeadOrganization
-  alias LineDrive.LeadPerson
-  alias LineDrive.LeadValue
+  alias ExPipedrive.LeadOrganization
+  alias ExPipedrive.LeadPerson
+  alias ExPipedrive.LeadValue
 
   typedstruct do
     field :id, String.t()

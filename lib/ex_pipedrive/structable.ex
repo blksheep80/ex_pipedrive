@@ -1,4 +1,4 @@
-defmodule LineDrive.Structable do
+defmodule ExPipedrive.Structable do
   @moduledoc """
   This module can be imported/used by other modules that have structs defined
   and need to process the input of a map or nested maps in order to construct
@@ -10,7 +10,7 @@ defmodule LineDrive.Structable do
 
   defmacro __using__(_) do
     quote do
-      import LineDrive.Structable
+      import ExPipedrive.Structable
 
       def new(map), do: new_from_map(map)
 

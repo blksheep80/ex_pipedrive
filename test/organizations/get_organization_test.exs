@@ -1,8 +1,8 @@
-defmodule LineDrive.Organizations.GetOrganizationTest do
+defmodule ExPipedrive.Organizations.GetOrganizationTest do
   @moduledoc false
-  use LineDrive.PipedriveClientCase
+  use ExPipedrive.PipedriveClientCase
 
-  alias LineDrive.{
+  alias ExPipedrive.{
     FakePipedriveServer,
     Organization,
     Organizations
@@ -13,7 +13,7 @@ defmodule LineDrive.Organizations.GetOrganizationTest do
       {Plug.Cowboy, scheme: :http, plug: FakePipedriveServer, options: [port: 4006]}
     )
 
-    client = LineDrive.client("api_token", "http://localhost:4006/")
+    client = ExPipedrive.client("api_token", "http://localhost:4006/")
     {:ok, client: client}
   end
 
