@@ -120,11 +120,11 @@ Entities: `Deal`, `Person`, `Organization`, `Lead`, `LeadPerson`, `LeadOrganizat
 
 | Subsystem | Location | Decision | v1 assumptions | Follow-up |
 |---|---|---|---|---|
-| Webhook Plug router | `incoming/handler.ex` | **Deprecate from core** | `POST /webhook`; Basic auth; always HTTP 200; Registry dispatch | #14, future `ex_pipedrive_web` |
+| Webhook Plug router | `incoming/handler.ex` | **Deprecate from core** | `POST /webhook`; Basic auth; `on_event/1` callback (no Registry) | future `ex_pipedrive_web` |
 | Deal webhook handler | `incoming/deal_handler.ex` | **Deprecate from core** | `"updated.deal"`; MapSet diff on map pairs | optional package |
 | Person webhook handler | `incoming/person_handler.ex` | **Deprecate from core** | `"updated.person"` only; no tests | optional package |
-| Registry event bus | `application.ex` + handler | **Remove from core** | `Registry.ExPipedriveEvents` starts unconditionally | #14 |
-| OTP Application | `lib/ex_pipedrive/application.ex` | **Adapt** | Supervises Registry only | #14 |
+| Registry event bus | ~~`application.ex` + handler~~ | **Removed from core** (#14) | Host supplies `on_event/1` callback | optional package |
+| OTP Application | ~~`lib/ex_pipedrive/application.ex`~~ | **Removed** (#14) | No `mod` callback; core is dependency-only | — |
 
 **Risky behavior to preserve temporarily**
 
