@@ -3,20 +3,17 @@ defmodule ExPipedrive.DealFields do
   This module encapsulates calls to the pipedrive deal field resource API
   """
 
-  use Tesla
-
   alias ExPipedrive.Field
   alias ExPipedrive.PagedResult
+  alias ExPipedrive.Request
   alias Tesla.Client
-
-  @callback list_deal_fields(Client.t(), [any()]) :: {:ok, PagedResult.t()}
 
   def list_deal_fields(%Client{} = client, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)
 
     client
-    |> get("/api/v1/dealFields", query: [start: start, limit: limit])
+    |> Request.get("dealFields", api_version: :v1, query: [start: start, limit: limit])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}

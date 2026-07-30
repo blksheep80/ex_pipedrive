@@ -2,17 +2,15 @@ defmodule ExPipedrive.Pipelines do
   @moduledoc """
   This module encapsulates calls to the pipedrive pipelines resource API
   """
-  use Tesla
 
   alias ExPipedrive.Deal
   alias ExPipedrive.Pipeline
+  alias ExPipedrive.Request
   alias Tesla.Client
-
-  @callback list_pipelines(Client.t()) :: {:ok, Pipeline.t()}
 
   def list_pipelines(%Client{} = client) do
     client
-    |> get("/api/v1/pipelines")
+    |> Request.get("pipelines", api_version: :v1)
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"data" => pipeline_data}}} ->
         pipelines =
@@ -31,7 +29,10 @@ defmodule ExPipedrive.Pipelines do
 
   def list_pipeline_deals(%Client{} = client, pipeline_id) do
     client
-    |> get("/api/v1/pipelines/#{pipeline_id}/deals")
+    |> Request.get("pipelines/:id/deals",
+      api_version: :v1,
+      opts: [path_params: [id: pipeline_id]]
+    )
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"data" => deal_data}}} ->
         deals =

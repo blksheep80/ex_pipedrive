@@ -3,20 +3,14 @@ defmodule ExPipedrive.Persons do
   This module encapsulates calls to the pipedrive person resource API
   """
 
-  use Tesla
-
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Person
+  alias ExPipedrive.Request
   alias Tesla.Client
-
-  @callback create_person(Client.t(), Person.t()) :: {:ok, Person.t()}
-  @callback get_person(Client.t(), integer) :: {:ok, Person.t()}
-  @callback list_persons(Client.t(), [any()]) :: {:ok, PagedResult.t()}
-  @callback search_persons(Client.t(), binary()) :: {:ok, list(Person.t())}
 
   def get_person(%Client{} = client, id) do
     client
-    |> get("/api/v1/persons/:id", opts: [path_params: [id: id]])
+    |> Request.get("persons/:id", api_version: :v1, opts: [path_params: [id: id]])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         {:ok, Person.new(data)}
@@ -31,7 +25,7 @@ defmodule ExPipedrive.Persons do
 
   def create_person(%Client{} = client, %Person{id: nil} = person) do
     client
-    |> post("/api/v1/persons", person)
+    |> Request.post("persons", person, api_version: :v1)
     |> case do
       {:ok, %Tesla.Env{status: 201, body: %{"data" => person_data}}} ->
         {:ok, Person.new(person_data)}
@@ -49,7 +43,7 @@ defmodule ExPipedrive.Persons do
     limit = Keyword.get(opts, :limit, 50)
 
     client
-    |> get("/api/v1/persons", query: [start: start, limit: limit])
+    |> Request.get("persons", api_version: :v1, query: [start: start, limit: limit])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}
@@ -74,7 +68,10 @@ defmodule ExPipedrive.Persons do
     limit = Keyword.get(opts, :limit, 50)
 
     client
-    |> get("/api/v1/persons/search", query: [term: term, start: start, limit: limit])
+    |> Request.get("persons/search",
+      api_version: :v1,
+      query: [term: term, start: start, limit: limit]
+    )
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         persons =
