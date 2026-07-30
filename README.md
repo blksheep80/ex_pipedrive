@@ -116,6 +116,14 @@ Each hit is an `%ExPipedrive.SearchResult{type: "deal", item: %ExPipedrive.Deal{
 API token auth remains the simple path for single-tenant scripts. Legacy v1
 list/search helpers remain available (e.g. `ExPipedrive.list_deals/2`).
 
+### Leads and Notes (API v1 shims)
+
+`ExPipedrive.Leads` and `ExPipedrive.Notes` explicitly use API v1 while their
+v2 endpoints are unavailable. Use their consistent `get/2`, `create/2`, and
+`list/2` helpers (plus `Leads.update/3`; or existing `get_lead/2`,
+`create_lead/2`, `add_note/2`, and
+`list_*` names); these aliases will make migration to v2 straightforward.
+
 ### Webhooks (`ex_pipedrive_web` surface)
 
 The webhook API is designed to extract unchanged into a future optional

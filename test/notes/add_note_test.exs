@@ -25,5 +25,20 @@ defmodule ExPipedrive.Notes.AddNoteTest do
                 pinned_to_organization_flag: true
               }} = Notes.add_note(client, unsaved_note)
     end
+
+    test "accepts map attributes through the create alias", %{client: client} do
+      assert {:ok,
+              %Note{
+                id: 1,
+                content: "Met them at such and such event",
+                org_id: 1,
+                pinned_to_organization_flag: true
+              }} =
+               Notes.create(client, %{
+                 content: "Met them at such and such event",
+                 org_id: 1,
+                 pinned_to_organization_flag: true
+               })
+    end
   end
 end

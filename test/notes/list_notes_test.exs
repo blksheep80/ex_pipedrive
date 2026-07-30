@@ -35,6 +35,10 @@ defmodule ExPipedrive.Notes.ListNotesTest do
               }} = Notes.list_notes(client, start: 10, limit: 5)
     end
 
+    test "provides the v1 list alias", %{client: client} do
+      assert {:ok, %PagedResult{success: true}} = Notes.list(client)
+    end
+
     test "it accepts filter parameters", %{client: client} do
       # Test with various filter options
       opts = [

@@ -173,4 +173,27 @@ defmodule ExPipedrive.FakeLeadApiHandler do
     conn
     |> send_resp(201, response_body)
   end
+
+  def handle_update_lead(
+        %{body_params: %{"title" => "Updated Farkel Deal Lead"}} = conn,
+        %{"id" => "d8648e28-debe-45c8-9725-4e742bfbf2c4"}
+      ) do
+    response_body = ~s"""
+    {
+      "success": true,
+      "data": {
+        "id": "d8648e28-debe-45c8-9725-4e742bfbf2c4",
+        "title": "Updated Farkel Deal Lead",
+        "value": {
+          "amount": 150000,
+          "currency": "USD"
+        },
+        "expected_close_date": "2023-03-01"
+      }
+    }
+    """
+
+    conn
+    |> send_resp(200, response_body)
+  end
 end
