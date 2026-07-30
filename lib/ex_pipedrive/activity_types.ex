@@ -5,24 +5,14 @@ defmodule ExPipedrive.ActivityTypes do
 
   alias ExPipedrive.ActivityType
   alias ExPipedrive.Request
+  alias ExPipedrive.Response
   alias Tesla.Client
 
   def list_activity_types(%Client{} = client) do
     client
     |> Request.get("activityTypes", api_version: :v1)
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"data" => activity_type_data}}} ->
-        activity_types =
-          activity_type_data
-          |> Enum.map(&ActivityType.new/1)
-
-        {:ok, activity_types}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([200], fn %{body: %{"data" => activity_type_data}} ->
+      Enum.map(activity_type_data, &ActivityType.new/1)
+    end)
   end
 end

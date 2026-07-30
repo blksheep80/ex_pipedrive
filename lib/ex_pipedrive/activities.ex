@@ -6,21 +6,15 @@ defmodule ExPipedrive.Activities do
   alias ExPipedrive.Activity
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
+  alias ExPipedrive.Response
   alias Tesla.Client
 
   def add_activity(%Client{} = client, %Activity{id: nil} = activity) do
     client
     |> Request.post("activities", activity, api_version: :v1)
-    |> case do
-      {:ok, %Tesla.Env{status: 201, body: %{"data" => activity_data}}} ->
-        {:ok, Activity.new(activity_data)}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([201], fn %{body: %{"data" => activity_data}} ->
+      Activity.new(activity_data)
+    end)
   end
 
   def list_activities(%Client{} = client, opts \\ []) do
@@ -44,21 +38,13 @@ defmodule ExPipedrive.Activities do
 
     client
     |> Request.get("activities/collection", api_version: :v1, query: params)
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true} = body}} ->
-        {:ok,
-         %PagedResult{
-           success: true,
-           data: Enum.map(body["data"], &Activity.new/1),
-           additional_data: ExPipedrive.AdditionalData.new(body["additional_data"])
-         }}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([200], fn %{body: %{"success" => true} = body} ->
+      %PagedResult{
+        success: true,
+        data: Enum.map(body["data"], &Activity.new/1),
+        additional_data: ExPipedrive.AdditionalData.new(body["additional_data"])
+      }
+    end)
   end
 
   def list_own_activities(%Client{} = client, opts \\ []) do
@@ -81,20 +67,12 @@ defmodule ExPipedrive.Activities do
 
     client
     |> Request.get("activities", api_version: :v1, query: params)
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true} = body}} ->
-        {:ok,
-         %PagedResult{
-           success: true,
-           data: Enum.map(body["data"], &Activity.new/1),
-           additional_data: ExPipedrive.AdditionalData.new(body["additional_data"])
-         }}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([200], fn %{body: %{"success" => true} = body} ->
+      %PagedResult{
+        success: true,
+        data: Enum.map(body["data"], &Activity.new/1),
+        additional_data: ExPipedrive.AdditionalData.new(body["additional_data"])
+      }
+    end)
   end
 end

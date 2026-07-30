@@ -6,21 +6,15 @@ defmodule ExPipedrive.Deals do
   alias ExPipedrive.Deal
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
+  alias ExPipedrive.Response
   alias Tesla.Client
 
   def get_deal(%Client{} = client, deal_id) do
     client
     |> Request.get("deals/:id", api_version: :v1, opts: [path_params: [id: deal_id]])
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"data" => deal_data}}} ->
-        {:ok, Deal.new(deal_data)}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([200], fn %{body: %{"data" => deal_data}} ->
+      Deal.new(deal_data)
+    end)
   end
 
   def list_deals(%Client{} = client, opts \\ []) do
@@ -33,19 +27,13 @@ defmodule ExPipedrive.Deals do
       api_version: :v1,
       query: [start: start, limit: limit, status: status]
     )
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
-        {:ok, PagedResult.new([], body)}
+    |> Response.map([200], fn
+      %{body: %{"success" => true, "data" => nil} = body} ->
+        PagedResult.new([], body)
 
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data} = body}} ->
-        {:ok, PagedResult.new(Enum.map(data, &Deal.new/1), body)}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+      %{body: %{"success" => true, "data" => data} = body} ->
+        PagedResult.new(Enum.map(data, &Deal.new/1), body)
+    end)
   end
 
   def search_deals(%Client{} = client, term, opts \\ []) do
@@ -58,20 +46,10 @@ defmodule ExPipedrive.Deals do
       api_version: :v1,
       query: [term: term, start: start, limit: limit, status: status]
     )
-    |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
-        deals =
-          data
-          |> Map.get("items")
-          |> Enum.map(fn item_container -> Deal.new(Map.get(item_container, "item")) end)
-
-        {:ok, deals}
-
-      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
-        {:error, message}
-
-      {:error, env} ->
-        {:error, env}
-    end
+    |> Response.map([200], fn %{body: %{"success" => true, "data" => data}} ->
+      data
+      |> Map.get("items")
+      |> Enum.map(fn item_container -> Deal.new(Map.get(item_container, "item")) end)
+    end)
   end
 end
