@@ -32,7 +32,7 @@ These appear across most inherited code and must be addressed before v2 is defau
 5. **Search responses** — nested `data.items[].item` unwrap, not `PagedResult`.
 6. **Entity shapes** — v1 nested objects (e.g. deal `org_id` as mini-map), denormalized name fields, non-ISO8601 datetimes (`"YYYY-MM-DD HH:MM:SS"`) silently parse as `nil` ([#11](https://github.com/blksheep80/ex_pipedrive/issues/11)).
 7. **Write bodies** — partial `Jason.Encoder` on structs defines POST/PUT payload shape.
-8. **Webhooks** — v1 payload (`current`/`previous`/`meta`), Plug + Registry started in core OTP app ([#14](https://github.com/blksheep80/ex_pipedrive/issues/14)).
+8. **Webhooks** — v1 payload (`current`/`previous`/`meta`); Plug router is optional (#27); host supplies `on_event/1` ([#14](https://github.com/blksheep80/ex_pipedrive/issues/14)).
 
 ---
 
@@ -145,15 +145,18 @@ Entities: `Deal`, `Person`, `Organization`, `Lead`, `LeadPerson`, `LeadOrganizat
 
 ### Dependencies
 
-| Dep | Env | Used by | Decision | Follow-up |
+Reviewed for [#27](https://github.com/blksheep80/ex_pipedrive/issues/27) (2026-07-30). Core stays free of Phoenix/Oban; Plug is not a transitive runtime requirement.
+
+| Dep | Env | Used by | Decision | Notes |
 |---|---|---|---|---|
-| `tesla` | runtime | All HTTP | **Keep** | — |
-| `jason` | runtime | JSON | **Keep** | — |
-| `typed_struct` | runtime | Entities | **Keep** | — |
-| `plug` | runtime | `Incoming.Handler` | **Move optional** | #27 |
-| `plug_cowboy` | test | Fake server | **Keep (test)** | #12 |
-| `timex` | runtime (!) | Test fakes only | **Remove** | #27 |
+| `tesla` | runtime | All HTTP | **Keep** | Locked HTTP client (HANDOFF) |
+| `jason` | runtime | JSON | **Keep** | Required with Tesla JSON |
+| `typed_struct` | runtime | Entities | **Keep** | Re-evaluate in #32 if needed |
+| `plug` | **optional** | `Incoming.Handler` only | **Optional** | Consumers add `{:plug, ">= 1.16.0"}` for webhooks; module gated with `Code.ensure_loaded?(Plug.Router)` |
+| `plug_cowboy` | test | Fake server | **Keep (test)** | Rebuild with #12 |
+| `timex` | — | — | **Removed** | Was test-only; fakes use `Date.to_iso8601/1` |
 | `credo`, `dialyxir`, `ex_doc` | dev | Tooling | **Keep** | — |
+| Phoenix / Oban | — | — | **Out of core** | Future optional packages |
 
 ---
 
@@ -205,8 +208,8 @@ Per [HANDOFF.md](HANDOFF.md) foundation order:
 1. ~~#1 Rebrand~~ (done)
 2. ~~#2 Audit~~ (this doc)
 3. #14 Remove silent OTP/Registry coupling
-4. #27 Slim core dependencies (`timex`, runtime `plug`)
+4. ~~#27 Slim core dependencies~~ (done — Timex removed; Plug optional)
 5. #3 v2-first client foundation
 6. #4, #5, #11, #12, #7, #8, #9, #10
 
-Do not start API v2 resource work until #14 and #27 (or explicit scoping) clear the core surface for a lean v2 client.
+Do not start API v2 resource work until the lean core surface is clear (#14/#27 done) or the human explicitly scopes earlier.
