@@ -12,7 +12,8 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **v2 client foundation** ([#3](https://github.com/blksheep80/ex_pipedrive/issues/3), [#37](https://github.com/blksheep80/ex_pipedrive/pull/37)): `ExPipedrive.Client` owns base URL/`api_domain`; `ExPipedrive.Request` owns versioned paths (default `/api/v2`, explicit `:v1` fallback). Inherited resources still call v1 via `api_version: :v1` until #8/#9.
 - **Header API token auth** ([#4](https://github.com/blksheep80/ex_pipedrive/issues/4), [#38](https://github.com/blksheep80/ex_pipedrive/pull/38)): default `x-api-token` header; legacy `auth: :query` isolated for transitional v1 only.
 - **Structured errors** ([#5](https://github.com/blksheep80/ex_pipedrive/issues/5), [#39](https://github.com/blksheep80/ex_pipedrive/pull/39)): `ExPipedrive.Error` + `ExPipedrive.Response` normalize API vs transport failures.
-- On `main`, up to date with `origin/main`. Next foundation item: [#11](https://github.com/blksheep80/ex_pipedrive/issues/11) entity structs for v2 shapes.
+- **Entity structs (Deal/Person)** ([#11](https://github.com/blksheep80/ex_pipedrive/issues/11)): v2-aware decoding — flat IDs, `custom_fields`, RFC3339 timestamps; v1 nested IDs still work; `original_object` retained.
+- Branch `feat/v2-entity-structs` (bead `expd-1kk`) — not yet on `main`.
 
 ## Locked decisions
 
@@ -61,7 +62,7 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 5. ~~#3 v2-first client foundation~~ (done)
 6. ~~#4 Header-based API token auth (`x-api-token`)~~ (done)
 7. ~~#5 Structured `ExPipedrive.Error`~~ (done)
-8. #11 Entity structs for v2 shapes
+8. ~~#11 Entity structs for v2 shapes~~ (done on `feat/v2-entity-structs` — Deal/Person)
 9. #12 Rebuild fake-server fixtures for v2
 10. #7 Cursor pagination + Stream
 11. #8 Deals v2 / #9 Persons v2 / #10 MVP docs+tests

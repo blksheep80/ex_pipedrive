@@ -44,7 +44,7 @@ defmodule ExPipedrive.Persons.ListPersonsTest do
                     update_time: ~N[2023-02-22 22:05:25],
                     delete_time: nil,
                     add_time: ~N[2022-07-09 15:16:26],
-                    visible_to: "3",
+                    visible_to: 3,
                     next_activity_date: ~D[2022-07-20],
                     next_activity_time: nil,
                     next_activity_id: 5,
