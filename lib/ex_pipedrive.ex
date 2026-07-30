@@ -37,6 +37,8 @@ defmodule ExPipedrive do
   defdelegate stream_persons(client, opts \\ []), to: ExPipedrive.Persons
   defdelegate list_pipeline_deals(client, pipeline_id), to: ExPipedrive.Pipelines
   defdelegate list_pipelines(client), to: ExPipedrive.Pipelines
+  defdelegate list_products_page(client, opts \\ []), to: ExPipedrive.Products
+  defdelegate stream_products(client, opts \\ []), to: ExPipedrive.Products
   defdelegate search_deals(client, term, opts), to: ExPipedrive.Deals
   defdelegate search_leads(client, term, opts), to: ExPipedrive.Leads
   defdelegate search_organizations(client, term, opts), to: ExPipedrive.Organizations
