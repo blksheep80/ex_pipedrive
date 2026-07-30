@@ -19,12 +19,10 @@ defmodule ExPipedrive.Response do
           {:ok, term()} | {:error, Error.t()}
   def map({:ok, %Tesla.Env{status: status, body: body} = env}, success_statuses, fun)
       when is_list(success_statuses) and is_function(fun, 1) do
-    cond do
-      status in success_statuses and not api_failure?(body) ->
-        {:ok, fun.(env)}
-
-      true ->
-        {:error, Error.from_env(env)}
+    if status in success_statuses and not api_failure?(body) do
+      {:ok, fun.(env)}
+    else
+      {:error, Error.from_env(env)}
     end
   end
 
