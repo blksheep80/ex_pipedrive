@@ -20,7 +20,7 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **Hex / docs / CI prep** ([#28](https://github.com/blksheep80/ex_pipedrive/issues/28), [#45](https://github.com/blksheep80/ex_pipedrive/pull/45)): version `0.1.0`, CHANGELOG, ExDoc config, CI matrix, Hex publish workflow. Cut GitHub Release `v0.1.0` (with `HEX_API_KEY`) to publish.
 - **Quality tooling** ([#32](https://github.com/blksheep80/ex_pipedrive/issues/32)): `doctor` gate; TypedStruct kept; Sobelow/ExMachina skipped; Dialyzer local-only for now (AUDIT).
 - On `main`, v0.1 foundation is complete. **v0.2** resource epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17) children [#47](https://github.com/blksheep80/ex_pipedrive/issues/47)–[#52](https://github.com/blksheep80/ex_pipedrive/issues/52) are done (Organizations–Search). Product variations remain a follow-up. Upstream search-options decision [#24](https://github.com/blksheep80/ex_pipedrive/issues/24): v2 `Search` uses explicit opts (`item_types`, `fields`, `exact_match`, …) instead of opaque keyword merge from LineDrive PR #22.
-- **Raw escape hatch** ([#15](https://github.com/blksheep80/ex_pipedrive/issues/15)): `ExPipedrive.Raw.request/4` on `feature/raw-escape-hatch` (ready to PR).
+- **Raw escape hatch** ([#15](https://github.com/blksheep80/ex_pipedrive/issues/15), [#59](https://github.com/blksheep80/ex_pipedrive/pull/59)): `ExPipedrive.Raw.request/4` for unsupported v1/v2 endpoints (query/body/headers pass-through; shared auth/JSON/`Error` normalization).
 
 ## Locked decisions
 
@@ -66,10 +66,9 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **Next v0.2:**
 
-1. [#15](https://github.com/blksheep80/ex_pipedrive/issues/15) Raw escape hatch (branch `feature/raw-escape-hatch`)
-2. [#16](https://github.com/blksheep80/ex_pipedrive/issues/16) Resource behaviour
-3. [#13](https://github.com/blksheep80/ex_pipedrive/issues/13) rate-limit/telemetry
-4. [#18](https://github.com/blksheep80/ex_pipedrive/issues/18) Leads/Notes v1 shim, [#19](https://github.com/blksheep80/ex_pipedrive/issues/19) ex_pipedrive_web
+1. [#16](https://github.com/blksheep80/ex_pipedrive/issues/16) Resource behaviour
+2. [#13](https://github.com/blksheep80/ex_pipedrive/issues/13) rate-limit/telemetry
+3. [#18](https://github.com/blksheep80/ex_pipedrive/issues/18) Leads/Notes v1 shim, [#19](https://github.com/blksheep80/ex_pipedrive/issues/19) ex_pipedrive_web
 
 Also: close [#24](https://github.com/blksheep80/ex_pipedrive/issues/24) with the Search redesign decision.
 
@@ -78,7 +77,7 @@ Also: close [#24](https://github.com/blksheep80/ex_pipedrive/issues/24) with the
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Finish or land #15 Raw if still open; next #16 Resource behaviour, then #13 rate-limit/telemetry. Prefer small PRs. Do not publish Hex unless asked.
+Open HANDOFF.md. Next v0.2: #16 Resource behaviour, then #13 rate-limit/telemetry. Prefer small PRs. Do not publish Hex unless asked.
 ```
 
 ## How to resume
