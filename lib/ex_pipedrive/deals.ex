@@ -3,8 +3,9 @@ defmodule ExPipedrive.Deals do
   Pipedrive deals resource.
 
   v2-first helpers (`get/2`, `create/2`, `update/3`, `delete/2`, `list_page/2`,
-  `stream/2`) talk to `/api/v2/deals`. Legacy `get_deal/2`, `list_deals/2`, and
-  `search_deals/3` remain on API v1 for compatibility.
+  `stream/2`) talk to `/api/v2/deals`. Prefer `ExPipedrive.Search.search_deals/3`
+  (or `search_v2/3` here) for v2 itemSearch. Legacy `get_deal/2`, `list_deals/2`,
+  and `search_deals/3` remain on API v1 for compatibility.
   """
 
   alias ExPipedrive.Cursor
@@ -13,6 +14,7 @@ defmodule ExPipedrive.Deals do
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
   alias ExPipedrive.Response
+  alias ExPipedrive.Search
   alias ExPipedrive.WriteAttrs
   alias Tesla.Client
 
@@ -169,5 +171,12 @@ defmodule ExPipedrive.Deals do
       |> Map.get("items")
       |> Enum.map(fn item_container -> Deal.new(Map.get(item_container, "item")) end)
     end)
+  end
+
+  @doc """
+  Searches deals via API v2 itemSearch. See `ExPipedrive.Search.search_deals/3`.
+  """
+  def search_v2(%Client{} = client, term, opts \\ []) do
+    Search.search_deals(client, term, opts)
   end
 end

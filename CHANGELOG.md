@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stages v2: list/stream (cursor), get, create, update, delete; typed Stage; v2 fake fixtures
 - Products v2: list/stream (cursor), get, create, update, delete; typed Product; v2 fake fixtures
   (product variations deferred)
+- Search v2: `ExPipedrive.Search` over `/api/v2/itemSearch` with cursor pages/stream;
+  typed `SearchResult` unwrap of `items[].item`; deals/persons/orgs helpers; v2 fake fixtures
+  (explicit opts cover upstream #24 intent; field search deferred)
 
 ## [0.1.0] - 2026-07-30
 
