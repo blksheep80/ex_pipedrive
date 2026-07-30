@@ -6,6 +6,7 @@ defmodule ExPipedrive.FakeServer.V2FixturesTest do
   alias ExPipedrive.Error
   alias ExPipedrive.Organization
   alias ExPipedrive.Person
+  alias ExPipedrive.Product
   alias ExPipedrive.Request
   alias ExPipedrive.Response
 
@@ -177,6 +178,57 @@ defmodule ExPipedrive.FakeServer.V2FixturesTest do
                |> Response.map([200], fn %{body: %{"data" => data}} -> Activity.new(data) end)
 
       assert activity.subject == "Updated"
+    end
+  end
+
+  describe "v2 products fixtures" do
+    test "get product returns v2 shape that Product.new/1 understands", %{client: client} do
+      assert {:ok, product} =
+               client
+               |> Request.get("products/:id", opts: [path_params: [id: 1]])
+               |> Response.map([200], fn %{body: %{"data" => data}} -> Product.new(data) end)
+
+      assert product.id == 1
+      assert product.owner_id == 15_783_886
+      assert product.name == "Widget"
+      assert product.is_linkable == true
+      assert product.custom_fields["53c2f18db6a1655d6af8bba77d9679565f975fd8"] == "Catalog SKU"
+      assert %DateTime{} = product.add_time
+      assert product.original_object["is_deleted"] == false
+    end
+
+    test "list products returns cursor pagination", %{client: client} do
+      assert {:ok, %{body: body}} = Request.get(client, "products")
+      assert body["additional_data"]["next_cursor"] == "products-page-2"
+      assert length(body["data"]) == 2
+
+      assert {:ok, %{body: page2}} =
+               Request.get(client, "products", query: [cursor: "products-page-2"])
+
+      assert page2["additional_data"]["next_cursor"] == nil
+      assert length(page2["data"]) == 1
+    end
+
+    test "create product returns 201 v2 payload", %{client: client} do
+      assert {:ok, product} =
+               client
+               |> Request.post("products", %{"name" => "New product", "code" => "NP-1"})
+               |> Response.map([201], fn %{body: %{"data" => data}} -> Product.new(data) end)
+
+      assert product.id == 99
+      assert product.name == "New product"
+      assert product.code == "NP-1"
+    end
+
+    test "update product patches fields", %{client: client} do
+      assert {:ok, product} =
+               client
+               |> Request.patch("products/:id", %{"name" => "Updated"},
+                 opts: [path_params: [id: 1]]
+               )
+               |> Response.map([200], fn %{body: %{"data" => data}} -> Product.new(data) end)
+
+      assert product.name == "Updated"
     end
   end
 
