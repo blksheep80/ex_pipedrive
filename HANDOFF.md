@@ -19,7 +19,7 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **OAuth Token + TokenStore** ([#6](https://github.com/blksheep80/ex_pipedrive/issues/6), [#44](https://github.com/blksheep80/ex_pipedrive/pull/44)): `Oauth.Token`, `exchange_authorization_code` / `refresh` / `ensure_fresh`, pluggable `TokenStore` (+ Memory), `Client.from_token` / `from_token_store`.
 - **Hex / docs / CI prep** ([#28](https://github.com/blksheep80/ex_pipedrive/issues/28), [#45](https://github.com/blksheep80/ex_pipedrive/pull/45)): version `0.1.0`, CHANGELOG, ExDoc config, CI matrix, Hex publish workflow. Cut GitHub Release `v0.1.0` (with `HEX_API_KEY`) to publish.
 - **Quality tooling** ([#32](https://github.com/blksheep80/ex_pipedrive/issues/32)): `doctor` gate; TypedStruct kept; Sobelow/ExMachina skipped; Dialyzer local-only for now (AUDIT).
-- On `main`, v0.1 foundation is complete. **v0.2** is underway: resource epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17) split into [#47](https://github.com/blksheep80/ex_pipedrive/issues/47)–[#52](https://github.com/blksheep80/ex_pipedrive/issues/52). Organizations [#53](https://github.com/blksheep80/ex_pipedrive/pull/53), Activities [#54](https://github.com/blksheep80/ex_pipedrive/pull/54), and Pipelines [#55](https://github.com/blksheep80/ex_pipedrive/pull/55) merged; Stages v2 on `feature/stages-v2` (bead `expd-9e4`).
+- On `main`, v0.1 foundation is complete. **v0.2** is underway: resource epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17) split into [#47](https://github.com/blksheep80/ex_pipedrive/issues/47)–[#52](https://github.com/blksheep80/ex_pipedrive/issues/52). Organizations [#53](https://github.com/blksheep80/ex_pipedrive/pull/53), Activities [#54](https://github.com/blksheep80/ex_pipedrive/pull/54), Pipelines [#55](https://github.com/blksheep80/ex_pipedrive/pull/55), and Stages [#56](https://github.com/blksheep80/ex_pipedrive/pull/56) merged. Next: Products [#51](https://github.com/blksheep80/ex_pipedrive/issues/51) / Search [#52](https://github.com/blksheep80/ex_pipedrive/issues/52).
 
 ## Locked decisions
 
@@ -66,7 +66,7 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 1. [#47](https://github.com/blksheep80/ex_pipedrive/issues/47) Organizations v2 (done — [#53](https://github.com/blksheep80/ex_pipedrive/pull/53))
 2. [#48](https://github.com/blksheep80/ex_pipedrive/issues/48) Activities v2 (done — [#54](https://github.com/blksheep80/ex_pipedrive/pull/54))
 3. [#49](https://github.com/blksheep80/ex_pipedrive/issues/49) Pipelines v2 (done — [#55](https://github.com/blksheep80/ex_pipedrive/pull/55))
-4. [#50](https://github.com/blksheep80/ex_pipedrive/issues/50) Stages v2 (in progress — [#56](https://github.com/blksheep80/ex_pipedrive/pull/56))
+4. [#50](https://github.com/blksheep80/ex_pipedrive/issues/50) Stages v2 (done — [#56](https://github.com/blksheep80/ex_pipedrive/pull/56))
 5. [#51](https://github.com/blksheep80/ex_pipedrive/issues/51) Products v2
 6. [#52](https://github.com/blksheep80/ex_pipedrive/issues/52) Search v2
 
@@ -77,7 +77,7 @@ Also open for v0.2: [#15](https://github.com/blksheep80/ex_pipedrive/issues/15) 
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md and claim Organizations v2 (#47 / expd-ruk) or the next ready v0.2 child under #17. Prefer small PRs. Do not publish Hex unless asked.
+Open HANDOFF.md and claim Products v2 (#51) or Search v2 (#52) under epic #17. Prefer small PRs. Do not publish Hex unless asked.
 ```
 
 ## How to resume
