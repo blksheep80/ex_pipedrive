@@ -4,6 +4,7 @@ defmodule ExPipedrive.FakeServer.V2FixturesTest do
   alias ExPipedrive.Activity
   alias ExPipedrive.Deal
   alias ExPipedrive.Error
+  alias ExPipedrive.Organization
   alias ExPipedrive.Person
   alias ExPipedrive.Request
   alias ExPipedrive.Response
@@ -88,6 +89,43 @@ defmodule ExPipedrive.FakeServer.V2FixturesTest do
 
       assert person.id == 99
       assert person.name == "Ada Lovelace"
+    end
+  end
+
+  describe "v2 organizations fixtures" do
+    test "get organization returns v2 shape that Organization.new/1 understands", %{
+      client: client
+    } do
+      assert {:ok, org} =
+               client
+               |> Request.get("organizations/:id", opts: [path_params: [id: 1]])
+               |> Response.map([200], fn %{body: %{"data" => data}} ->
+                 Organization.new(data)
+               end)
+
+      assert org.id == 1
+      assert org.owner_id == 15_783_886
+      assert org.address == "123 Main St, Cincinnati, OH 45202"
+      assert org.custom_fields["53c2f18db6a1655d6af8bba77d9679565f975fd8"] == "Enterprise"
+      assert %DateTime{} = org.add_time
+    end
+
+    test "list organizations returns cursor pagination", %{client: client} do
+      assert {:ok, %{body: body}} = Request.get(client, "organizations")
+      assert body["additional_data"]["next_cursor"] == "orgs-page-2"
+      assert length(body["data"]) == 2
+    end
+
+    test "create organization returns 201 v2 payload", %{client: client} do
+      assert {:ok, org} =
+               client
+               |> Request.post("organizations", %{"name" => "Ada Corp"})
+               |> Response.map([201], fn %{body: %{"data" => data}} ->
+                 Organization.new(data)
+               end)
+
+      assert org.id == 99
+      assert org.name == "Ada Corp"
     end
   end
 

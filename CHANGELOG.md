@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Organizations v2: list/stream (cursor), get, create, update, delete; v2 fake fixtures
 - Activities v2: list/stream (cursor), get, create, update, delete; v2 fake fixtures
 
 ## [0.1.0] - 2026-07-30
