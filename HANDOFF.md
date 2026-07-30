@@ -25,6 +25,9 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **Rate-limit / telemetry** ([#13](https://github.com/blksheep80/ex_pipedrive/issues/13), [#61](https://github.com/blksheep80/ex_pipedrive/pull/61)): `Middleware.Retry` (429/`Retry-After`, 502–504), `Middleware.Telemetry` (`[:ex_pipedrive, :request, …]`), `RateLimit` parser, Client `:retry`/`:telemetry`/`:middleware`.
 - **Leads / Notes v1 shims** ([#18](https://github.com/blksheep80/ex_pipedrive/issues/18), [#62](https://github.com/blksheep80/ex_pipedrive/pull/62)): explicit v1 routing, map writes, `get/create/list` aliases.
 - **Webhook surface** ([#19](https://github.com/blksheep80/ex_pipedrive/issues/19), [#63](https://github.com/blksheep80/ex_pipedrive/pull/63)): `Webhook.Event` / `Webhook.Handler`; optional Basic auth; package extract deferred.
+- **Webhook subscriptions** ([#23](https://github.com/blksheep80/ex_pipedrive/issues/23), [#64](https://github.com/blksheep80/ex_pipedrive/pull/64)): `ExPipedrive.Webhooks` create/list/delete (API v1 management).
+- **Fields helpers** ([#22](https://github.com/blksheep80/ex_pipedrive/issues/22), [#65](https://github.com/blksheep80/ex_pipedrive/pull/65)): v2 Deal/Person/Org Fields list/stream + `ExPipedrive.Fields` key/label resolve.
+- **Upstream #25**: skipped — LineDrive PR #26 is mistitled; only v1 `pipeline_id` filter (already covered by v2 `Deals.list_page/stream`).
 
 ## Locked decisions
 
@@ -72,19 +75,16 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **Next (v0.3 / optional):**
 
-1. [#22](https://github.com/blksheep80/ex_pipedrive/issues/22) Fields API helpers
-2. [#23](https://github.com/blksheep80/ex_pipedrive/issues/23) Webhooks API (subscription CRUD)
-3. [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) / [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) optional Oban / Phoenix OAuth packages
-4. Extract `ex_pipedrive_web` Hex package from the in-repo webhook surface (#19)
+1. [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) / [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) optional Oban / Phoenix OAuth packages
+2. Extract `ex_pipedrive_web` Hex package from the in-repo webhook surface (#19)
+3. Activity/Product Fields (if needed beyond Deal/Person/Org)
 
-Upstream decision [#25](https://github.com/blksheep80/ex_pipedrive/issues/25) (weighted pipeline history) still open.
-
-**Upstream carryovers:** [#24](https://github.com/blksheep80/ex_pipedrive/issues/24) closed (Search redesign). Still open: [#25](https://github.com/blksheep80/ex_pipedrive/issues/25) (LineDrive PR #26 weighted pipeline history).
+**Upstream carryovers:** [#24](https://github.com/blksheep80/ex_pipedrive/issues/24) and [#25](https://github.com/blksheep80/ex_pipedrive/issues/25) closed.
 
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. v0.2 core track is done. Next candidates: #22 Fields helpers, #23 Webhooks API, or #25 upstream pipeline-history decision. Prefer small PRs. Do not publish Hex unless asked.
+Open HANDOFF.md. Core SDK track through Fields/Webhooks is done. Next: optional packages (#20 Oban, #21 Phoenix OAuth) or extract ex_pipedrive_web. Prefer small PRs. Do not publish Hex unless asked.
 ```
 
 ## How to resume
