@@ -21,6 +21,21 @@ erl_crash.dump
 
 # Ignore package tarball (built via "mix hex.build").
 line_drive-*.tar
+ex_pipedrive-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Firecrawl CLI scratch output
+.firecrawl/
+
+# devenv / direnv
+/.direnv
+/.devenv*
+/devenv.local.nix
+.envrc.local
+
+# Beads / Dolt (runtime details also covered by .beads/.gitignore)
+.dolt/
+*.db
+.beads-credential-key
