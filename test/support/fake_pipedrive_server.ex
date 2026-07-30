@@ -8,6 +8,7 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   import ExPipedrive.FakeActivityApiHandler
   import ExPipedrive.FakeActivityTypeApiHandler
+  import ExPipedrive.FakeActivityV2ApiHandler
   import ExPipedrive.FakeDealApiHandler
   import ExPipedrive.FakeDealFieldApiHandler
   import ExPipedrive.FakeDealV2ApiHandler
@@ -15,10 +16,12 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeNoteApiHandler
   import ExPipedrive.FakeOrganizationApiHandler
   import ExPipedrive.FakeOrganizationFieldApiHandler
+  import ExPipedrive.FakeOrganizationV2ApiHandler
   import ExPipedrive.FakePersonApiHandler
   import ExPipedrive.FakePersonFieldApiHandler
   import ExPipedrive.FakePersonV2ApiHandler
   import ExPipedrive.FakePipelineApiHandler
+  import ExPipedrive.FakePipelineV2ApiHandler
   import ExPipedrive.FakeStageV2ApiHandler
 
   plug(:match)
@@ -193,7 +196,7 @@ defmodule ExPipedrive.FakePipedriveServer do
     |> handle_list_own_activities()
   end
 
-  # --- API v2 (MVP deals + persons) ---
+  # --- API v2 (deals + persons + organizations + activities + pipelines + stages) ---
 
   get "/api/v2/deals" do
     handle_list_deals_v2(conn, conn.query_params)
@@ -229,6 +232,66 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   get "/api/v2/persons/:id" do
     handle_get_person_v2(conn, conn.params)
+  end
+
+  get "/api/v2/organizations" do
+    handle_list_organizations_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/organizations" do
+    handle_create_organization_v2(conn)
+  end
+
+  patch "/api/v2/organizations/:id" do
+    handle_update_organization_v2(conn)
+  end
+
+  delete "/api/v2/organizations/:id" do
+    handle_delete_organization_v2(conn, conn.params)
+  end
+
+  get "/api/v2/organizations/:id" do
+    handle_get_organization_v2(conn, conn.params)
+  end
+
+  get "/api/v2/activities" do
+    handle_list_activities_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/activities" do
+    handle_create_activity_v2(conn)
+  end
+
+  patch "/api/v2/activities/:id" do
+    handle_update_activity_v2(conn)
+  end
+
+  delete "/api/v2/activities/:id" do
+    handle_delete_activity_v2(conn, conn.params)
+  end
+
+  get "/api/v2/activities/:id" do
+    handle_get_activity_v2(conn, conn.params)
+  end
+
+  get "/api/v2/pipelines" do
+    handle_list_pipelines_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/pipelines" do
+    handle_create_pipeline_v2(conn)
+  end
+
+  patch "/api/v2/pipelines/:id" do
+    handle_update_pipeline_v2(conn)
+  end
+
+  delete "/api/v2/pipelines/:id" do
+    handle_delete_pipeline_v2(conn, conn.params)
+  end
+
+  get "/api/v2/pipelines/:id" do
+    handle_get_pipeline_v2(conn, conn.params)
   end
 
   get "/api/v2/stages" do
