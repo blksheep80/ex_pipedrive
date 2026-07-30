@@ -109,8 +109,11 @@ mix deps.get
 mix test
 mix format --check-formatted
 mix credo --strict
+mix doctor
 mix docs
 ```
+
+Dialyzer (`mix dialyzer`) is optional locally before releases; not required in CI yet (see [AUDIT.md](AUDIT.md) tooling decisions).
 
 ### Hex release
 

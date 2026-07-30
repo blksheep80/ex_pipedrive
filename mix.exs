@@ -37,6 +37,7 @@ defmodule ExPipedrive.MixProject do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:doctor, "~> 0.22", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
       {:jason, "~> 1.3"},
       {:plug, ">= 1.16.0", optional: true},

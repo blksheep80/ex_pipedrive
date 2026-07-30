@@ -49,6 +49,10 @@ jobs:
       - name: Run credo
         run: mix credo --strict
 
+      - name: Run doctor
+        if: matrix.elixir == '1.17.2'
+        run: mix doctor
+
       - name: Run tests
         run: mix test
 
