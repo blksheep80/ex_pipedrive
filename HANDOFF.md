@@ -15,8 +15,9 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **Entity structs (Deal/Person)** ([#11](https://github.com/blksheep80/ex_pipedrive/issues/11), [#40](https://github.com/blksheep80/ex_pipedrive/pull/40)): v2-aware decoding — flat IDs, `custom_fields`, RFC3339 timestamps; v1 nested IDs still work; `original_object` retained.
 - **v2 fake fixtures** ([#12](https://github.com/blksheep80/ex_pipedrive/issues/12), [#41](https://github.com/blksheep80/ex_pipedrive/pull/41)): FakePipedriveServer serves `/api/v2/deals` + `/api/v2/persons` with cursor + error samples.
 - **Cursor pagination + Stream** ([#7](https://github.com/blksheep80/ex_pipedrive/issues/7), [#42](https://github.com/blksheep80/ex_pipedrive/pull/42)): `ExPipedrive.Page` / `Cursor.stream/2`; `list_deals_page` / `stream_deals` (+ persons).
-- **Deals / Persons v2 + MVP flows** ([#8](https://github.com/blksheep80/ex_pipedrive/issues/8) / [#9](https://github.com/blksheep80/ex_pipedrive/issues/9) / [#10](https://github.com/blksheep80/ex_pipedrive/issues/10)): v2 get/create/update/(deal)delete; map-in write attrs; README + fake-server MVP flows.
-- On `main`, up to date with `origin/main` after that lands. Next: Hex packaging / remaining roadmap beyond v0.1 MVP proof flows.
+- **Deals / Persons v2 + MVP flows** ([#8](https://github.com/blksheep80/ex_pipedrive/issues/8) / [#9](https://github.com/blksheep80/ex_pipedrive/issues/9) / [#10](https://github.com/blksheep80/ex_pipedrive/issues/10), [#43](https://github.com/blksheep80/ex_pipedrive/pull/43)): v2 get/create/update/(deal)delete; map-in write attrs; README + fake-server MVP flows.
+- **OAuth Token + TokenStore** ([#6](https://github.com/blksheep80/ex_pipedrive/issues/6)): `Oauth.Token`, `exchange_authorization_code` / `refresh` / `ensure_fresh`, pluggable `TokenStore` (+ Memory), `Client.from_token` / `from_token_store`.
+- On `main`, up to date with `origin/main` after that lands. Next: [#28](https://github.com/blksheep80/ex_pipedrive/issues/28) Hex/docs/CI · [#32](https://github.com/blksheep80/ex_pipedrive/issues/32) quality tooling.
 
 ## Locked decisions
 
@@ -69,6 +70,8 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 9. ~~#12 Rebuild fake-server fixtures for v2~~ (done)
 10. ~~#7 Cursor pagination + Stream~~ (done)
 11. ~~#8 Deals v2 / #9 Persons v2 / #10 MVP docs+tests~~ (done)
+12. ~~#6 OAuth token structs + pluggable TokenStore~~ (done)
+13. #28 Hex / ExDoc / CHANGELOG / CI · #32 doctor / TypedStruct decision
 
 **Upstream carryovers:** no open upstream *issues* at fork time. Open PRs tracked as decisions: #24 (PR #22 search options), #25 (PR #26 weighted pipeline history).
 

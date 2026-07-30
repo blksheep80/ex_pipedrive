@@ -12,9 +12,17 @@ defmodule ExPipedrive.Client do
   Pipedrive API v1 and v2). Legacy query-param auth (`?api_token=...`) is
   available only via `auth: :query` for transitional v1 callers and should not
   be used for new code.
+
+  ## OAuth
+
+  Prefer `from_token/2` with an `ExPipedrive.Oauth.Token` bundle. Use
+  `ExPipedrive.Oauth.ensure_fresh/4` (and a `TokenStore`) before building a
+  client when tokens may be near expiry. `from_oauth/4` remains a one-shot
+  refresh helper for scripts.
   """
 
   alias ExPipedrive.Oauth
+  alias ExPipedrive.Oauth.Token
 
   @type auth_mode :: :header | :query
 
@@ -40,9 +48,43 @@ defmodule ExPipedrive.Client do
       Tesla.Middleware.PathParams
     ]
 
-    case adapter do
-      nil -> Tesla.client(middleware)
-      adapter -> Tesla.client(middleware, adapter)
+    build_client(middleware, adapter)
+  end
+
+  @doc """
+  Builds a Tesla client from an OAuth `Token` (Bearer + `api_domain`).
+
+  Does not refresh. Call `Oauth.ensure_fresh/4` first when needed.
+  """
+  @spec from_token(Token.t(), keyword()) :: Tesla.Client.t()
+  def from_token(%Token{access_token: access_token, api_domain: api_domain}, opts \\ [])
+      when is_binary(access_token) and is_binary(api_domain) do
+    adapter = Keyword.get(opts, :adapter)
+
+    middleware = [
+      {Tesla.Middleware.BaseUrl, base_url(api_domain)},
+      {Tesla.Middleware.BearerAuth, token: access_token},
+      {Tesla.Middleware.JSON, engine: Jason},
+      Tesla.Middleware.PathParams
+    ]
+
+    build_client(middleware, adapter)
+  end
+
+  @doc """
+  Ensures the token is fresh (refreshing if needed), optionally persists it,
+  and builds a Tesla client.
+
+  Options:
+  - `:store` / `:store_id` — when both set, saves the (possibly refreshed) token
+  - `:skew_seconds`, `:adapter`, and other `Oauth.ensure_fresh/4` options
+  """
+  @spec from_token_store(Token.t(), String.t(), String.t(), keyword()) ::
+          {:ok, Tesla.Client.t(), Token.t()} | {:error, term()}
+  def from_token_store(%Token{} = token, client_id, client_secret, opts \\ []) do
+    with {:ok, fresh} <- Oauth.ensure_fresh(token, client_id, client_secret, opts),
+         :ok <- maybe_persist(fresh, opts) do
+      {:ok, from_token(fresh, opts), fresh}
     end
   end
 
@@ -50,22 +92,18 @@ defmodule ExPipedrive.Client do
   Builds a Tesla client by refreshing an OAuth access token once.
 
   Returns `{:ok, client}` or `{:error, reason}` from the token refresh.
+  Prefer `from_token/2` / `from_token_store/4` when you already hold a `Token`.
   """
-  @spec from_oauth(String.t(), String.t(), String.t(), String.t()) ::
+  @spec from_oauth(String.t(), String.t(), String.t(), String.t(), keyword()) ::
           {:ok, Tesla.Client.t()} | {:error, term()}
-  def from_oauth(refresh_token, client_id, client_secret, api_domain)
+  def from_oauth(refresh_token, client_id, client_secret, api_domain, opts \\ [])
       when is_binary(refresh_token) and is_binary(client_id) and is_binary(client_secret) and
              is_binary(api_domain) do
-    case Oauth.refresh_access_token(refresh_token, client_id, client_secret) do
-      {:ok, access_token} ->
-        middleware = [
-          {Tesla.Middleware.BaseUrl, base_url(api_domain)},
-          {Tesla.Middleware.BearerAuth, token: access_token},
-          {Tesla.Middleware.JSON, engine: Jason},
-          Tesla.Middleware.PathParams
-        ]
+    refresh_opts = Keyword.put_new(opts, :default_api_domain, api_domain)
 
-        {:ok, Tesla.client(middleware)}
+    case Oauth.refresh(refresh_token, client_id, client_secret, refresh_opts) do
+      {:ok, %Token{} = token} ->
+        {:ok, from_token(token, opts)}
 
       {:error, error} ->
         {:error, error}
@@ -82,6 +120,20 @@ defmodule ExPipedrive.Client do
     |> String.trim_trailing("/")
     |> ensure_scheme()
   end
+
+  defp maybe_persist(token, opts) do
+    store = Keyword.get(opts, :store)
+    store_id = Keyword.get(opts, :store_id)
+
+    if store && store_id do
+      store.put(store_id, token)
+    else
+      :ok
+    end
+  end
+
+  defp build_client(middleware, nil), do: Tesla.client(middleware)
+  defp build_client(middleware, adapter), do: Tesla.client(middleware, adapter)
 
   defp auth_middleware(api_token, :header) do
     {Tesla.Middleware.Headers, [{"x-api-token", api_token}]}
