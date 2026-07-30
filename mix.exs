@@ -77,6 +77,7 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive,
           ExPipedrive.Client,
           ExPipedrive.Request,
+          ExPipedrive.Raw,
           ExPipedrive.Response,
           ExPipedrive.Error,
           ExPipedrive.Page,
