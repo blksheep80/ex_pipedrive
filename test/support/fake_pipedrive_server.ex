@@ -10,12 +10,14 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeActivityTypeApiHandler
   import ExPipedrive.FakeDealApiHandler
   import ExPipedrive.FakeDealFieldApiHandler
+  import ExPipedrive.FakeDealV2ApiHandler
   import ExPipedrive.FakeLeadApiHandler
   import ExPipedrive.FakeNoteApiHandler
   import ExPipedrive.FakeOrganizationApiHandler
   import ExPipedrive.FakeOrganizationFieldApiHandler
   import ExPipedrive.FakePersonApiHandler
   import ExPipedrive.FakePersonFieldApiHandler
+  import ExPipedrive.FakePersonV2ApiHandler
   import ExPipedrive.FakePipelineApiHandler
 
   plug(:match)
@@ -188,6 +190,40 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_list_own_activities()
+  end
+
+  # --- API v2 (MVP deals + persons) ---
+
+  get "/api/v2/deals" do
+    handle_list_deals_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/deals" do
+    handle_create_deal_v2(conn)
+  end
+
+  patch "/api/v2/deals/:id" do
+    handle_update_deal_v2(conn)
+  end
+
+  get "/api/v2/deals/:id" do
+    handle_get_deal_v2(conn, conn.params)
+  end
+
+  get "/api/v2/persons" do
+    handle_list_persons_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/persons" do
+    handle_create_person_v2(conn)
+  end
+
+  patch "/api/v2/persons/:id" do
+    handle_update_person_v2(conn)
+  end
+
+  get "/api/v2/persons/:id" do
+    handle_get_person_v2(conn, conn.params)
   end
 
   match _ do
