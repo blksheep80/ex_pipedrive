@@ -3,7 +3,9 @@ defmodule ExPipedrive.Deals do
   This module encapsulates calls to the pipedrive deals resource API
   """
 
+  alias ExPipedrive.Cursor
   alias ExPipedrive.Deal
+  alias ExPipedrive.Page
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
   alias ExPipedrive.Response
@@ -34,6 +36,46 @@ defmodule ExPipedrive.Deals do
       %{body: %{"success" => true, "data" => data} = body} ->
         PagedResult.new(Enum.map(data, &Deal.new/1), body)
     end)
+  end
+
+  @doc """
+  Lists one page of deals via API v2 cursor pagination.
+
+  Options: `:cursor`, `:limit` (clamped to 500), plus filter query params
+  such as `:status`.
+  """
+  def list_deals_page(%Client{} = client, opts \\ []) do
+    limit = Cursor.clamp_limit(Keyword.get(opts, :limit))
+
+    query =
+      opts
+      |> Keyword.take([:cursor, :status, :owner_id, :person_id, :org_id, :pipeline_id, :stage_id])
+      |> Keyword.put(:limit, limit)
+      |> Enum.reject(fn {_k, v} -> is_nil(v) end)
+
+    client
+    |> Request.get("deals", query: query)
+    |> Response.map([200], fn %{body: body} ->
+      items =
+        body
+        |> Map.get("data")
+        |> List.wrap()
+        |> Enum.map(&Deal.new/1)
+
+      Page.from_items(items, body)
+    end)
+  end
+
+  @doc """
+  Lazily streams deals across all v2 cursor pages until `next_cursor` is nil.
+  """
+  def stream_deals(%Client{} = client, opts \\ []) do
+    Cursor.stream(
+      fn page_opts ->
+        list_deals_page(client, Keyword.merge(opts, page_opts))
+      end,
+      opts
+    )
   end
 
   def search_deals(%Client{} = client, term, opts \\ []) do
