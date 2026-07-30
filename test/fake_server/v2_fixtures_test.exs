@@ -1,8 +1,10 @@
 defmodule ExPipedrive.FakeServer.V2FixturesTest do
   use ExPipedrive.PipedriveClientCase, async: false
 
+  alias ExPipedrive.Activity
   alias ExPipedrive.Deal
   alias ExPipedrive.Error
+  alias ExPipedrive.Organization
   alias ExPipedrive.Person
   alias ExPipedrive.Request
   alias ExPipedrive.Response
@@ -87,6 +89,94 @@ defmodule ExPipedrive.FakeServer.V2FixturesTest do
 
       assert person.id == 99
       assert person.name == "Ada Lovelace"
+    end
+  end
+
+  describe "v2 organizations fixtures" do
+    test "get organization returns v2 shape that Organization.new/1 understands", %{
+      client: client
+    } do
+      assert {:ok, org} =
+               client
+               |> Request.get("organizations/:id", opts: [path_params: [id: 1]])
+               |> Response.map([200], fn %{body: %{"data" => data}} ->
+                 Organization.new(data)
+               end)
+
+      assert org.id == 1
+      assert org.owner_id == 15_783_886
+      assert org.address == "123 Main St, Cincinnati, OH 45202"
+      assert org.custom_fields["53c2f18db6a1655d6af8bba77d9679565f975fd8"] == "Enterprise"
+      assert %DateTime{} = org.add_time
+    end
+
+    test "list organizations returns cursor pagination", %{client: client} do
+      assert {:ok, %{body: body}} = Request.get(client, "organizations")
+      assert body["additional_data"]["next_cursor"] == "orgs-page-2"
+      assert length(body["data"]) == 2
+    end
+
+    test "create organization returns 201 v2 payload", %{client: client} do
+      assert {:ok, org} =
+               client
+               |> Request.post("organizations", %{"name" => "Ada Corp"})
+               |> Response.map([201], fn %{body: %{"data" => data}} ->
+                 Organization.new(data)
+               end)
+
+      assert org.id == 99
+      assert org.name == "Ada Corp"
+    end
+  end
+
+  describe "v2 activities fixtures" do
+    test "get activity returns v2 shape that Activity.new/1 understands", %{client: client} do
+      assert {:ok, activity} =
+               client
+               |> Request.get("activities/:id", opts: [path_params: [id: 1]])
+               |> Response.map([200], fn %{body: %{"data" => data}} -> Activity.new(data) end)
+
+      assert activity.id == 1
+      assert activity.owner_id == 15_783_886
+      assert activity.deal_id == 1
+      assert activity.location == "123 Main St, Cincinnati, OH 45202"
+      assert activity.busy_flag == true
+      assert activity.custom_fields["53c2f18db6a1655d6af8bba77d9679565f975fd8"] == "Follow-up"
+      assert %DateTime{} = activity.add_time
+      assert activity.original_object["is_deleted"] == false
+    end
+
+    test "list activities returns cursor pagination", %{client: client} do
+      assert {:ok, %{body: body}} = Request.get(client, "activities")
+      assert body["additional_data"]["next_cursor"] == "activities-page-2"
+      assert length(body["data"]) == 2
+
+      assert {:ok, %{body: page2}} =
+               Request.get(client, "activities", query: [cursor: "activities-page-2"])
+
+      assert page2["additional_data"]["next_cursor"] == nil
+      assert length(page2["data"]) == 1
+    end
+
+    test "create activity returns 201 v2 payload", %{client: client} do
+      assert {:ok, activity} =
+               client
+               |> Request.post("activities", %{"subject" => "New call", "type" => "call"})
+               |> Response.map([201], fn %{body: %{"data" => data}} -> Activity.new(data) end)
+
+      assert activity.id == 99
+      assert activity.subject == "New call"
+    end
+
+    test "update activity patches fields", %{client: client} do
+      assert {:ok, activity} =
+               client
+               |> Request.patch("activities/:id", %{"subject" => "Updated"},
+                 opts: [path_params: [id: 1]]
+               )
+               |> Response.map([200], fn %{body: %{"data" => data}} -> Activity.new(data) end)
+
+      assert activity.subject == "Updated"
     end
   end
 

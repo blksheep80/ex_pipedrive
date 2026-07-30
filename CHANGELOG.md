@@ -5,6 +5,14 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Organizations v2: list/stream (cursor), get, create, update, delete; v2 fake fixtures
+- Activities v2: list/stream (cursor), get, create, update, delete; v2 fake fixtures
+- Pipelines v2: list/stream (cursor), get, create, update, delete; v2 fake fixtures
+
 ## [0.1.0] - 2026-07-30
 
 First Hex release of **ExPipedrive**, a v2-first fork of
