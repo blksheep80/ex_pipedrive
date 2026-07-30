@@ -30,7 +30,7 @@ defmodule ExPipedrive.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
-  # Runtime core: jason, tesla, typed_struct.
+  # Runtime core: jason, tesla, telemetry, typed_struct.
   # plug is optional — required only for ExPipedrive.Incoming.Handler (webhooks).
   # plug_cowboy is test-only (fake Pipedrive server). Timex removed (#27).
   defp deps do
@@ -42,6 +42,7 @@ defmodule ExPipedrive.MixProject do
       {:jason, "~> 1.3"},
       {:plug, ">= 1.16.0", optional: true},
       {:plug_cowboy, "~> 2.7", only: [:test]},
+      {:telemetry, "~> 1.0"},
       {:tesla, "~> 1.12"},
       {:typed_struct, "~> 0.3.0"}
     ]
@@ -81,6 +82,9 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Resource,
           ExPipedrive.Response,
           ExPipedrive.Error,
+          ExPipedrive.RateLimit,
+          ExPipedrive.Middleware.Retry,
+          ExPipedrive.Middleware.Telemetry,
           ExPipedrive.Page,
           ExPipedrive.Cursor,
           ExPipedrive.PagedResult,

@@ -13,9 +13,12 @@ defmodule ExPipedrive.Error do
         {:error, %ExPipedrive.Error{kind: :transport} = err} -> retry?(err)
       end
 
-  Debugging context (`status`, `body`, `headers`, `request_id`, original
-  `reason`) is preserved when available.
+  Debugging context (`status`, `body`, `headers`, `request_id`, `rate_limit`,
+  original `reason`) is preserved when available. See `ExPipedrive.RateLimit`
+  for the `rate_limit` map shape.
   """
+
+  alias ExPipedrive.RateLimit
 
   defexception [
     :kind,
@@ -24,6 +27,7 @@ defmodule ExPipedrive.Error do
     :body,
     :headers,
     :request_id,
+    :rate_limit,
     :reason
   ]
 
@@ -44,6 +48,7 @@ defmodule ExPipedrive.Error do
           body: term(),
           headers: [{binary(), binary()}],
           request_id: String.t() | nil,
+          rate_limit: RateLimit.t() | nil,
           reason: term()
         }
 
@@ -76,6 +81,7 @@ defmodule ExPipedrive.Error do
       body: body,
       headers: headers,
       request_id: request_id(headers),
+      rate_limit: RateLimit.from_headers(headers),
       reason: nil
     }
   end
@@ -92,6 +98,7 @@ defmodule ExPipedrive.Error do
       body: nil,
       headers: [],
       request_id: nil,
+      rate_limit: nil,
       reason: reason
     }
   end

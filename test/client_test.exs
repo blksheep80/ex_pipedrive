@@ -30,6 +30,13 @@ defmodule ExPipedrive.ClientTest do
       end
     end
 
+    defmodule Passthrough do
+      @behaviour Tesla.Middleware
+
+      @impl true
+      def call(env, next, _opts), do: Tesla.run(env, next)
+    end
+
     defp capture_client(api_token, opts \\ []) do
       Client.new(
         api_token,
@@ -50,11 +57,33 @@ defmodule ExPipedrive.ClientTest do
           module when is_atom(module) -> module
         end)
 
+      assert ExPipedrive.Middleware.Telemetry in middleware_modules
+      assert ExPipedrive.Middleware.Retry in middleware_modules
       assert Tesla.Middleware.BaseUrl in middleware_modules
       assert Tesla.Middleware.JSON in middleware_modules
       assert Tesla.Middleware.Headers in middleware_modules
       assert Tesla.Middleware.PathParams in middleware_modules
       refute Tesla.Middleware.Query in middleware_modules
+    end
+
+    test "injects consumer middleware and can disable retry/telemetry" do
+      client =
+        Client.new("token", "company.pipedrive.com",
+          retry: false,
+          telemetry: false,
+          middleware: [{Passthrough, []}]
+        )
+
+      middleware_modules =
+        Enum.map(client.pre, fn
+          {module, _, _} -> module
+          {module, _} -> module
+          module when is_atom(module) -> module
+        end)
+
+      refute ExPipedrive.Middleware.Retry in middleware_modules
+      refute ExPipedrive.Middleware.Telemetry in middleware_modules
+      assert Passthrough in middleware_modules
     end
 
     test "sends x-api-token header and does not inject api_token query param" do
