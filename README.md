@@ -124,6 +124,55 @@ v2 endpoints are unavailable. Use their consistent `get/2`, `create/2`, and
 `create_lead/2`, `add_note/2`, and
 `list_*` names); these aliases will make migration to v2 straightforward.
 
+### Webhooks (`ex_pipedrive_web` surface)
+
+The webhook API is designed to extract unchanged into a future optional
+`ex_pipedrive_web` package. It does not start an OTP application, Registry, or
+other fan-out process; your host application owns delivery after the handler
+callback.
+
+`ExPipedrive.Webhook.Event` normalizes Pipedrive's v1
+`"updated.deal"`/`"updated.person"` payloads (and v2-ish
+`"deal.updated"`/`"person.updated"` forms). Deal and person records decode to
+`ExPipedrive.Deal` and `ExPipedrive.Person`.
+
+Add Plug only in the host application:
+
+```elixir
+{:plug, ">= 1.16.0"}
+```
+
+Implement the handler behaviour:
+
+```elixir
+defmodule MyApp.PipedriveWebhookHandler do
+  @behaviour ExPipedrive.Webhook.Handler
+
+  @impl true
+  def handle_event(%ExPipedrive.Webhook.Event{action: "updated", resource: "deal"} = event) do
+    MyApp.Deals.handle_update(event.current, event.previous, event.diff)
+  end
+
+  def handle_event(_event), do: :ok
+end
+```
+
+Then forward webhook traffic from your Plug or Phoenix router. Basic
+authentication is optional; provide `:auth_fn` when Pipedrive is configured
+with a username and password.
+
+```elixir
+forward "/webhooks", to: ExPipedrive.Incoming.Handler,
+  init_opts: [
+    handler: MyApp.PipedriveWebhookHandler,
+    auth_fn: fn -> [username: "pipedrive", password: System.fetch_env!("PIPEDRIVE_WEBHOOK_SECRET")] end
+  ]
+```
+
+Existing integrations can continue to use
+`on_event: fn {:updated_deal, payload} -> ... end`; new integrations should
+use `ExPipedrive.Webhook.Handler`.
+
 ### Raw escape hatch
 
 For endpoints without a first-class module, call through auth/JSON/error

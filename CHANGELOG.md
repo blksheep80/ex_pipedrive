@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.Webhook.Event` and `ExPipedrive.Webhook.Handler`: the
+  in-repository `ex_pipedrive_web` webhook surface, designed for future optional
+  package extraction. `Incoming.Handler` now supports optional Basic auth,
+  normalized handler delivery, and typed deal/person payloads while retaining
+  the legacy `on_event/1` callback for update events.
 - API v1 Leads / Notes shims with explicit routing, map-based create helpers,
   and consistent `get/2`, `create/2`, and `list/2` aliases for future v2 migration
 - Rate-limit aware retry middleware + request telemetry (`ExPipedrive.Middleware.Retry`,

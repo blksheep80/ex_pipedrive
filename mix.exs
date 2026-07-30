@@ -105,6 +105,11 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Oauth.Token,
           ExPipedrive.Oauth.TokenStore,
           ExPipedrive.Oauth.TokenStore.Memory
+        ],
+        Webhooks: [
+          ExPipedrive.Webhook.Event,
+          ExPipedrive.Webhook.Handler,
+          ExPipedrive.Incoming.Handler
         ]
       ]
     ]

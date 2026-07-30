@@ -6,6 +6,13 @@ defmodule ExPipedrive.Incoming.HandlerTest do
 
   alias ExPipedrive.Incoming.Handler
 
+  defmodule WebhookHandler do
+    @behaviour ExPipedrive.Webhook.Handler
+
+    @impl true
+    def handle_event(event), do: send(self(), {:webhook_event, event})
+  end
+
   @webhook_body %{
     "current" => %{
       "id" => 3,
@@ -54,15 +61,37 @@ defmodule ExPipedrive.Incoming.HandlerTest do
     assert_receive :event_received
   end
 
+  test "POST /webhook delivers a normalized event to a handler module" do
+    conn = post_webhook(handler_opts(handler: WebhookHandler))
+
+    assert conn.status == 200
+
+    assert_receive {:webhook_event,
+                    %ExPipedrive.Webhook.Event{
+                      name: "updated.deal",
+                      current: %ExPipedrive.Deal{id: 3}
+                    }}
+  end
+
   test "POST /webhook returns 200 without on_event callback" do
     conn = post_webhook()
 
     assert conn.status == 200
   end
 
-  test "init/1 requires auth_fn" do
+  test "POST /webhook can be mounted without basic authentication" do
+    conn =
+      :post
+      |> conn("/webhook", Jason.encode!(@webhook_body))
+      |> put_req_header("content-type", "application/json")
+      |> Handler.call(Handler.init(on_event: fn _ -> :ok end))
+
+    assert conn.status == 200
+  end
+
+  test "init/1 rejects an invalid basic authentication option" do
     assert_raise ArgumentError, ~r/:auth_fn/, fn ->
-      Handler.init(on_event: fn _ -> :ok end)
+      Handler.init(auth_fn: :invalid)
     end
   end
 end
