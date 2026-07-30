@@ -3,19 +3,14 @@ defmodule ExPipedrive.Deals do
   This module encapsulates calls to the pipedrive deals resource API
   """
 
-  use Tesla
-
   alias ExPipedrive.Deal
   alias ExPipedrive.PagedResult
+  alias ExPipedrive.Request
   alias Tesla.Client
-
-  @callback get_deal(Client.t(), integer) :: {:ok, Deal.t()}
-  @callback list_deals(Client.t(), list()) :: {:ok, PagedResult.t()}
-  @callback search_deals(Client.t(), binary()) :: {:ok, list(Deal.t())}
 
   def get_deal(%Client{} = client, deal_id) do
     client
-    |> get("/api/v1/deals/:id", opts: [path_params: [id: deal_id]])
+    |> Request.get("deals/:id", api_version: :v1, opts: [path_params: [id: deal_id]])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"data" => deal_data}}} ->
         {:ok, Deal.new(deal_data)}
@@ -34,7 +29,10 @@ defmodule ExPipedrive.Deals do
     status = Keyword.get(opts, :status, "all_not_deleted")
 
     client
-    |> get("/api/v1/deals", query: [start: start, limit: limit, status: status])
+    |> Request.get("deals",
+      api_version: :v1,
+      query: [start: start, limit: limit, status: status]
+    )
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}
@@ -56,7 +54,8 @@ defmodule ExPipedrive.Deals do
     status = Keyword.get(opts, :status, "open")
 
     client
-    |> get("/api/v1/deals/search",
+    |> Request.get("deals/search",
+      api_version: :v1,
       query: [term: term, start: start, limit: limit, status: status]
     )
     |> case do

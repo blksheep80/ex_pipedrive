@@ -3,21 +3,14 @@ defmodule ExPipedrive.Organizations do
   This module encapsulates calls to the pipedrive organizations resource API
   """
 
-  use Tesla
-
   alias ExPipedrive.Organization
   alias ExPipedrive.PagedResult
+  alias ExPipedrive.Request
   alias Tesla.Client
-
-  @callback get_organization(Client.t(), integer) :: {:ok, Organization.t()}
-  @callback create_organization(Client.t(), binary()) :: {:ok, Organization.t()}
-  @callback list_organizations(Client.t(), [any()]) :: {:ok, PagedResult.t()}
-  @callback search_organizations(Client.t(), binary()) :: {:ok, list(Organization.t())}
-  @callback update_organization(Client.t(), integer, binary()) :: {:ok, Organization.t()}
 
   def get_organization(%Client{} = client, org_id) do
     client
-    |> get("/api/v1/organizations/:id", opts: [path_params: [id: org_id]])
+    |> Request.get("organizations/:id", api_version: :v1, opts: [path_params: [id: org_id]])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"data" => org_data}}} ->
         {:ok, Organization.new(org_data)}
@@ -32,7 +25,7 @@ defmodule ExPipedrive.Organizations do
 
   def create_organization(%Client{} = client, %Organization{id: nil} = org) do
     client
-    |> post("/api/v1/organizations", org)
+    |> Request.post("organizations", org, api_version: :v1)
     |> case do
       {:ok, %Tesla.Env{status: 201, body: %{"data" => org_data}}} ->
         {:ok, Organization.new(org_data)}
@@ -50,7 +43,7 @@ defmodule ExPipedrive.Organizations do
     limit = Keyword.get(opts, :limit, 50)
 
     client
-    |> get("/api/v1/organizations", query: [start: start, limit: limit])
+    |> Request.get("organizations", api_version: :v1, query: [start: start, limit: limit])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}
@@ -75,7 +68,10 @@ defmodule ExPipedrive.Organizations do
     limit = Keyword.get(opts, :limit, 50)
 
     client
-    |> get("/api/v1/organizations/search", query: [term: term, start: start, limit: limit])
+    |> Request.get("organizations/search",
+      api_version: :v1,
+      query: [term: term, start: start, limit: limit]
+    )
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         organizations =
@@ -95,7 +91,10 @@ defmodule ExPipedrive.Organizations do
 
   def update_organization(%Client{} = client, org_id, body) do
     client
-    |> put("/api/v1/organizations/#{org_id}", body)
+    |> Request.put("organizations/:id", body,
+      api_version: :v1,
+      opts: [path_params: [id: org_id]]
+    )
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         {:ok, Organization.new(data)}

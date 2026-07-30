@@ -3,18 +3,16 @@ defmodule ExPipedrive.Users do
   This module encapsulates calls to the pipedrive user resource API.
   """
 
-  use Tesla
-
+  alias ExPipedrive.Request
   alias ExPipedrive.User
   alias Tesla.Client
-
-  @callback find_users_by_name(Client.t(), String.t()) :: {:ok, list(User.t())}
 
   def find_users_by_name(%Client{} = client, term, opts \\ []) do
     search_by_email? = Keyword.get(opts, :search_by_email?, false)
 
     client
-    |> get("/api/v1/users/find",
+    |> Request.get("users/find",
+      api_version: :v1,
       query: [term: term, search_by_email: search_int(search_by_email?)]
     )
     |> case do

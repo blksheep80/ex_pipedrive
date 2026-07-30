@@ -3,20 +3,14 @@ defmodule ExPipedrive.Leads do
   This module encapsulates calls to the pipedrive leads resource API
   """
 
-  use Tesla
-
   alias ExPipedrive.Lead
   alias ExPipedrive.PagedResult
+  alias ExPipedrive.Request
   alias Tesla.Client
-
-  @callback create_lead(Client.t(), Lead.t()) :: {:ok, Lead.t()}
-  @callback get_lead(Client.t(), String.t()) :: {:ok, Lead.t()}
-  @callback list_leads(Client.t(), list()) :: {:ok, PagedResult.t()}
-  @callback search_leads(Client.t(), binary()) :: {:ok, list(Lead.t())}
 
   def create_lead(%Client{} = client, %Lead{id: nil} = lead) do
     client
-    |> post("/api/v1/leads", lead)
+    |> Request.post("leads", lead, api_version: :v1)
     |> case do
       {:ok, %Tesla.Env{status: 201, body: %{"data" => lead_data}}} ->
         {:ok, Lead.new(lead_data)}
@@ -31,7 +25,7 @@ defmodule ExPipedrive.Leads do
 
   def get_lead(%Client{} = client, lead_id) do
     client
-    |> get("/api/v1/leads/:id", opts: [path_params: [id: lead_id]])
+    |> Request.get("leads/:id", api_version: :v1, opts: [path_params: [id: lead_id]])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"data" => lead_data}}} ->
         {:ok, Lead.new(lead_data)}
@@ -57,7 +51,7 @@ defmodule ExPipedrive.Leads do
       |> maybe_add_filter(opts, :sort)
 
     client
-    |> get("/api/v1/leads", query: query_params)
+    |> Request.get("leads", api_version: :v1, query: query_params)
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}
@@ -85,7 +79,10 @@ defmodule ExPipedrive.Leads do
     limit = Keyword.get(opts, :limit, 50)
 
     client
-    |> get("/api/v1/leads/search", query: [term: term, start: start, limit: limit])
+    |> Request.get("leads/search",
+      api_version: :v1,
+      query: [term: term, start: start, limit: limit]
+    )
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         leads =

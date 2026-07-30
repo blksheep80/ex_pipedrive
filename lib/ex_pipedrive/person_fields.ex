@@ -3,20 +3,17 @@ defmodule ExPipedrive.PersonFields do
   This module encapsulates calls to the pipedrive person field resource API
   """
 
-  use Tesla
-
   alias ExPipedrive.Field
   alias ExPipedrive.PagedResult
+  alias ExPipedrive.Request
   alias Tesla.Client
-
-  @callback list_person_fields(Client.t(), [any()]) :: {:ok, PagedResult.t()}
 
   def list_person_fields(%Client{} = client, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)
 
     client
-    |> get("/api/v1/personFields", query: [start: start, limit: limit])
+    |> Request.get("personFields", api_version: :v1, query: [start: start, limit: limit])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}

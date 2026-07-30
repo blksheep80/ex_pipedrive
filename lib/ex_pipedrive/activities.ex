@@ -2,20 +2,15 @@ defmodule ExPipedrive.Activities do
   @moduledoc """
   This module encapsulates calls to the pipedrive activities resource API
   """
-  use Tesla
 
   alias ExPipedrive.Activity
   alias ExPipedrive.PagedResult
-
+  alias ExPipedrive.Request
   alias Tesla.Client
-
-  @callback add_activity(Client.t(), Activity.t()) :: {:ok, Activity.t()}
-  @callback list_activities(Client.t(), keyword()) :: {:ok, PagedResult.t()}
-  @callback list_own_activities(Client.t(), keyword()) :: {:ok, PagedResult.t()}
 
   def add_activity(%Client{} = client, %Activity{id: nil} = activity) do
     client
-    |> post("/api/v1/activities", activity)
+    |> Request.post("activities", activity, api_version: :v1)
     |> case do
       {:ok, %Tesla.Env{status: 201, body: %{"data" => activity_data}}} ->
         {:ok, Activity.new(activity_data)}
@@ -48,7 +43,7 @@ defmodule ExPipedrive.Activities do
       end)
 
     client
-    |> get("/api/v1/activities/collection", query: params)
+    |> Request.get("activities/collection", api_version: :v1, query: params)
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true} = body}} ->
         {:ok,
@@ -85,7 +80,7 @@ defmodule ExPipedrive.Activities do
       end)
 
     client
-    |> get("/api/v1/activities", query: params)
+    |> Request.get("activities", api_version: :v1, query: params)
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true} = body}} ->
         {:ok,

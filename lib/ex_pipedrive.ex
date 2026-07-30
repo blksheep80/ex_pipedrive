@@ -3,7 +3,7 @@ defmodule ExPipedrive do
   This is the entrypoint for making requests to pipedrive via ExPipedrive.
   """
 
-  use Tesla
+  alias ExPipedrive.Client
 
   defdelegate add_activity(client, activity), to: ExPipedrive.Activities
   defdelegate add_note(client, note), to: ExPipedrive.Notes
@@ -35,43 +35,18 @@ defmodule ExPipedrive do
   defdelegate search_persons(client, term, opts), to: ExPipedrive.Persons
   defdelegate update_organization(client, org_id, data), to: ExPipedrive.Organizations
 
-  def client(api_token, base_url) do
-    base_url = process_base(base_url)
+  @doc """
+  Builds a Tesla client authenticated with a Pipedrive API token.
 
-    middleware = [
-      {Tesla.Middleware.BaseUrl, base_url},
-      {Tesla.Middleware.JSON, engine: Jason},
-      {Tesla.Middleware.Query, api_token: api_token},
-      Tesla.Middleware.PathParams
-    ]
+  `api_domain` may be a full base URL or a host (e.g. `company.pipedrive.com`).
+  See `ExPipedrive.Client` and `ExPipedrive.Request` for versioned routing.
+  """
+  defdelegate client(api_token, api_domain), to: Client, as: :new
 
-    Tesla.client(middleware)
-  end
-
-  def build_client(refresh_token, client_id, client_secret, base_url) do
-    base_url = process_base(base_url)
-
-    case ExPipedrive.Oauth.refresh_access_token(refresh_token, client_id, client_secret) do
-      {:ok, access_token} ->
-        middleware = [
-          {Tesla.Middleware.BaseUrl, base_url},
-          {Tesla.Middleware.BearerAuth, token: access_token},
-          {Tesla.Middleware.JSON, engine: Jason},
-          Tesla.Middleware.PathParams
-        ]
-
-        {:ok, Tesla.client(middleware)}
-
-      {:error, error} ->
-        {:error, error}
-    end
-  end
-
-  defp process_base(base_url) do
-    if Regex.match?(~r/^https?:\/\//i, base_url) do
-      base_url
-    else
-      "https://" <> base_url
-    end
-  end
+  @doc """
+  Builds a Tesla client by refreshing an OAuth access token once.
+  """
+  defdelegate build_client(refresh_token, client_id, client_secret, api_domain),
+    to: Client,
+    as: :from_oauth
 end

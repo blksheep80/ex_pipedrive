@@ -3,19 +3,14 @@ defmodule ExPipedrive.Notes do
   This module encapsulates calls to the pipedrive notes resource API
   """
 
-  use Tesla
-
   alias ExPipedrive.Note
   alias ExPipedrive.PagedResult
+  alias ExPipedrive.Request
   alias Tesla.Client
-
-  @callback add_note(Client.t(), Note.t()) :: {:ok, Note.t()}
-  @callback get_all_org_notes(Client.t(), binary()) :: {:ok, list(Note.t())}
-  @callback list_notes(Client.t(), list()) :: {:ok, PagedResult.t()}
 
   def add_note(%Client{} = client, %Note{id: nil} = note) do
     client
-    |> post("/api/v1/notes", note)
+    |> Request.post("notes", note, api_version: :v1)
     |> case do
       {:ok, %Tesla.Env{status: 201, body: %{"data" => note_data}}} ->
         {:ok, Note.new(note_data)}
@@ -34,7 +29,10 @@ defmodule ExPipedrive.Notes do
     limit = Keyword.get(opts, :limit, 20)
 
     client
-    |> get("/api/v1/notes", query: [org_id: org_id, start: start, limit: limit, sort: sort])
+    |> Request.get("notes",
+      api_version: :v1,
+      query: [org_id: org_id, start: start, limit: limit, sort: sort]
+    )
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         notes =
@@ -74,7 +72,7 @@ defmodule ExPipedrive.Notes do
       |> maybe_add_filter(opts, :pinned_to_person_flag)
 
     client
-    |> get("/api/v1/notes", query: query_params)
+    |> Request.get("notes", api_version: :v1, query: query_params)
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}
