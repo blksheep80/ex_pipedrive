@@ -1,6 +1,5 @@
 defmodule ExPipedrive.Activities.ListOwnActivitiesTest do
-  use ExUnit.Case, async: true
-  use ExPipedrive.PipedriveClientCase
+  use ExPipedrive.PipedriveClientCase, async: false
 
   alias ExPipedrive.Activities
   alias ExPipedrive.Activity
