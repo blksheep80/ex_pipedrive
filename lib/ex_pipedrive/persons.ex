@@ -3,8 +3,9 @@ defmodule ExPipedrive.Persons do
   Pipedrive persons resource.
 
   v2-first helpers (`get/2`, `create/2`, `update/3`, `list_page/2`, `stream/2`)
-  talk to `/api/v2/persons`. Legacy `get_person/2`, `create_person/2`,
-  `list_persons/2`, and `search_persons/3` remain on API v1.
+  talk to `/api/v2/persons`. Prefer `ExPipedrive.Search.search_persons/3`
+  (or `search_v2/3` here) for v2 itemSearch. Legacy `get_person/2`,
+  `create_person/2`, `list_persons/2`, and `search_persons/3` remain on API v1.
   """
 
   alias ExPipedrive.Cursor
@@ -13,6 +14,7 @@ defmodule ExPipedrive.Persons do
   alias ExPipedrive.Person
   alias ExPipedrive.Request
   alias ExPipedrive.Response
+  alias ExPipedrive.Search
   alias ExPipedrive.WriteAttrs
   alias Tesla.Client
 
@@ -146,5 +148,12 @@ defmodule ExPipedrive.Persons do
         Person.new_from_search(Map.get(item_container, "item"))
       end)
     end)
+  end
+
+  @doc """
+  Searches persons via API v2 itemSearch. See `ExPipedrive.Search.search_persons/3`.
+  """
+  def search_v2(%Client{} = client, term, opts \\ []) do
+    Search.search_persons(client, term, opts)
   end
 end

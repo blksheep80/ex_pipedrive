@@ -72,6 +72,26 @@ client
   })
 ```
 
+### Search (API v2 itemSearch)
+
+```elixir
+{:ok, %ExPipedrive.Page{data: results}} =
+  ExPipedrive.Search.search_page(client, "acme",
+    item_types: ["organization", "person", "deal"],
+    limit: 50
+  )
+
+# Or scope to one type:
+{:ok, page} = ExPipedrive.Search.search_deals(client, "acme")
+
+# Stream across cursor pages:
+ExPipedrive.Search.stream(client, "acme", item_types: ["person"])
+|> Enum.take(20)
+```
+
+Each hit is an `%ExPipedrive.SearchResult{type: "deal", item: %ExPipedrive.Deal{}, ...}`
+(persons / organizations / products decode to their structs).
+
 ### OAuth (multi-tenant)
 
 ```elixir

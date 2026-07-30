@@ -22,6 +22,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakePersonV2ApiHandler
   import ExPipedrive.FakePipelineApiHandler
   import ExPipedrive.FakePipelineV2ApiHandler
+  import ExPipedrive.FakeItemSearchV2ApiHandler
   import ExPipedrive.FakeProductV2ApiHandler
   import ExPipedrive.FakeStageV2ApiHandler
 
@@ -197,7 +198,11 @@ defmodule ExPipedrive.FakePipedriveServer do
     |> handle_list_own_activities()
   end
 
-  # --- API v2 (deals + persons + organizations + activities + pipelines + stages + products) ---
+  # --- API v2 (deals + persons + organizations + activities + pipelines + stages + products + search) ---
+
+  get "/api/v2/itemSearch" do
+    handle_item_search_v2(conn, conn.query_params)
+  end
 
   get "/api/v2/deals" do
     handle_list_deals_v2(conn, conn.query_params)

@@ -3,9 +3,11 @@ defmodule ExPipedrive.Organizations do
   Pipedrive organizations resource.
 
   v2-first helpers (`get/2`, `create/2`, `update/3`, `delete/2`, `list_page/2`,
-  `stream/2`) talk to `/api/v2/organizations`. Legacy `get_organization/2`,
-  `create_organization/2`, `list_organizations/2`, `search_organizations/3`, and
-  `update_organization/3` remain on API v1 for compatibility.
+  `stream/2`) talk to `/api/v2/organizations`. Prefer
+  `ExPipedrive.Search.search_organizations/3` (or `search_v2/3` here) for v2
+  itemSearch. Legacy `get_organization/2`, `create_organization/2`,
+  `list_organizations/2`, `search_organizations/3`, and `update_organization/3`
+  remain on API v1 for compatibility.
   """
 
   alias ExPipedrive.Cursor
@@ -14,6 +16,7 @@ defmodule ExPipedrive.Organizations do
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
   alias ExPipedrive.Response
+  alias ExPipedrive.Search
   alias ExPipedrive.WriteAttrs
   alias Tesla.Client
 
@@ -165,6 +168,14 @@ defmodule ExPipedrive.Organizations do
       |> Map.get("items")
       |> Enum.map(fn item_container -> Organization.new(Map.get(item_container, "item")) end)
     end)
+  end
+
+  @doc """
+  Searches organizations via API v2 itemSearch.
+  See `ExPipedrive.Search.search_organizations/3`.
+  """
+  def search_v2(%Client{} = client, term, opts \\ []) do
+    Search.search_organizations(client, term, opts)
   end
 
   def update_organization(%Client{} = client, org_id, body) do

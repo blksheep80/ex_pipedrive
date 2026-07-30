@@ -89,6 +89,10 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Deal,
           ExPipedrive.Person
         ],
+        Search: [
+          ExPipedrive.Search,
+          ExPipedrive.SearchResult
+        ],
         OAuth: [
           ExPipedrive.Oauth,
           ExPipedrive.Oauth.Token,

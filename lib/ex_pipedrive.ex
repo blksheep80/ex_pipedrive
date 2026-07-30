@@ -43,6 +43,8 @@ defmodule ExPipedrive do
   defdelegate search_leads(client, term, opts), to: ExPipedrive.Leads
   defdelegate search_organizations(client, term, opts), to: ExPipedrive.Organizations
   defdelegate search_persons(client, term, opts), to: ExPipedrive.Persons
+  defdelegate search_page(client, term, opts \\ []), to: ExPipedrive.Search
+  defdelegate stream_search(client, term, opts \\ []), to: ExPipedrive.Search, as: :stream
   defdelegate update_organization(client, org_id, data), to: ExPipedrive.Organizations
 
   @doc """
