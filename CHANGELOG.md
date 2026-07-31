@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.CallLogs` (API v1): `list/2`, `get/2`, `create/2`,
+  `add_recording/4` (multipart audio upload), `delete/2` against
+  `/api/v1/callLogs`; typed `ExPipedrive.CallLog` struct with string ids
+  (Pipedrive does not expose a call log update endpoint)
+  ([#76](https://github.com/blksheep80/ex_pipedrive/issues/76)).
 - `ExPipedrive.Files` (API v1): list/get/upload/download/update/delete plus
   Google Drive `create_remote/2` and `remote_link/2`; multipart uploads via
   `Tesla.Multipart` with deal/person/org/activity/product/lead/project link
