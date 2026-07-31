@@ -13,16 +13,19 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeDealApiHandler
   import ExPipedrive.FakeDealFieldApiHandler
   import ExPipedrive.FakeDealLabelApiHandler
+  import ExPipedrive.FakeDealParticipantApiHandler
   import ExPipedrive.FakeDealV2ApiHandler
   import ExPipedrive.FakeFieldV2ApiHandler
   import ExPipedrive.FakeFileApiHandler
   import ExPipedrive.FakeFilterApiHandler
+  import ExPipedrive.FakeFollowerV2ApiHandler
   import ExPipedrive.FakeLeadApiHandler
   import ExPipedrive.FakeLeadLabelApiHandler
   import ExPipedrive.FakeNoteApiHandler
   import ExPipedrive.FakeOrganizationApiHandler
   import ExPipedrive.FakeOrganizationFieldApiHandler
   import ExPipedrive.FakeOrganizationLabelApiHandler
+  import ExPipedrive.FakeOrganizationRelationshipApiHandler
   import ExPipedrive.FakeOrganizationV2ApiHandler
   import ExPipedrive.FakePersonApiHandler
   import ExPipedrive.FakePersonFieldApiHandler
@@ -81,6 +84,38 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_get_deal(conn.params)
+  end
+
+  get "/api/v1/deals/:id/participants" do
+    handle_list_deal_participants(conn, conn.params)
+  end
+
+  post "/api/v1/deals/:id/participants" do
+    handle_add_deal_participant(conn, conn.params)
+  end
+
+  delete "/api/v1/deals/:id/participants/:deal_participant_id" do
+    handle_delete_deal_participant(conn, conn.params)
+  end
+
+  get "/api/v1/organizationRelationships" do
+    handle_list_organization_relationships(conn, conn.query_params)
+  end
+
+  post "/api/v1/organizationRelationships" do
+    handle_create_organization_relationship(conn)
+  end
+
+  put "/api/v1/organizationRelationships/:id" do
+    handle_update_organization_relationship(conn, conn.params)
+  end
+
+  delete "/api/v1/organizationRelationships/:id" do
+    handle_delete_organization_relationship(conn, conn.params)
+  end
+
+  get "/api/v1/organizationRelationships/:id" do
+    handle_get_organization_relationship(conn, conn.params)
   end
 
   post "/api/v1/notes" do
@@ -575,6 +610,42 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   get "/api/v2/products/:id" do
     handle_get_product_v2(conn, conn.params)
+  end
+
+  get "/api/v2/deals/:id/followers" do
+    handle_list_followers_v2(conn, "deals", conn.params)
+  end
+
+  post "/api/v2/deals/:id/followers" do
+    handle_add_follower_v2(conn, "deals", conn.params)
+  end
+
+  delete "/api/v2/deals/:id/followers/:follower_id" do
+    handle_delete_follower_v2(conn, "deals", conn.params)
+  end
+
+  get "/api/v2/persons/:id/followers" do
+    handle_list_followers_v2(conn, "persons", conn.params)
+  end
+
+  post "/api/v2/persons/:id/followers" do
+    handle_add_follower_v2(conn, "persons", conn.params)
+  end
+
+  delete "/api/v2/persons/:id/followers/:follower_id" do
+    handle_delete_follower_v2(conn, "persons", conn.params)
+  end
+
+  get "/api/v2/organizations/:id/followers" do
+    handle_list_followers_v2(conn, "organizations", conn.params)
+  end
+
+  post "/api/v2/organizations/:id/followers" do
+    handle_add_follower_v2(conn, "organizations", conn.params)
+  end
+
+  delete "/api/v2/organizations/:id/followers/:follower_id" do
+    handle_delete_follower_v2(conn, "organizations", conn.params)
   end
 
   get "/api/v2/products/:id/variations" do
