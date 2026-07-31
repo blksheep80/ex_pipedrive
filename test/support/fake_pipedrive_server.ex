@@ -11,15 +11,19 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeActivityV2ApiHandler
   import ExPipedrive.FakeDealApiHandler
   import ExPipedrive.FakeDealFieldApiHandler
+  import ExPipedrive.FakeDealLabelApiHandler
   import ExPipedrive.FakeDealV2ApiHandler
   import ExPipedrive.FakeFieldV2ApiHandler
   import ExPipedrive.FakeLeadApiHandler
+  import ExPipedrive.FakeLeadLabelApiHandler
   import ExPipedrive.FakeNoteApiHandler
   import ExPipedrive.FakeOrganizationApiHandler
   import ExPipedrive.FakeOrganizationFieldApiHandler
+  import ExPipedrive.FakeOrganizationLabelApiHandler
   import ExPipedrive.FakeOrganizationV2ApiHandler
   import ExPipedrive.FakePersonApiHandler
   import ExPipedrive.FakePersonFieldApiHandler
+  import ExPipedrive.FakePersonLabelApiHandler
   import ExPipedrive.FakePersonV2ApiHandler
   import ExPipedrive.FakePipelineApiHandler
   import ExPipedrive.FakePipelineV2ApiHandler
@@ -170,6 +174,30 @@ defmodule ExPipedrive.FakePipedriveServer do
     |> handle_list_pipelines()
   end
 
+  get "/api/v1/leadLabels" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_lead_labels()
+  end
+
+  post "/api/v1/leadLabels" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_create_lead_label()
+  end
+
+  patch "/api/v1/leadLabels/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_update_lead_label()
+  end
+
+  delete "/api/v1/leadLabels/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_delete_lead_label(conn.params)
+  end
+
   get "/api/v1/leads" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
@@ -236,6 +264,54 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   get "/api/v2/organizationFields" do
     handle_list_fields_v2(conn, "organization", conn.query_params)
+  end
+
+  get "/api/v2/dealFields/:field_code" do
+    handle_get_deal_label_field(conn, conn.params)
+  end
+
+  post "/api/v2/dealFields/:field_code/options" do
+    handle_add_deal_label_options(conn)
+  end
+
+  patch "/api/v2/dealFields/:field_code/options" do
+    handle_update_deal_label_options(conn)
+  end
+
+  delete "/api/v2/dealFields/:field_code/options" do
+    handle_delete_deal_label_options(conn)
+  end
+
+  get "/api/v2/personFields/:field_code" do
+    handle_get_person_label_field(conn, conn.params)
+  end
+
+  post "/api/v2/personFields/:field_code/options" do
+    handle_add_person_label_options(conn)
+  end
+
+  patch "/api/v2/personFields/:field_code/options" do
+    handle_update_person_label_options(conn)
+  end
+
+  delete "/api/v2/personFields/:field_code/options" do
+    handle_delete_person_label_options(conn)
+  end
+
+  get "/api/v2/organizationFields/:field_code" do
+    handle_get_organization_label_field(conn, conn.params)
+  end
+
+  post "/api/v2/organizationFields/:field_code/options" do
+    handle_add_organization_label_options(conn)
+  end
+
+  patch "/api/v2/organizationFields/:field_code/options" do
+    handle_update_organization_label_options(conn)
+  end
+
+  delete "/api/v2/organizationFields/:field_code/options" do
+    handle_delete_organization_label_options(conn)
   end
 
   get "/api/v2/itemSearch" do
