@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.Filters` (API v1): `list/2`, `get/2`, `create/2`, `update/3`,
+  `delete/2` against `/api/v1/filters`; `conditions` accepted as a plain map
+  ([#69](https://github.com/blksheep80/ex_pipedrive/issues/69)).
 - `ExPipedrive.Users` (API v1): `me/1`, `get/2`, `list/2` (offset pagination),
   plus fake-server fixtures and tests for `me`/`get`/`list`/`find_users_by_name`
   ([#67](https://github.com/blksheep80/ex_pipedrive/issues/67)).
