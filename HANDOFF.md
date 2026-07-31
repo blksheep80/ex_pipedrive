@@ -77,19 +77,19 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 Priority order (see epic for full child list):
 
-1. [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) Hex publish readiness (human: Hex account + `HEX_API_KEY` secret) — name `ex_pipedrive` is available
-2. [#67](https://github.com/blksheep80/ex_pipedrive/issues/67) Users bug + API expand
-3. High-value CRM: [#68](https://github.com/blksheep80/ex_pipedrive/issues/68) Files · [#69](https://github.com/blksheep80/ex_pipedrive/issues/69) Filters · [#70](https://github.com/blksheep80/ex_pipedrive/issues/70) Labels
-4. More coverage: [#71](https://github.com/blksheep80/ex_pipedrive/issues/71)–[#77](https://github.com/blksheep80/ex_pipedrive/issues/77), [#87](https://github.com/blksheep80/ex_pipedrive/issues/87)
-5. Polish: [#78](https://github.com/blksheep80/ex_pipedrive/issues/78)–[#84](https://github.com/blksheep80/ex_pipedrive/issues/84), [#86](https://github.com/blksheep80/ex_pipedrive/issues/86)
-6. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
+1. High-value CRM coverage: [#67](https://github.com/blksheep80/ex_pipedrive/issues/67) Users · [#68](https://github.com/blksheep80/ex_pipedrive/issues/68) Files · [#69](https://github.com/blksheep80/ex_pipedrive/issues/69) Filters · [#70](https://github.com/blksheep80/ex_pipedrive/issues/70) Labels
+2. More coverage: [#71](https://github.com/blksheep80/ex_pipedrive/issues/71)–[#77](https://github.com/blksheep80/ex_pipedrive/issues/77), [#87](https://github.com/blksheep80/ex_pipedrive/issues/87), [#88](https://github.com/blksheep80/ex_pipedrive/issues/88)
+3. Polish: [#78](https://github.com/blksheep80/ex_pipedrive/issues/78)–[#84](https://github.com/blksheep80/ex_pipedrive/issues/84), [#86](https://github.com/blksheep80/ex_pipedrive/issues/86)
+4. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
+
+**Hex:** [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published ([release v0.1.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.1.0)); [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) done.
 
 **Upstream / community:** [#26](https://github.com/blksheep80/ex_pipedrive/issues/26). [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) notify LineDrive maintainer — **HOLD** until epic [#66](https://github.com/blksheep80/ex_pipedrive/issues/66) coverage is substantially complete.
 
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Work from epic #66. Prefer #67 Users or CRM gaps #68–#70. For Hex: only prep #85 until human sets HEX_API_KEY; do not publish unless asked. Small PRs.
+Open HANDOFF.md. Work from epic #66. Prefer #67 Users or CRM gaps #68–#70. Hex 0.1.0 is live — bump version for later releases. Small PRs.
 ```
 
 ## How to resume
