@@ -3,8 +3,10 @@ defmodule ExPipedrive.Fields do
   Resolves Pipedrive custom-field hashes and human-readable labels.
 
   Fetch definitions with `ExPipedrive.DealFields.list_page/2`,
-  `ExPipedrive.PersonFields.list_page/2`, or
-  `ExPipedrive.OrganizationFields.list_page/2`. API v2 calls the hash a
+  `ExPipedrive.PersonFields.list_page/2`,
+  `ExPipedrive.OrganizationFields.list_page/2`,
+  `ExPipedrive.ActivityFields.list_page/2`, or
+  `ExPipedrive.ProductFields.list_page/2`. API v2 calls the hash a
   `field_code`; it is the key used in an entity's `custom_fields` map.
 
   For example:

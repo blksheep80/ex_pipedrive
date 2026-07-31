@@ -424,6 +424,14 @@ defmodule ExPipedrive.FakePipedriveServer do
     handle_list_fields_v2(conn, "organization", conn.query_params)
   end
 
+  get "/api/v2/activityFields" do
+    handle_list_fields_v2(conn, "activity", conn.query_params)
+  end
+
+  get "/api/v2/productFields" do
+    handle_list_fields_v2(conn, "product", conn.query_params)
+  end
+
   get "/api/v2/dealFields/:field_code" do
     handle_get_deal_label_field(conn, conn.params)
   end
