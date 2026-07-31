@@ -110,6 +110,11 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.CallLogs,
           ExPipedrive.ActivityTypes,
           ExPipedrive.Users,
+          ExPipedrive.Currencies,
+          ExPipedrive.Recents,
+          ExPipedrive.Roles,
+          ExPipedrive.PermissionSets,
+          ExPipedrive.Teams,
           ExPipedrive.Deal,
           ExPipedrive.Person,
           ExPipedrive.Organization,
@@ -122,7 +127,13 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Filter,
           ExPipedrive.Goal,
           ExPipedrive.File,
-          ExPipedrive.CallLog
+          ExPipedrive.CallLog,
+          ExPipedrive.Currency,
+          ExPipedrive.Recent,
+          ExPipedrive.Role,
+          ExPipedrive.RoleAssignment,
+          ExPipedrive.PermissionSet,
+          ExPipedrive.Team
         ],
         Fields: [
           ExPipedrive.Fields,
