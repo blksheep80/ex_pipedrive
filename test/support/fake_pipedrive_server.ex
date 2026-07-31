@@ -65,6 +65,24 @@ defmodule ExPipedrive.FakePipedriveServer do
     |> handle_list_activity_types()
   end
 
+  post "/api/v1/activityTypes" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_create_activity_type()
+  end
+
+  put "/api/v1/activityTypes/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_update_activity_type()
+  end
+
+  delete "/api/v1/activityTypes/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_delete_activity_type(conn.params)
+  end
+
   get "/api/v1/deals" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
