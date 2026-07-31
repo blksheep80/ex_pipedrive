@@ -1,0 +1,66 @@
+defmodule ExPipedrive.FakeProjectV2ApiHandler do
+  @moduledoc false
+
+  import Plug.Conn
+
+  alias ExPipedrive.Fixtures.V2Projects
+
+  def handle_list_projects_v2(conn, params) do
+    case Map.get(params, "error") do
+      "400" -> json_error(conn, 400, "bad request")
+      "401" -> json_error(conn, 401, "unauthorized")
+      "429" -> json_error(conn, 429, "rate limit exceeded")
+      _ -> json_ok(conn, V2Projects.list_response(Map.get(params, "cursor")))
+    end
+  end
+
+  def handle_list_archived_projects_v2(conn, params) do
+    json_ok(conn, V2Projects.archived_list_response(Map.get(params, "cursor")))
+  end
+
+  def handle_get_project_v2(conn, %{"id" => "404"}) do
+    json_error(conn, 404, "Project not found")
+  end
+
+  def handle_get_project_v2(conn, %{"id" => id}) do
+    case Integer.parse(id) do
+      {int, ""} -> json_ok(conn, V2Projects.get_response(int))
+      _ -> json_error(conn, 400, "invalid project id")
+    end
+  end
+
+  def handle_create_project_v2(%{body_params: body} = conn) do
+    conn = %{conn | status: 201}
+    json_ok(conn, V2Projects.create_response(body))
+  end
+
+  def handle_update_project_v2(%{body_params: body, params: %{"id" => id}} = conn) do
+    {int, ""} = Integer.parse(id)
+    json_ok(conn, V2Projects.update_response(int, body))
+  end
+
+  def handle_delete_project_v2(conn, %{"id" => "404"}) do
+    json_error(conn, 404, "Project not found")
+  end
+
+  def handle_delete_project_v2(conn, %{"id" => id}) do
+    case Integer.parse(id) do
+      {int, ""} -> json_ok(conn, V2Projects.delete_response(int))
+      _ -> json_error(conn, 400, "invalid project id")
+    end
+  end
+
+  defp json_ok(conn, body) do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> put_resp_header("x-request-id", "fake-project-v2")
+    |> send_resp(conn.status || 200, Jason.encode!(body))
+  end
+
+  defp json_error(conn, status, message) do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> put_resp_header("x-request-id", "fake-project-v2-error")
+    |> send_resp(status, Jason.encode!(V2Projects.error_response(status, message)))
+  end
+end
