@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Preserve API-provided lead value currencies and leave bare numeric values
   currency-less.
 
+### Changed
+
+- Refresh [AUDIT.md](AUDIT.md) as a current Pipedrive OpenAPI gap map
+  (implemented vs missing tags); catch-all checklist split into focused
+  issues ([#83](https://github.com/blksheep80/ex_pipedrive/issues/83),
+  [#88](https://github.com/blksheep80/ex_pipedrive/issues/88)).
+
 ### Added
 
 - Expand `ExPipedrive.ActivityTypes` (API v1): `list/1` (plus

@@ -1,226 +1,156 @@
-# Inherited LineDrive audit
+# ExPipedrive API coverage audit
 
-Status as of 2026-07-30. Tracks keep/adapt/deprecate/remove decisions for code inherited from [tmecklem/line_drive](https://github.com/tmecklem/line_drive) before v2 refactors begin.
+Status as of **2026-07-31**. Replaces the inherited LineDrive keep/adapt inventory
+with a **current gap map**: implemented modules vs Pipedrive OpenAPI tags
+([API v1](https://developers.pipedrive.com/docs/api/v1/openapi.yaml),
+[API v2](https://developers.pipedrive.com/docs/api/v2/openapi.yaml)).
 
-Related: GitHub [#2](https://github.com/blksheep80/ex_pipedrive/issues/2), [HANDOFF.md](HANDOFF.md).
+Related: GitHub [#83](https://github.com/blksheep80/ex_pipedrive/issues/83),
+epic [#66](https://github.com/blksheep80/ex_pipedrive/issues/66),
+catch-all [#88](https://github.com/blksheep80/ex_pipedrive/issues/88),
+[HANDOFF.md](HANDOFF.md).
 
-## Summary
-
-| Category | Count | Default decision |
-|---|---|---|
-| Resource API modules | 12 | Adapt (v1 fallback) |
-| Entity structs | 16 | Adapt for v2 shapes |
-| Auth (token + OAuth) | 2 modules | Adapt |
-| Pagination helpers | 3 modules | Adapt → cursor (#7) |
-| Webhook / incoming | 3 modules | Deprecate from core |
-| OTP Application / Registry | 1 module | Remove coupling (#14) |
-| Test fakes + case | 13 modules | Rebuild for v2 (#12) |
-| Integration tests | 31 files | Adapt with v2 fixtures |
-
-**Decision key:** **Keep** = use as-is short term · **Adapt** = evolve for v2-first · **Deprecate** = move out of core / phase out · **Remove** = delete when replacement lands
+**How to use:** prefer this file for “what’s missing?”; prefer HANDOFF for
+session sequencing; prefer GitHub issues for acceptance criteria.
 
 ---
 
-## Cross-cutting v1 assumptions (v2 blockers)
+## Snapshot
 
-These appear across most inherited code and must be addressed before v2 is default:
-
-1. **Paths** — all resources call `/api/v1/*` with camelCase segments (`dealFields`, `activityTypes`).
-2. **Auth** — `ExPipedrive.client/2` sends `api_token` as a query param; v2 expects `x-api-token` header ([#4](https://github.com/blksheep80/ex_pipedrive/issues/4)).
-3. **Response envelope** — `{success, data, error, additional_data, related_objects}` with string keys; errors are raw strings or Tesla env tuples ([#3](https://github.com/blksheep80/ex_pipedrive/issues/3), [#5](https://github.com/blksheep80/ex_pipedrive/issues/5)).
-4. **Pagination** — offset `start`/`limit` via `additional_data.pagination`; cursor (`next_cursor`) only on `activities/collection` ([#7](https://github.com/blksheep80/ex_pipedrive/issues/7)).
-5. **Search responses** — nested `data.items[].item` unwrap, not `PagedResult`.
-6. **Entity shapes** — v1 nested objects (e.g. deal `org_id` as mini-map), denormalized name fields, non-ISO8601 datetimes (`"YYYY-MM-DD HH:MM:SS"`) silently parse as `nil` ([#11](https://github.com/blksheep80/ex_pipedrive/issues/11)).
-7. **Write bodies** — partial `Jason.Encoder` on structs defines POST/PUT payload shape.
-8. **Webhooks** — v1 payload (`current`/`previous`/`meta`); Plug router is optional (#27); host supplies `on_event/1` ([#14](https://github.com/blksheep80/ex_pipedrive/issues/14)).
-
----
-
-## Subsystem inventory
-
-### Client facade and HTTP
-
-| Subsystem | Location | Decision | v1 assumptions | Follow-up |
-|---|---|---|---|---|
-| Root facade + delegates | `lib/ex_pipedrive.ex` | **Adapt** | Query-param token client; `build_client/4` one-shot OAuth refresh | #3, #4 |
-| Tesla per resource module | all `*.ex` resource modules | **Keep** | `use Tesla`; JSON via Jason; PathParams middleware | #3 |
-| `@callback` without `@behaviour` | resource modules | **Remove** | Dead mock interface, never wired | #3 cleanup |
-
-### Auth
-
-| Subsystem | Location | Decision | v1 assumptions | Follow-up |
-|---|---|---|---|---|
-| API token client | `ExPipedrive.client/2` | **Adapt** | `Tesla.Middleware.Query` with `api_token` | #4 |
-| OAuth helpers | `lib/ex_pipedrive/oauth.ex` | **Adapt** | Fixed `oauth.pipedrive.com` URLs; Basic auth; form bodies; bare token strings (no expiry metadata) | #3, TokenStore (HANDOFF) |
-| OAuth client builder | `ExPipedrive.build_client/4` | **Adapt** | Refresh once at build; Bearer only; no 401 retry | #3, TokenStore |
-
-**Risky behavior to preserve temporarily**
-
-- Query-param auth until #4 ships with v1 compat.
-- `Oauth.get_refresh_token/4` uses `{:ok, resp} = post(...)` — **raises on HTTP failure**; callers rely on happy path.
-- `Oauth.refresh_access_token/3` maps 401 → `:refresh_token_expired` (only structured error in codebase).
-
-### Pagination and list responses
-
-| Subsystem | Location | Decision | v1 assumptions | Follow-up |
-|---|---|---|---|---|
-| `Pagination` | `lib/ex_pipedrive/pagination.ex` | **Adapt** | Offset: `start`, `limit`, `more_items_in_collection` | #7 |
-| `AdditionalData` | `lib/ex_pipedrive/additional_data.ex` | **Adapt** | Dual model: offset `pagination` **or** cursor `next_cursor` | #7 |
-| `PagedResult` | `lib/ex_pipedrive/paged_result.ex` | **Adapt** | v1 envelope wrapper; `related_objects` lookup uses atom key on string map → always `[]` | #3, #5 |
-
-**Risky behavior to preserve temporarily**
-
-- Default limits (`50` most resources, `100` activities, `20` org notes) — tests assert these.
-- Activities module is the **only** cursor consumer; `list_own_activities` still uses offset.
-
-### Struct layer
-
-| Subsystem | Location | Decision | v1 assumptions | Follow-up |
-|---|---|---|---|---|
-| `Structable` macro | `lib/ex_pipedrive/structable.ex` | **Keep → adapt** | ISO8601 date/time only; selective key atomization | #11 |
-| Entity structs (×16) | `deal.ex`, `person.ex`, … | **Adapt** | v1 field names; nested ID objects; `original_object` escape hatch | #11 |
-
-Entities: `Deal`, `Person`, `Organization`, `Lead`, `LeadPerson`, `LeadOrganization`, `LeadValue`, `Activity`, `ActivityParticipant`, `ActivityType`, `Note`, `Pipeline`, `User`, `Field`, `FieldOption`, plus metadata structs above.
-
-**Risky behavior to preserve temporarily**
-
-- `original_object` on several entities — downstream may read custom fields from raw API map.
-- `Person.new_from_search/1` — search returns different shape than get.
-- `Organization.new/1` — passes through non-map values for nested ID compat.
-- `LeadValue.new/1` on integer — hard-codes `"USD"`.
-- Partial `Jason.Encoder` on write structs defines POST body shape.
-
-### Resource APIs (all v1 today)
-
-| Module | Endpoints | Writes | Decision | Follow-up |
-|---|---|---|---|---|
-| `Deals` | get, list, search | — | **Adapt** | #8, #24 |
-| `Persons` | get, create, list, search | create | **Adapt** | #9 |
-| `Organizations` | get, create, list, search, update | create, update | **Adapt** | #11 |
-| `Leads` | get, create, list, search | create | **Adapt** | #11 |
-| `Activities` | add, list (collection), list_own | add | **Adapt** | #7, #11 |
-| `Notes` | add, list, get_all_org_notes | add | **Adapt** | #11 |
-| `Pipelines` | list, list_pipeline_deals | — | **Adapt** | #11, #25 |
-| `Users` | find_by_name, me, get, list | — | **Adapted** | #67 |
-| `DealFields` | list | — | **Adapt** | #11 |
-| `PersonFields` | list | — | **Adapt** | #11 |
-| `OrganizationFields` | list | — | **Adapt** | #11 |
-| `ActivityTypes` | list | — | **Adapt** | #11 |
-
-**Shared v1 response pattern:** match `%{"success" => true, "data" => ...}`; error → `{:error, message_string}`.
-
-**Notable quirks**
-
-- `Activities.list_activities/2` → `/activities/collection` (cursor); `list_own_activities/2` → `/activities` (offset).
-- `Notes.get_all_org_notes/3` returns flat list, not `PagedResult`.
-- `Pipelines.list_pipelines/1` returns bare list; `list_pipeline_deals/2` has no pagination.
-- `Users.find_users_by_name/3` pattern-matched **atom keys** (`%{success: true}`) — inconsistent with other modules; broken against JSON-decoded bodies. **Fixed** in [#67](https://github.com/blksheep80/ex_pipedrive/issues/67): string-key bodies, plus `me/1`, `get/2`, `list/2`, and tests.
-
-### Webhooks and OTP
-
-| Subsystem | Location | Decision | v1 assumptions | Follow-up |
-|---|---|---|---|---|
-| Webhook Plug router | `incoming/handler.ex` | **Deprecate from core** | `POST /webhook`; Basic auth; `on_event/1` callback (no Registry) | future `ex_pipedrive_web` |
-| Deal webhook handler | `incoming/deal_handler.ex` | **Deprecate from core** | `"updated.deal"`; MapSet diff on map pairs | optional package |
-| Person webhook handler | `incoming/person_handler.ex` | **Deprecate from core** | `"updated.person"` only; no tests | optional package |
-| Registry event bus | ~~`application.ex` + handler~~ | **Removed from core** (#14) | Host supplies `on_event/1` callback | optional package |
-| OTP Application | ~~`lib/ex_pipedrive/application.ex`~~ | **Removed** (#14) | No `mod` callback; core is dependency-only | — |
-
-**Risky behavior to preserve temporarily**
-
-- Always HTTP 200 (Pipedrive retry semantics).
-- Warning-level log on every Registry dispatch.
-- Synchronous `send/2` to registered pids.
-
-### Test infrastructure
-
-| Subsystem | Location | Decision | v1 assumptions | Follow-up |
-|---|---|---|---|---|
-| Fake Pipedrive server | `test/support/fake_pipedrive_server.ex` | **Rebuild** | Full v1 route mirror on port 4006; no auth validation | #12 |
-| Fake API handlers (×11) | `test/support/fake_*_api_handler.ex` | **Rebuild** | Static JSON fixtures; v1 envelopes | #12 |
-| `PipedriveClientCase` | `test/support/pipedrive_client_case.ex` | **Adapt** | Cowboy on `:4006`; query-param client | #12 |
-| Integration tests (×31) | `test/**/*.exs` | **Adapt** | Assert v1 `PagedResult`, offset pagination | #8, #9, #10, #12 |
-
-**Test gaps:** no OAuth tests, no `Incoming.Handler` HTTP test, no `PersonHandler` test. `Users` tests added in [#67](https://github.com/blksheep80/ex_pipedrive/issues/67).
-
-### Dependencies
-
-Reviewed for [#27](https://github.com/blksheep80/ex_pipedrive/issues/27) (2026-07-30). Core stays free of Phoenix/Oban; Plug is not a transitive runtime requirement.
-
-| Dep | Env | Used by | Decision | Notes |
-|---|---|---|---|---|
-| `tesla` | runtime | All HTTP | **Keep** | Locked HTTP client (HANDOFF) |
-| `jason` | runtime | JSON | **Keep** | Required with Tesla JSON |
-| `typed_struct` | runtime | Entities | **Keep (v0.1)** | Native Elixir has no drop-in replacement; removing means rewriting entities to `defstruct` + `@type`. Revisit only if Hex weight or maintenance cost justifies a dedicated migration (#32) |
-| `plug` | **optional** | `Incoming.Handler` only | **Optional** | Consumers add `{:plug, ">= 1.16.0"}` for webhooks; module gated with `Code.ensure_loaded?(Plug.Router)` |
-| `plug_cowboy` | test | Fake server | **Keep (test)** | Rebuild with #12 |
-| `timex` | — | — | **Removed** | Was test-only; fakes use `Date.to_iso8601/1` |
-| `credo`, `dialyxir`, `ex_doc`, `doctor` | dev/test | Tooling | **Keep** | See [Tooling decisions](#tooling-decisions-32) |
-| `sobelow` | — | — | **Skip in core** | Phoenix/Plug-oriented; revisit with `ex_pipedrive_web` |
-| `ex_machina` | — | — | **Skip** | Ecto-oriented factories; no value without Ecto in core |
-| `faker` | — | — | **Defer** | Fake-server JSON fixtures are enough for now |
-| Phoenix / Oban | — | — | **Out of core** | Future optional packages |
-
-### Tooling decisions (#32)
-
-| Tool | Decision |
+| Layer | Status |
 |---|---|
-| TypedStruct | **Keep** for v0.1 entities (see deps table). Migration notes: replace `use TypedStruct` with `defstruct` + `@type t :: %__MODULE__{...}` per entity; keep `Structable` transforms. |
-| `doctor` | **Added** — `.doctor.exs` overall doc coverage gate (≥40%); wired into local quality gate + CI (primary OTP/Elixir cell). Module-level floors soft until v1 resources are documented. |
-| Dialyzer | **Local / optional** — `dialyxir` remains a dep; not in CI yet (PLT build cost + inherited noisy types). Run `mix dialyzer` before releases; enable CI once PLT caching and baseline clean-up land. |
-| Sobelow / ExMachina | **Wontfix in core** (see deps table). |
+| Hex | [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published |
+| Client | Tesla + `Request` (default `/api/v2`, explicit `:v1`) + `x-api-token` |
+| Errors / retry | `Error`, `Response`, `Middleware.Retry` / `Telemetry` |
+| Escape hatches | `Raw.request/4`, pluggable OAuth `TokenStore` |
+| Coverage epic | [#66](https://github.com/blksheep80/ex_pipedrive/issues/66) — Waves A–C + #77/#87 done |
+
+**Decision key (resources):** **Done** · **Partial** · **Missing** · **Wontfix** · **Defer**
 
 ---
 
-## Risky behavior — preserve during migration
+## Core platform (done)
 
-| Behavior | Why | Remove when |
+| Area | Modules | Notes |
 |---|---|---|
-| Query-param `api_token` | Existing client contract | #4 |
-| `original_object` on entities | Custom field access without schema | #11 |
-| Dual activity list functions | Different v1 endpoints / pagination | v2 activities API |
-| `Person.new_from_search/1` | Search shape differs from get | #9 |
-| Webhook 200 + Registry dispatch | Pipedrive retry + subscribers | optional package |
-| Offset pagination defaults | Test assertions | #7 |
-| String error messages | `{:ok,_} \| {:error,_}` contract | #5 |
-| Fake v1 server fixtures | 31 tests depend on them | #12 |
+| HTTP | `Client`, `Request`, `Response`, `Error`, `Raw` | v2 default paths; v1 via `api_version: :v1` |
+| Pagination | `Page`, `Cursor`, `PagedResult`, `Pagination`, `AdditionalData` | Cursor streams on v2 list resources |
+| Resource helper | `Resource`, `WriteAttrs` | Adopted by Products/Stages; broader adoption [#78](https://github.com/blksheep80/ex_pipedrive/issues/78) |
+| OAuth | `Oauth`, `Oauth.Token`, `TokenStore` (+ Memory) | Phoenix helpers deferred [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) |
+| Webhooks | `Webhooks` (subscriptions), `Webhook.Event` / `Handler`, `Incoming.Handler` | Event expansion [#81](https://github.com/blksheep80/ex_pipedrive/issues/81); extract package [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |
+| Search | `Search` | v2 item search; explicit opts ([#24](https://github.com/blksheep80/ex_pipedrive/issues/24)) |
+
+Historical LineDrive risks (query-param auth, string errors, OTP Registry) are
+**resolved** for new code; see git history / closed foundation issues #3–#14.
 
 ---
 
-## Follow-up issue map
+## CRM resources — implemented
+
+| Pipedrive tag | Preferred API | Module(s) | Coverage | Issue |
+|---|---|---|---|---|
+| Deals | v2 | `Deals`, `Deal` | CRUD + list/stream | done (#8) |
+| Persons | v2 | `Persons`, `Person` | get/create/update + list/stream (no delete in client) | done (#9) |
+| Organizations | v2 | `Organizations`, `Organization` | CRUD + list/stream | done (#47) |
+| Activities | v2 + v1 | `Activities`, `Activity` | mix of collection/cursor + legacy | Partial — deepen if needed |
+| Pipelines | v2 | `Pipelines`, `Pipeline` | CRUD + list/stream | done |
+| Stages | v2 | `Stages`, `Stage` | CRUD + list/stream | done |
+| Products | v2 | `Products`, `Product` | CRUD + list/stream | done |
+| Product variations | v2 | `ProductVariations` | nested under products | done (#71) |
+| Leads | v1 | `Leads`, `Lead` | get/create/update/list | done (#18) |
+| Notes | v1 | `Notes`, `Note` | create/get/list; org notes shape quirk [#86](https://github.com/blksheep80/ex_pipedrive/issues/86) | Partial |
+| Filters | v1 | `Filters`, `Filter` | CRUD | done (#69) |
+| Files | v1 | `Files`, `File` | upload/download/CRUD + remote | done (#68) |
+| CallLogs | v1 | `CallLogs`, `CallLog` | list/get/create/delete + recording | done (#76) |
+| Goals | v1 | `Goals`, `Goal` | find/create/update/delete/results (no get-by-id) | done (#75) |
+| Mailbox | v1 | `Mailbox`, mail structs | threads/messages read + thread update/delete | done (#74) |
+| Users | v1 | `Users`, `User` | me/get/list/find | done (#67) |
+| Currencies | v1 | `Currencies`, `Currency` | list + client-side get | done (#77) |
+| Recents | v1 | `Recents`, `Recent` | list | done (#77) |
+| Roles | v1 | `Roles`, `Role` | **read** list/get/assignments/pipelines/settings | Partial (#77 — writes → `Raw`) |
+| PermissionSets | v1 | `PermissionSets` | read list/get/assignments | done (#77) |
+| LegacyTeams | v1 | `Teams`, `Team` | **read** list/get/users | Partial (#77 — writes → `Raw`) |
+| ActivityTypes | v1 | `ActivityTypes`, `ActivityType` | list/get/create/update/delete | done (#87) |
+| Webhooks (mgmt) | v1 | `Webhooks` | create/list/delete | done (#23) |
+| Oauth | — | `Oauth` | code exchange + refresh | done (#6) |
+| ItemSearch | v2 | `Search` | stream/search | done (#52) |
+| OrganizationRelationships | v1 | `OrganizationRelationships` | CRUD | done (#73) |
+| Followers / participants | v2 / v1 | `Followers`, `DealParticipants` | followers + deal participants | done (#73) |
+
+### Fields & labels
+
+| Tag | API | Module(s) | Status |
+|---|---|---|---|
+| DealFields / PersonFields / OrganizationFields | v2 | `*Fields` + `Fields` resolve | Done (#22) |
+| ActivityFields / ProductFields | v2 | `ActivityFields`, `ProductFields` | Done (#72) |
+| LeadFields | v1 | — | **Missing** → [#104](https://github.com/blksheep80/ex_pipedrive/issues/104) |
+| NoteFields | v1 | — | **Missing** → [#107](https://github.com/blksheep80/ex_pipedrive/issues/107) |
+| ProjectFields | v2 | — | **Missing** (with Projects) → [#105](https://github.com/blksheep80/ex_pipedrive/issues/105) |
+| Deal / Person / Org / Lead labels | v2 field options + v1 LeadLabels | `Labels`, `*Labels` | Done (#70) |
+
+---
+
+## Pipedrive tags — gaps (drive #88)
+
+Confirmed against OpenAPI tags (2026-07-31). Prefer **v2** when both exist.
+
+| Tag | v1 | v2 | Decision | Notes / follow-up |
+|---|---|---|---|---|
+| **DealProducts** | — | yes | **Missing** — must-have | [#102](https://github.com/blksheep80/ex_pipedrive/issues/102) |
+| **DealInstallments** | — | yes | **Missing** — should-have | [#103](https://github.com/blksheep80/ex_pipedrive/issues/103) |
+| **LeadFields** | yes | — | **Missing** — must-have | [#104](https://github.com/blksheep80/ex_pipedrive/issues/104) |
+| **LeadSources** | yes | — | **Missing** — should-have | with [#104](https://github.com/blksheep80/ex_pipedrive/issues/104) |
+| **NoteFields** | yes | — | **Missing** — nice-to-have | [#107](https://github.com/blksheep80/ex_pipedrive/issues/107) |
+| **Projects** | yes | yes | **Missing** — must-have if productizing Projects | [#105](https://github.com/blksheep80/ex_pipedrive/issues/105) |
+| **ProjectBoards** | yes | yes | **Missing** | with [#105](https://github.com/blksheep80/ex_pipedrive/issues/105) |
+| **ProjectPhases** | yes | yes | **Missing** | with [#105](https://github.com/blksheep80/ex_pipedrive/issues/105) |
+| **ProjectTemplates** | yes | yes | **Missing** | with [#105](https://github.com/blksheep80/ex_pipedrive/issues/105) |
+| **ProjectFields** | — | yes | **Missing** | with [#105](https://github.com/blksheep80/ex_pipedrive/issues/105) |
+| **Tasks** | yes | yes | **Missing** — should-have | [#106](https://github.com/blksheep80/ex_pipedrive/issues/106) |
+| **Channels** | yes | — | **Defer** | Messaging integrations; niche |
+| **Meetings** | yes | — | **Defer** | Calendar/meetings product surface |
+| **UserConnections** | yes | — | **Defer** | Account linking |
+| **UserSettings** | yes | — | **Defer** | Per-user prefs |
+| **Billing** | yes | — | **Wontfix** | Account billing; not an SDK target |
+| **Beta** | — | yes | **Wontfix** | Unstable; use `Raw` if needed |
+| Activities (deeper) | yes | yes | **Partial** | Expand only if callers need missing endpoints |
+| Roles / Teams writes | yes | — | **Partial** | Documented deferred; `Raw` OK |
+| Persons delete | v2 | yes | **Partial** | Add if requested |
+
+---
+
+## Polish / packages (tracked outside #88)
 
 | Work | Issue |
 |---|---|
-| v2 client foundation + routing | [#3](https://github.com/blksheep80/ex_pipedrive/issues/3) |
-| Header-based token auth | [#4](https://github.com/blksheep80/ex_pipedrive/issues/4) |
-| Structured `ExPipedrive.Error` | [#5](https://github.com/blksheep80/ex_pipedrive/issues/5) |
-| Cursor pagination + Stream | [#7](https://github.com/blksheep80/ex_pipedrive/issues/7) |
-| Deals v2 | [#8](https://github.com/blksheep80/ex_pipedrive/issues/8) |
-| Persons v2 | [#9](https://github.com/blksheep80/ex_pipedrive/issues/9) |
-| MVP docs + tests | [#10](https://github.com/blksheep80/ex_pipedrive/issues/10) |
-| Entity structs for v2 shapes | [#11](https://github.com/blksheep80/ex_pipedrive/issues/11) |
-| Rebuild fake-server fixtures | [#12](https://github.com/blksheep80/ex_pipedrive/issues/12) |
-| Remove OTP Application/Registry coupling | [#14](https://github.com/blksheep80/ex_pipedrive/issues/14) |
-| Upstream search options carryover | [#24](https://github.com/blksheep80/ex_pipedrive/issues/24) |
-| Upstream weighted pipeline history | [#25](https://github.com/blksheep80/ex_pipedrive/issues/25) |
-| Slim core dependencies | [#27](https://github.com/blksheep80/ex_pipedrive/issues/27) |
-
-**Recommended new issues (not yet filed):**
-
-- Webhooks → optional `ex_pipedrive_web` package (extract Plug handlers + Registry).
-- OAuth TokenStore middleware (HANDOFF locked decision: pluggable, no Ecto in core).
+| Finish `Resource` adoption | [#78](https://github.com/blksheep80/ex_pipedrive/issues/78) |
+| Facade / dual twin cleanup | [#79](https://github.com/blksheep80/ex_pipedrive/issues/79) |
+| Webhook event expansion | [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) |
+| `ex_pipedrive_web` package | [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |
+| Dialyzer in CI | [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) |
+| Normalize list return shapes | [#86](https://github.com/blksheep80/ex_pipedrive/issues/86) |
+| Oban sync package | [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) |
+| Phoenix OAuth helpers | [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) |
+| Upstream LineDrive notify | [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) **HOLD** until #66 substantially done |
+| Upstream parity tracker | [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) |
 
 ---
 
-## Recommended sequencing (post-audit)
+## Test / tooling notes
 
-Per [HANDOFF.md](HANDOFF.md) foundation order:
+- Fake server: large route mirror on fixed port `4006` (`PipedriveClientCase`); prefer appending handlers over rewriting.
+- Quality gate: `mix test`, `mix format --check-formatted`, `mix credo --strict`.
+- Dialyzer: local-only until [#84](https://github.com/blksheep80/ex_pipedrive/issues/84).
+- Doctor: doc coverage gate in CI (primary matrix cell).
 
-1. ~~#1 Rebrand~~ (done)
-2. ~~#2 Audit~~ (this doc)
-3. #14 Remove silent OTP/Registry coupling
-4. ~~#27 Slim core dependencies~~ (done — Timex removed; Plug optional)
-5. #3 v2-first client foundation
-6. #4, #5, #11, #12, #7, #8, #9, #10
+---
 
-Do not start API v2 resource work until the lean core surface is clear (#14/#27 done) or the human explicitly scopes earlier.
+## Recommended next coverage order
+
+1. [#102](https://github.com/blksheep80/ex_pipedrive/issues/102) Deal products (+ [#103](https://github.com/blksheep80/ex_pipedrive/issues/103) installments if cheap).
+2. [#104](https://github.com/blksheep80/ex_pipedrive/issues/104) LeadFields (+ LeadSources).
+3. [#105](https://github.com/blksheep80/ex_pipedrive/issues/105) Projects cluster **or** [#106](https://github.com/blksheep80/ex_pipedrive/issues/106) Tasks — product decision.
+4. [#107](https://github.com/blksheep80/ex_pipedrive/issues/107) NoteFields.
+5. Polish wave (#78, #86, #81) interleaved with Hex `0.2.0` when coverage feels shippable.
+
+Catch-all checklist: [#88](https://github.com/blksheep80/ex_pipedrive/issues/88). Do **not** invent endpoints — cite Pipedrive docs / OpenAPI when filing children.
