@@ -24,7 +24,9 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeFollowerV2ApiHandler
   import ExPipedrive.FakeGoalApiHandler
   import ExPipedrive.FakeLeadApiHandler
+  import ExPipedrive.FakeLeadFieldApiHandler
   import ExPipedrive.FakeLeadLabelApiHandler
+  import ExPipedrive.FakeLeadSourceApiHandler
   import ExPipedrive.FakeMailboxApiHandler
   import ExPipedrive.FakeNoteApiHandler
   import ExPipedrive.FakeNoteFieldApiHandler
@@ -242,6 +244,18 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_list_pipelines()
+  end
+
+  get "/api/v1/leadFields" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_lead_fields(conn.query_params)
+  end
+
+  get "/api/v1/leadSources" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_lead_sources()
   end
 
   get "/api/v1/leadLabels" do

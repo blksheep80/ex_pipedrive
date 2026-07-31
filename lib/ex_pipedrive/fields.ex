@@ -5,9 +5,11 @@ defmodule ExPipedrive.Fields do
   Fetch definitions with `ExPipedrive.DealFields.list_page/2`,
   `ExPipedrive.PersonFields.list_page/2`,
   `ExPipedrive.OrganizationFields.list_page/2`,
-  `ExPipedrive.ActivityFields.list_page/2`, or
-  `ExPipedrive.ProductFields.list_page/2`. API v2 calls the hash a
+  `ExPipedrive.ActivityFields.list_page/2`,
+  `ExPipedrive.ProductFields.list_page/2`, or
+  `ExPipedrive.LeadFields.list/2`. API v2 calls the hash a
   `field_code`; it is the key used in an entity's `custom_fields` map.
+  API v1 lead fields expose the same hash as `key`.
 
   For example:
 
