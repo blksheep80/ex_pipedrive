@@ -58,7 +58,7 @@ defmodule ExPipedrive.Lead do
     |> Map.update(:expected_close_date, nil, &parse_date/1)
     |> Map.update(:organization, nil, &safe_new_organization/1)
     |> Map.update(:person, nil, &safe_new_person/1)
-    |> Map.update(:value, nil, &safe_new_value/1)
+    |> Map.update(:value, nil, &safe_new_value(&1, original))
     |> Map.update(:add_time, nil, &parse_datetime/1)
     |> Map.update(:update_time, nil, &parse_datetime/1)
     |> Map.put(:original_object, original)
@@ -70,6 +70,14 @@ defmodule ExPipedrive.Lead do
   defp safe_new_person(nil), do: nil
   defp safe_new_person(data), do: LeadPerson.new(data)
 
-  defp safe_new_value(nil), do: nil
-  defp safe_new_value(data), do: LeadValue.new(data)
+  defp safe_new_value(nil, _original), do: nil
+
+  defp safe_new_value(data, original) when is_number(data) do
+    LeadValue.new(%{
+      amount: data,
+      currency: Map.get(original, :currency) || Map.get(original, "currency")
+    })
+  end
+
+  defp safe_new_value(data, _original), do: LeadValue.new(data)
 end
