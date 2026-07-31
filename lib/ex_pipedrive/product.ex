@@ -3,8 +3,8 @@ defmodule ExPipedrive.Product do
   Product entity decoded from Pipedrive API v2 responses.
 
   Prices are kept as maps (`currency`, `price`, `cost`, `direct_cost`, …).
-  Product variations live on a separate API and are not embedded here.
-  The raw payload remains on `original_object`.
+  Product variations live on a separate API (`ExPipedrive.ProductVariations`)
+  and are not embedded here. The raw payload remains on `original_object`.
   """
 
   use TypedStruct
