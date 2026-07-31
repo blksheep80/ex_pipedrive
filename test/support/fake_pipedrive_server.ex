@@ -19,6 +19,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeFileApiHandler
   import ExPipedrive.FakeFilterApiHandler
   import ExPipedrive.FakeFollowerV2ApiHandler
+  import ExPipedrive.FakeGoalApiHandler
   import ExPipedrive.FakeLeadApiHandler
   import ExPipedrive.FakeLeadLabelApiHandler
   import ExPipedrive.FakeMailboxApiHandler
@@ -425,6 +426,14 @@ defmodule ExPipedrive.FakePipedriveServer do
     handle_list_fields_v2(conn, "organization", conn.query_params)
   end
 
+  get "/api/v2/activityFields" do
+    handle_list_fields_v2(conn, "activity", conn.query_params)
+  end
+
+  get "/api/v2/productFields" do
+    handle_list_fields_v2(conn, "product", conn.query_params)
+  end
+
   get "/api/v2/dealFields/:field_code" do
     handle_get_deal_label_field(conn, conn.params)
   end
@@ -699,6 +708,36 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_get_mail_message(conn.params)
+  end
+
+  get "/api/v1/goals/find" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_find_goals(conn.query_params)
+  end
+
+  post "/api/v1/goals" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_create_goal()
+  end
+
+  put "/api/v1/goals/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_update_goal()
+  end
+
+  delete "/api/v1/goals/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_delete_goal(conn.params)
+  end
+
+  get "/api/v1/goals/:id/results" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_goal_result(conn.params)
   end
 
   match _ do

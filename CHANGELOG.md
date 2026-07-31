@@ -18,14 +18,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-### Added
-
 - `ExPipedrive.Mailbox` (API v1): `list_threads/2`, `get_thread/2`,
   `list_thread_messages/2`, `get_message/3`, `update_thread/3`,
   `delete_thread/2` against `/api/v1/mailbox/{mailThreads,mailMessages}`;
   typed `ExPipedrive.MailThread`, `MailMessage`, and `MailMessageParty`
   structs (`mail:read`/`mail:full` OAuth scopes)
   ([#74](https://github.com/blksheep80/ex_pipedrive/issues/74)).
+- `ExPipedrive.Goals` (API v1): `list/2` (`GET /api/v1/goals/find` with
+  dot-notation filter options), `create/2`, `update/3`, `delete/2`, and
+  `get_result/4` (a goal's progress for a period) against `/api/v1/goals`;
+  typed `ExPipedrive.Goal` struct with string ids and plain-map
+  `type`/`assignee`/`expected_outcome`/`duration` (Pipedrive has no
+  single-goal `get` endpoint) ([#75](https://github.com/blksheep80/ex_pipedrive/issues/75)).
+- `ExPipedrive.ActivityFields` and `ExPipedrive.ProductFields` (API v2):
+  `list_page/2`/`stream/2` over `/api/v2/{activity,product}Fields`, matching
+  the existing Deal/Person/Organization field modules; `ExPipedrive.Fields`
+  resolves custom-field hashes/labels for both
+  ([#72](https://github.com/blksheep80/ex_pipedrive/issues/72)).
 - Followers, deal participants, and organization relationships
   ([#73](https://github.com/blksheep80/ex_pipedrive/issues/73)):
   `ExPipedrive.Followers` (API v2) manages followers on deals, persons, and
