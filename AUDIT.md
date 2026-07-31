@@ -58,7 +58,7 @@ Historical LineDrive risks (query-param auth, string errors, OTP Registry) are
 | Products | v2 | `Products`, `Product` | CRUD + list/stream | done |
 | Product variations | v2 | `ProductVariations` | nested under products | done (#71) |
 | Leads | v1 | `Leads`, `Lead` | get/create/update/list | done (#18) |
-| Notes | v1 | `Notes`, `Note` | create/get/list; org notes shape quirk [#86](https://github.com/blksheep80/ex_pipedrive/issues/86) | Partial |
+| Notes | v1 | `Notes`, `Note` | create/get/list; `get_all_org_notes` → `PagedResult` ([#86](https://github.com/blksheep80/ex_pipedrive/issues/86)) | Yes |
 | Filters | v1 | `Filters`, `Filter` | CRUD | done (#69) |
 | Files | v1 | `Files`, `File` | upload/download/CRUD + remote | done (#68) |
 | CallLogs | v1 | `CallLogs`, `CallLog` | list/get/create/delete + recording | done (#76) |
@@ -128,7 +128,7 @@ Confirmed against OpenAPI tags (2026-07-31). Prefer **v2** when both exist.
 | Webhook event expansion | [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) |
 | `ex_pipedrive_web` package | [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |
 | Dialyzer in CI | [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) |
-| Normalize list return shapes | [#86](https://github.com/blksheep80/ex_pipedrive/issues/86) |
+| Normalize list return shapes | [#86](https://github.com/blksheep80/ex_pipedrive/issues/86) — done (`PagedResult` + docs) |
 | Oban sync package | [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) |
 | Phoenix OAuth helpers | [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) |
 | Upstream LineDrive notify | [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) **HOLD** until #66 substantially done |

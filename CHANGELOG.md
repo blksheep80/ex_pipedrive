@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **List return shapes** — `Notes.get_all_org_notes/2` now returns
+  `{:ok, %PagedResult{}}` like `Notes.list/2` (was a bare note list). Prefer
+  `list/2` with `:org_id`. Documented list conventions on `ExPipedrive.Page`;
+  soft-documented `Pipelines.list_pipelines/1` in favor of `list_page/2` /
+  `stream/2` ([#86](https://github.com/blksheep80/ex_pipedrive/issues/86)).
 - Refresh [AUDIT.md](AUDIT.md) as a current Pipedrive OpenAPI gap map
   (implemented vs missing tags); catch-all checklist split into focused
   issues ([#83](https://github.com/blksheep80/ex_pipedrive/issues/83),

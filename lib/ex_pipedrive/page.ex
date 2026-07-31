@@ -4,6 +4,18 @@ defmodule ExPipedrive.Page do
 
   Prefer this over bare lists for v2 list endpoints so callers can follow
   `next_cursor` (or use `ExPipedrive.Cursor.stream/2`).
+
+  ## List return conventions
+
+  | API style | Preferred return | Stream |
+  |---|---|---|
+  | v2 cursor | `{:ok, %Page{}}` via `list_page/2` | `stream/2` |
+  | v1 offset | `{:ok, %ExPipedrive.PagedResult{}}` via `list/2` | optional |
+  | Fixed / tiny collections (no pagination) | `{:ok, list}` | n/a |
+
+  Avoid helpers that return a bare list when the underlying endpoint is
+  paginated — see `ExPipedrive.Notes.get_all_org_notes/2` (now a `PagedResult`
+  wrapper) and soft-deprecated `ExPipedrive.Pipelines.list_pipelines/1`.
   """
 
   use TypedStruct

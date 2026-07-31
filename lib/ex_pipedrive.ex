@@ -11,7 +11,8 @@ defmodule ExPipedrive do
   defdelegate create_organization(client, org), to: ExPipedrive.Organizations
   defdelegate create_person(client, person), to: ExPipedrive.Persons
   defdelegate find_users_by_name(client, term, opts \\ []), to: ExPipedrive.Users
-  defdelegate get_all_org_notes(client, org_id, opts), to: ExPipedrive.Notes
+  defdelegate get_all_org_notes(client, org_id, opts \\ []), to: ExPipedrive.Notes
+
   defdelegate get_deal(client, deal_id), to: ExPipedrive.Deals
   defdelegate get_lead(client, lead_id), to: ExPipedrive.Leads
   defdelegate get_organization(client, org_id), to: ExPipedrive.Organizations

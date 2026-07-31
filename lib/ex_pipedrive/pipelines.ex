@@ -4,7 +4,8 @@ defmodule ExPipedrive.Pipelines do
 
   v2-first helpers (`get/2`, `create/2`, `update/3`, `delete/2`, `list_page/2`,
   `stream/2`) talk to `/api/v2/pipelines`. Legacy `list_pipelines/1` and
-  `list_pipeline_deals/2` remain on API v1.
+  `list_pipeline_deals/2` remain on API v1 — prefer `list_page/2` / `stream/2`
+  for new code (`list_pipelines/1` returns a bare `{:ok, list}`).
 
   For deals in a pipeline on v2, prefer `ExPipedrive.Deals.list_page/2` or
   `stream/2` with `pipeline_id:` — Pipedrive deprecated
@@ -121,6 +122,13 @@ defmodule ExPipedrive.Pipelines do
 
   # --- API v1 (legacy) ---
 
+  @doc """
+  Lists all pipelines via API v1 `GET /pipelines`.
+
+  Soft-deprecated: prefer `list_page/2` or `stream/2` (API v2, `{:ok, %Page{}}`
+  / lazy stream). This helper returns `{:ok, [%Pipeline{}]}` with no pagination
+  metadata.
+  """
   def list_pipelines(%Client{} = client) do
     client
     |> Request.get("pipelines", api_version: :v1)

@@ -1,6 +1,10 @@
 defmodule ExPipedrive.PagedResult do
   @moduledoc """
-  This module and enclosed structs represent paged response data from pipedrive.
+  Offset-paginated response wrapper for Pipedrive API v1 list endpoints.
+
+  Prefer `{:ok, %PagedResult{}}` (or v2 `%ExPipedrive.Page{}`) over bare lists
+  when the API returns pagination metadata. See `ExPipedrive.Page` for the
+  documented list-return conventions.
   """
 
   use TypedStruct
