@@ -25,6 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.DealInstallments` (API v2, Growth+ plans): `list_page/2`/`stream/2`
+  (requires `:deal_ids`), `create/3`, `update/4`, and `delete/3` against
+  `/api/v2/deals/installments` and `/api/v2/deals/:id/installments`; typed
+  `ExPipedrive.DealInstallment`
+  ([#103](https://github.com/blksheep80/ex_pipedrive/issues/103)).
 - `ExPipedrive.LeadFields` and `ExPipedrive.LeadSources` (API v1):
   `list/2`/`stream/2` over `/api/v1/leadFields` (offset pagination,
   reusing `ExPipedrive.Field`) and `list/1` over `/api/v1/leadSources`
