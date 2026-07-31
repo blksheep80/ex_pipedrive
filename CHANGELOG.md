@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.ActivityFields` and `ExPipedrive.ProductFields` (API v2):
+  `list_page/2`/`stream/2` over `/api/v2/{activity,product}Fields`, matching
+  the existing Deal/Person/Organization field modules; `ExPipedrive.Fields`
+  resolves custom-field hashes/labels for both
+  ([#72](https://github.com/blksheep80/ex_pipedrive/issues/72)).
 - Followers, deal participants, and organization relationships
   ([#73](https://github.com/blksheep80/ex_pipedrive/issues/73)):
   `ExPipedrive.Followers` (API v2) manages followers on deals, persons, and

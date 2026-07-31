@@ -127,6 +127,8 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.DealFields,
           ExPipedrive.PersonFields,
           ExPipedrive.OrganizationFields,
+          ExPipedrive.ActivityFields,
+          ExPipedrive.ProductFields,
           ExPipedrive.Field,
           ExPipedrive.FieldOption
         ],
