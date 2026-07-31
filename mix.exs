@@ -132,6 +132,14 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Search,
           ExPipedrive.SearchResult
         ],
+        Collaboration: [
+          ExPipedrive.Followers,
+          ExPipedrive.Follower,
+          ExPipedrive.DealParticipants,
+          ExPipedrive.DealParticipant,
+          ExPipedrive.OrganizationRelationships,
+          ExPipedrive.OrganizationRelationship
+        ],
         OAuth: [
           ExPipedrive.Oauth,
           ExPipedrive.Oauth.Token,

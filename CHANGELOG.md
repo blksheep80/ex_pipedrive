@@ -18,6 +18,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Followers, deal participants, and organization relationships
+  ([#73](https://github.com/blksheep80/ex_pipedrive/issues/73)):
+  `ExPipedrive.Followers` (API v2) manages followers on deals, persons, and
+  organizations via the shared `GET`/`POST`/`DELETE
+  /api/v2/{deals,persons,organizations}/:id/followers` shape, with cursor
+  `list_page/4`/`stream/4` and per-entity convenience wrappers;
+  `ExPipedrive.DealParticipants` is an API v1 shim over
+  `/api/v1/deals/:id/participants` (`ExPipedrive.DealParticipant` is distinct
+  from the existing `ActivityParticipant`, which decodes activity payloads);
+  `ExPipedrive.OrganizationRelationships` is an API v1 client over
+  `/api/v1/organizationRelationships` (parent/related org hierarchies).
 - `ExPipedrive.Files` (API v1): list/get/upload/download/update/delete plus
   Google Drive `create_remote/2` and `remote_link/2`; multipart uploads via
   `Tesla.Multipart` with deal/person/org/activity/product/lead/project link
