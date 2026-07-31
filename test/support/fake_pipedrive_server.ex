@@ -27,6 +27,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeLeadLabelApiHandler
   import ExPipedrive.FakeMailboxApiHandler
   import ExPipedrive.FakeNoteApiHandler
+  import ExPipedrive.FakeNoteFieldApiHandler
   import ExPipedrive.FakeOrganizationApiHandler
   import ExPipedrive.FakeOrganizationFieldApiHandler
   import ExPipedrive.FakeOrganizationLabelApiHandler
@@ -157,6 +158,12 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_get_note(conn.params)
+  end
+
+  get "/api/v1/noteFields" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_note_fields()
   end
 
   get "/api/v1/organizationFields/" do
