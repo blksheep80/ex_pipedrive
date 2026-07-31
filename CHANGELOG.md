@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (`%{success: true, data: data}`) and silently returned no matches against
   Jason-decoded (string-key) JSON. Now matches `%{"data" => data}` like every
   other resource module ([#67](https://github.com/blksheep80/ex_pipedrive/issues/67)).
+- Preserve API-provided lead value currencies and leave bare numeric values
+  currency-less.
 
 ### Added
 
