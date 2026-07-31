@@ -33,6 +33,9 @@ Status as of 2026-07-31. Use this when starting a new agent session in this repo
 - **Files / attachments** ([#68](https://github.com/blksheep80/ex_pipedrive/issues/68), [#93](https://github.com/blksheep80/ex_pipedrive/pull/93)): `ExPipedrive.Files` multipart upload/download/list/get/update/delete + Google Drive remote helpers (API v1).
 - **Wave B** ([#71](https://github.com/blksheep80/ex_pipedrive/issues/71)/[#95](https://github.com/blksheep80/ex_pipedrive/pull/95) ProductVariations, [#73](https://github.com/blksheep80/ex_pipedrive/issues/73)/[#96](https://github.com/blksheep80/ex_pipedrive/pull/96) Followers/DealParticipants/OrgRelationships, [#76](https://github.com/blksheep80/ex_pipedrive/issues/76)/[#94](https://github.com/blksheep80/ex_pipedrive/pull/94) CallLogs).
 - **Wave C** ([#72](https://github.com/blksheep80/ex_pipedrive/issues/72)/[#97](https://github.com/blksheep80/ex_pipedrive/pull/97) Activity/Product Fields, [#75](https://github.com/blksheep80/ex_pipedrive/issues/75)/[#98](https://github.com/blksheep80/ex_pipedrive/pull/98) Goals, [#74](https://github.com/blksheep80/ex_pipedrive/issues/74)/[#99](https://github.com/blksheep80/ex_pipedrive/pull/99) Mailbox).
+- **Admin meta** ([#77](https://github.com/blksheep80/ex_pipedrive/issues/77)/[#100](https://github.com/blksheep80/ex_pipedrive/pull/100)): Currencies, Recents, Roles, PermissionSets, Teams.
+- **ActivityTypes CRUD** ([#87](https://github.com/blksheep80/ex_pipedrive/issues/87)/[#101](https://github.com/blksheep80/ex_pipedrive/pull/101)).
+- **AUDIT refresh** ([#83](https://github.com/blksheep80/ex_pipedrive/issues/83)): current gap map in [AUDIT.md](AUDIT.md); catch-all [#88](https://github.com/blksheep80/ex_pipedrive/issues/88) split into [#102](https://github.com/blksheep80/ex_pipedrive/issues/102)–[#107](https://github.com/blksheep80/ex_pipedrive/issues/107).
 
 ## Locked decisions
 
@@ -80,13 +83,13 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **Next (v0.3+ API coverage epic):** [#66](https://github.com/blksheep80/ex_pipedrive/issues/66)
 
-Priority order (see epic for full child list):
+Priority order (see [AUDIT.md](AUDIT.md) + epic):
 
-1. More coverage: [#77](https://github.com/blksheep80/ex_pipedrive/issues/77) Currencies/Recents/Permissions · [#87](https://github.com/blksheep80/ex_pipedrive/issues/87) ActivityTypes · [#88](https://github.com/blksheep80/ex_pipedrive/issues/88) catch-all
+1. Coverage children from #88: [#102](https://github.com/blksheep80/ex_pipedrive/issues/102) DealProducts · [#103](https://github.com/blksheep80/ex_pipedrive/issues/103) DealInstallments · [#104](https://github.com/blksheep80/ex_pipedrive/issues/104) LeadFields · [#105](https://github.com/blksheep80/ex_pipedrive/issues/105) Projects · [#106](https://github.com/blksheep80/ex_pipedrive/issues/106) Tasks · [#107](https://github.com/blksheep80/ex_pipedrive/issues/107) NoteFields
 2. Polish: [#78](https://github.com/blksheep80/ex_pipedrive/issues/78)–[#84](https://github.com/blksheep80/ex_pipedrive/issues/84), [#86](https://github.com/blksheep80/ex_pipedrive/issues/86)
 3. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
 
-**Done recently:** Waves A–C (#67/#69/#70/#80, #68 Files, #71/#73/#76, #72/#74/#75).
+**Done recently:** Waves A–C · [#77](https://github.com/blksheep80/ex_pipedrive/issues/77) admin meta · [#87](https://github.com/blksheep80/ex_pipedrive/issues/87) ActivityTypes · [#83](https://github.com/blksheep80/ex_pipedrive/issues/83)/[#88](https://github.com/blksheep80/ex_pipedrive/issues/88) AUDIT refresh + catch-all split.
 
 **Hex:** [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published ([release v0.1.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.1.0)); [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) done.
 
@@ -95,7 +98,7 @@ Priority order (see epic for full child list):
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Waves A–C done. Next: #77 admin meta, #87 ActivityTypes, #88 catch-all, or polish #78–#86. Prefer isolated worktrees for parallel PRs.
+Open HANDOFF.md + AUDIT.md. Next coverage: #102 DealProducts (then #103/#104). Prefer isolated worktrees for parallel PRs.
 ```
 
 ## How to resume
