@@ -102,6 +102,7 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Pipelines,
           ExPipedrive.Stages,
           ExPipedrive.Products,
+          ExPipedrive.DealInstallments,
           ExPipedrive.Leads,
           ExPipedrive.Notes,
           ExPipedrive.Filters,

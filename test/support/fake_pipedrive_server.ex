@@ -14,6 +14,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeDealApiHandler
   import ExPipedrive.FakeDealFieldApiHandler
   import ExPipedrive.FakeDealLabelApiHandler
+  import ExPipedrive.FakeDealInstallmentV2ApiHandler
   import ExPipedrive.FakeDealParticipantApiHandler
   import ExPipedrive.FakeDealV2ApiHandler
   import ExPipedrive.FakeFieldV2ApiHandler
@@ -509,6 +510,10 @@ defmodule ExPipedrive.FakePipedriveServer do
     handle_list_deals_v2(conn, conn.query_params)
   end
 
+  get "/api/v2/deals/installments" do
+    handle_list_deal_installments_v2(conn, conn.query_params)
+  end
+
   post "/api/v2/deals" do
     handle_create_deal_v2(conn)
   end
@@ -651,6 +656,18 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   delete "/api/v2/deals/:id/followers/:follower_id" do
     handle_delete_follower_v2(conn, "deals", conn.params)
+  end
+
+  post "/api/v2/deals/:id/installments" do
+    handle_create_deal_installment_v2(conn)
+  end
+
+  patch "/api/v2/deals/:id/installments/:installment_id" do
+    handle_update_deal_installment_v2(conn)
+  end
+
+  delete "/api/v2/deals/:id/installments/:installment_id" do
+    handle_delete_deal_installment_v2(conn, conn.params)
   end
 
   get "/api/v2/persons/:id/followers" do
