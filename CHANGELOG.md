@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.Files` (API v1): list/get/upload/download/update/delete plus
+  Google Drive `create_remote/2` and `remote_link/2`; multipart uploads via
+  `Tesla.Multipart` with deal/person/org/activity/product/lead/project link
+  fields ([#68](https://github.com/blksheep80/ex_pipedrive/issues/68)).
 - Labels API ([#70](https://github.com/blksheep80/ex_pipedrive/issues/70)):
   `ExPipedrive.DealLabels`, `PersonLabels`, `OrganizationLabels` manage label
   definitions via the API v2 `label_ids` field-options bulk endpoints

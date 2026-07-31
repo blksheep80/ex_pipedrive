@@ -14,6 +14,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeDealLabelApiHandler
   import ExPipedrive.FakeDealV2ApiHandler
   import ExPipedrive.FakeFieldV2ApiHandler
+  import ExPipedrive.FakeFileApiHandler
   import ExPipedrive.FakeFilterApiHandler
   import ExPipedrive.FakeLeadApiHandler
   import ExPipedrive.FakeLeadLabelApiHandler
@@ -37,8 +38,8 @@ defmodule ExPipedrive.FakePipedriveServer do
   plug(:match)
 
   plug(Plug.Parsers,
-    parsers: [:json],
-    pass: ["application/json"],
+    parsers: [:urlencoded, :multipart, :json],
+    pass: ["*/*"],
     json_decoder: Jason
   )
 
@@ -240,6 +241,40 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_list_own_activities()
+  end
+
+  get "/api/v1/files" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_files(conn.query_params)
+  end
+
+  post "/api/v1/files/remote" do
+    handle_create_remote_file(conn)
+  end
+
+  post "/api/v1/files/remoteLink" do
+    handle_remote_link_file(conn)
+  end
+
+  post "/api/v1/files" do
+    handle_upload_file(conn)
+  end
+
+  get "/api/v1/files/:id/download" do
+    handle_download_file(conn, conn.params)
+  end
+
+  put "/api/v1/files/:id" do
+    handle_update_file(conn)
+  end
+
+  delete "/api/v1/files/:id" do
+    handle_delete_file(conn, conn.params)
+  end
+
+  get "/api/v1/files/:id" do
+    handle_get_file(conn, conn.params)
   end
 
   get "/api/v1/filters" do
