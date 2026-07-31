@@ -9,6 +9,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeActivityApiHandler
   import ExPipedrive.FakeActivityTypeApiHandler
   import ExPipedrive.FakeActivityV2ApiHandler
+  import ExPipedrive.FakeCallLogApiHandler
   import ExPipedrive.FakeDealApiHandler
   import ExPipedrive.FakeDealFieldApiHandler
   import ExPipedrive.FakeDealLabelApiHandler
@@ -340,6 +341,36 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_get_filter(conn.params)
+  end
+
+  get "/api/v1/callLogs" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_call_logs(conn.query_params)
+  end
+
+  post "/api/v1/callLogs" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_create_call_log()
+  end
+
+  post "/api/v1/callLogs/:id/recordings" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_add_call_log_recording()
+  end
+
+  delete "/api/v1/callLogs/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_delete_call_log(conn.params)
+  end
+
+  get "/api/v1/callLogs/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_call_log(conn.params)
   end
 
   get "/api/v1/users/me" do

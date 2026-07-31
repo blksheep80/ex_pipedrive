@@ -106,6 +106,7 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Notes,
           ExPipedrive.Filters,
           ExPipedrive.Files,
+          ExPipedrive.CallLogs,
           ExPipedrive.ActivityTypes,
           ExPipedrive.Users,
           ExPipedrive.Deal,
@@ -118,7 +119,8 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Lead,
           ExPipedrive.Note,
           ExPipedrive.Filter,
-          ExPipedrive.File
+          ExPipedrive.File,
+          ExPipedrive.CallLog
         ],
         Fields: [
           ExPipedrive.Fields,
