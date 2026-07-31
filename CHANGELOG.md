@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.ProductVariations` (API v2): `list_page/3`, `stream/3`,
+  `get/3` (client-side, since Pipedrive has no single-variation endpoint),
+  `create/3`, `update/4`, `delete/3` against the nested
+  `/api/v2/products/:id/variations` API; typed `ExPipedrive.ProductVariation`
+  struct ([#71](https://github.com/blksheep80/ex_pipedrive/issues/71)).
 - `ExPipedrive.Files` (API v1): list/get/upload/download/update/delete plus
   Google Drive `create_remote/2` and `remote_link/2`; multipart uploads via
   `Tesla.Multipart` with deal/person/org/activity/product/lead/project link

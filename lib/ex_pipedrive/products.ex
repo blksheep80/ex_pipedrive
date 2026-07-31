@@ -5,8 +5,8 @@ defmodule ExPipedrive.Products do
   v2-first helpers (`get/2`, `create/2`, `update/3`, `delete/2`, `list_page/2`,
   `stream/2`) talk to `/api/v2/products` via `ExPipedrive.Resource`.
 
-  Product variations (`/api/v2/products/:id/variations`) are deferred to a
-  follow-up — use `ExPipedrive.Raw.request/4` if you need them sooner.
+  Product variations (`/api/v2/products/:id/variations`) are a separate
+  nested API — see `ExPipedrive.ProductVariations`.
   """
 
   @behaviour ExPipedrive.Resource
