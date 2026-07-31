@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `ExPipedrive.Users.find_users_by_name/3` matched atom-key response bodies
+  (`%{success: true, data: data}`) and silently returned no matches against
+  Jason-decoded (string-key) JSON. Now matches `%{"data" => data}` like every
+  other resource module ([#67](https://github.com/blksheep80/ex_pipedrive/issues/67)).
+
+### Added
+
+- `ExPipedrive.Users` (API v1): `me/1`, `get/2`, `list/2` (offset pagination),
+  plus fake-server fixtures and tests for `me`/`get`/`list`/`find_users_by_name`
+  ([#67](https://github.com/blksheep80/ex_pipedrive/issues/67)).
+
 ## [0.1.0] - 2026-07-31
 
 First Hex release of **ExPipedrive**, a v2-first fork of

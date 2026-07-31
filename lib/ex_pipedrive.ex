@@ -39,6 +39,9 @@ defmodule ExPipedrive do
   defdelegate list_pipelines(client), to: ExPipedrive.Pipelines
   defdelegate list_products_page(client, opts \\ []), to: ExPipedrive.Products
   defdelegate stream_products(client, opts \\ []), to: ExPipedrive.Products
+  defdelegate list_users(client, opts \\ []), to: ExPipedrive.Users, as: :list
+  defdelegate get_user(client, user_id), to: ExPipedrive.Users, as: :get
+  defdelegate me(client), to: ExPipedrive.Users
   defdelegate search_deals(client, term, opts), to: ExPipedrive.Deals
   defdelegate search_leads(client, term, opts), to: ExPipedrive.Leads
   defdelegate search_organizations(client, term, opts), to: ExPipedrive.Organizations

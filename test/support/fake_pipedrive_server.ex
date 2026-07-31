@@ -26,6 +26,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeItemSearchV2ApiHandler
   import ExPipedrive.FakeProductV2ApiHandler
   import ExPipedrive.FakeStageV2ApiHandler
+  import ExPipedrive.FakeUserApiHandler
   import ExPipedrive.FakeWebhookApiHandler
 
   plug(:match)
@@ -210,6 +211,30 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_list_own_activities()
+  end
+
+  get "/api/v1/users/me" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_me()
+  end
+
+  get "/api/v1/users/find" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_find_users(conn.query_params)
+  end
+
+  get "/api/v1/users/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_user(conn.params)
+  end
+
+  get "/api/v1/users" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_users(conn.query_params)
   end
 
   get "/api/v1/webhooks" do
