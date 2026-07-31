@@ -19,6 +19,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeFileApiHandler
   import ExPipedrive.FakeFilterApiHandler
   import ExPipedrive.FakeFollowerV2ApiHandler
+  import ExPipedrive.FakeGoalApiHandler
   import ExPipedrive.FakeLeadApiHandler
   import ExPipedrive.FakeLeadLabelApiHandler
   import ExPipedrive.FakeNoteApiHandler
@@ -670,6 +671,36 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   delete "/api/v2/products/:id/variations/:variation_id" do
     handle_delete_product_variation_v2(conn, conn.params)
+  end
+
+  get "/api/v1/goals/find" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_find_goals(conn.query_params)
+  end
+
+  post "/api/v1/goals" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_create_goal()
+  end
+
+  put "/api/v1/goals/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_update_goal()
+  end
+
+  delete "/api/v1/goals/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_delete_goal(conn.params)
+  end
+
+  get "/api/v1/goals/:id/results" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_goal_result(conn.params)
   end
 
   match _ do
