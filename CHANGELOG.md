@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.Tasks` (API v2, beta): `list_page/2`/`stream/2`, `get/2`,
+  `create/2`, `update/3`, and `delete/2` against `/api/v2/tasks`; typed
+  `ExPipedrive.Task`
+  ([#106](https://github.com/blksheep80/ex_pipedrive/issues/106)).
 - `ExPipedrive.DealInstallments` (API v2, Growth+ plans): `list_page/2`/`stream/2`
   (requires `:deal_ids`), `create/3`, `update/4`, and `delete/3` against
   `/api/v2/deals/installments` and `/api/v2/deals/:id/installments`; typed
