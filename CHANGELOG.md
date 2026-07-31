@@ -25,6 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.NoteFields` (API v1): `list/1` (plus `list_note_fields/1`
+  alias) over `/api/v1/noteFields`; reuses `ExPipedrive.Field`
+  ([#107](https://github.com/blksheep80/ex_pipedrive/issues/107)).
 - Expand `ExPipedrive.ActivityTypes` (API v1): `list/1` (plus
   `list_activity_types/1` alias), client-side `get/2`, `create/2`,
   `update/3`, `delete/2` against `/api/v1/activityTypes`; `ActivityType`
