@@ -18,7 +18,7 @@ defmodule ExPipedrive.Leads.SearchLeadsTest do
                   title: "Farkel Deal Lead",
                   person: %{id: 7, name: "Steve Farkel"},
                   organization: %{id: 1, name: "Mecklem, LLC"},
-                  value: %LeadValue{amount: 150_000, currency: "USD"}
+                  value: %LeadValue{amount: 150_000.0, currency: "USD"}
                 }
               ]} = Leads.search_leads(client, "farkel")
     end

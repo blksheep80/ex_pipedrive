@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Preserve API-provided lead value currencies and leave bare numeric values
+  currency-less.
+
 ## [0.1.0] - 2026-07-31
 
 First Hex release of **ExPipedrive**, a v2-first fork of

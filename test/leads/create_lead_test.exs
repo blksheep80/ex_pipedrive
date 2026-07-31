@@ -17,7 +17,7 @@ defmodule ExPipedrive.Leads.CreateLeadTest do
                 person_id: 7,
                 organization_id: 1,
                 expected_close_date: ~D[2023-03-01],
-                value: %{amount: 150_000, currency: "USD"}
+                value: %{amount: 150_000.0, currency: "USD"}
               }} =
                Leads.create_lead(client, %Lead{
                  title: "Farkel Deal Lead",
