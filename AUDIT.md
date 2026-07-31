@@ -101,7 +101,7 @@ Entities: `Deal`, `Person`, `Organization`, `Lead`, `LeadPerson`, `LeadOrganizat
 | `Activities` | add, list (collection), list_own | add | **Adapt** | #7, #11 |
 | `Notes` | add, list, get_all_org_notes | add | **Adapt** | #11 |
 | `Pipelines` | list, list_pipeline_deals | — | **Adapt** | #11, #25 |
-| `Users` | find_by_name | — | **Deprecate or adapt** | #11 |
+| `Users` | find_by_name, me, get, list | — | **Adapted** | #67 |
 | `DealFields` | list | — | **Adapt** | #11 |
 | `PersonFields` | list | — | **Adapt** | #11 |
 | `OrganizationFields` | list | — | **Adapt** | #11 |
@@ -114,7 +114,7 @@ Entities: `Deal`, `Person`, `Organization`, `Lead`, `LeadPerson`, `LeadOrganizat
 - `Activities.list_activities/2` → `/activities/collection` (cursor); `list_own_activities/2` → `/activities` (offset).
 - `Notes.get_all_org_notes/3` returns flat list, not `PagedResult`.
 - `Pipelines.list_pipelines/1` returns bare list; `list_pipeline_deals/2` has no pagination.
-- `Users.find_users_by_name/3` pattern-matches **atom keys** (`%{success: true}`) — inconsistent with other modules; likely broken against JSON-decoded bodies. **No tests.**
+- `Users.find_users_by_name/3` pattern-matched **atom keys** (`%{success: true}`) — inconsistent with other modules; broken against JSON-decoded bodies. **Fixed** in [#67](https://github.com/blksheep80/ex_pipedrive/issues/67): string-key bodies, plus `me/1`, `get/2`, `list/2`, and tests.
 
 ### Webhooks and OTP
 
@@ -141,7 +141,7 @@ Entities: `Deal`, `Person`, `Organization`, `Lead`, `LeadPerson`, `LeadOrganizat
 | `PipedriveClientCase` | `test/support/pipedrive_client_case.ex` | **Adapt** | Cowboy on `:4006`; query-param client | #12 |
 | Integration tests (×31) | `test/**/*.exs` | **Adapt** | Assert v1 `PagedResult`, offset pagination | #8, #9, #10, #12 |
 
-**Test gaps:** no OAuth tests, no `Users` tests, no `Incoming.Handler` HTTP test, no `PersonHandler` test.
+**Test gaps:** no OAuth tests, no `Incoming.Handler` HTTP test, no `PersonHandler` test. `Users` tests added in [#67](https://github.com/blksheep80/ex_pipedrive/issues/67).
 
 ### Dependencies
 
@@ -209,7 +209,6 @@ Reviewed for [#27](https://github.com/blksheep80/ex_pipedrive/issues/27) (2026-0
 
 - Webhooks → optional `ex_pipedrive_web` package (extract Plug handlers + Registry).
 - OAuth TokenStore middleware (HANDOFF locked decision: pluggable, no Ecto in core).
-- Fix `Users` module atom-key bug + add tests.
 
 ---
 

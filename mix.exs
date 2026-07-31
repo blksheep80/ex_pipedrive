@@ -104,6 +104,7 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Products,
           ExPipedrive.Leads,
           ExPipedrive.Notes,
+          ExPipedrive.Filters,
           ExPipedrive.ActivityTypes,
           ExPipedrive.Users,
           ExPipedrive.Deal,
@@ -114,7 +115,8 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Stage,
           ExPipedrive.Product,
           ExPipedrive.Lead,
-          ExPipedrive.Note
+          ExPipedrive.Note,
+          ExPipedrive.Filter
         ],
         Fields: [
           ExPipedrive.Fields,

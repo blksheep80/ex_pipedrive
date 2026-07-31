@@ -14,6 +14,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeDealLabelApiHandler
   import ExPipedrive.FakeDealV2ApiHandler
   import ExPipedrive.FakeFieldV2ApiHandler
+  import ExPipedrive.FakeFilterApiHandler
   import ExPipedrive.FakeLeadApiHandler
   import ExPipedrive.FakeLeadLabelApiHandler
   import ExPipedrive.FakeNoteApiHandler
@@ -30,6 +31,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeItemSearchV2ApiHandler
   import ExPipedrive.FakeProductV2ApiHandler
   import ExPipedrive.FakeStageV2ApiHandler
+  import ExPipedrive.FakeUserApiHandler
   import ExPipedrive.FakeWebhookApiHandler
 
   plug(:match)
@@ -238,6 +240,60 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_list_own_activities()
+  end
+
+  get "/api/v1/filters" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_filters(conn.query_params)
+  end
+
+  post "/api/v1/filters" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_create_filter()
+  end
+
+  put "/api/v1/filters/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_update_filter()
+  end
+
+  delete "/api/v1/filters/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_delete_filter(conn.params)
+  end
+
+  get "/api/v1/filters/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_filter(conn.params)
+  end
+
+  get "/api/v1/users/me" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_me()
+  end
+
+  get "/api/v1/users/find" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_find_users(conn.query_params)
+  end
+
+  get "/api/v1/users/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_user(conn.params)
+  end
+
+  get "/api/v1/users" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_users(conn.query_params)
   end
 
   get "/api/v1/webhooks" do

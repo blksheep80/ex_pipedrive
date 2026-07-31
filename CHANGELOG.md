@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `ExPipedrive.Users.find_users_by_name/3` matched atom-key response bodies
+  (`%{success: true, data: data}`) and silently returned no matches against
+  Jason-decoded (string-key) JSON. Now matches `%{"data" => data}` like every
+  other resource module ([#67](https://github.com/blksheep80/ex_pipedrive/issues/67)).
+- Preserve API-provided lead value currencies and leave bare numeric values
+  currency-less.
+
 ### Added
 
 - Labels API ([#70](https://github.com/blksheep80/ex_pipedrive/issues/70)):
@@ -18,6 +27,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   four. Typed `ExPipedrive.Label` struct. Assigning/clearing labels on an
   entity remains a normal `label_ids` write via that entity's own
   `update/3` — there is no separate assign/clear endpoint.
+- `ExPipedrive.Filters` (API v1): `list/2`, `get/2`, `create/2`, `update/3`,
+  `delete/2` against `/api/v1/filters`; `conditions` accepted as a plain map
+  ([#69](https://github.com/blksheep80/ex_pipedrive/issues/69)).
+- `ExPipedrive.Users` (API v1): `me/1`, `get/2`, `list/2` (offset pagination),
+  plus fake-server fixtures and tests for `me`/`get`/`list`/`find_users_by_name`
+  ([#67](https://github.com/blksheep80/ex_pipedrive/issues/67)).
 
 ## [0.1.0] - 2026-07-31
 
