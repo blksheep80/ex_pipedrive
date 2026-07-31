@@ -103,6 +103,7 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Stages,
           ExPipedrive.Products,
           ExPipedrive.Leads,
+          ExPipedrive.LeadSources,
           ExPipedrive.Notes,
           ExPipedrive.Filters,
           ExPipedrive.Goals,
@@ -123,6 +124,7 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Stage,
           ExPipedrive.Product,
           ExPipedrive.Lead,
+          ExPipedrive.LeadSource,
           ExPipedrive.Note,
           ExPipedrive.Filter,
           ExPipedrive.Goal,
@@ -142,6 +144,7 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.OrganizationFields,
           ExPipedrive.ActivityFields,
           ExPipedrive.ProductFields,
+          ExPipedrive.LeadFields,
           ExPipedrive.Field,
           ExPipedrive.FieldOption
         ],

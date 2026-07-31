@@ -25,6 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.LeadFields` and `ExPipedrive.LeadSources` (API v1):
+  `list/2`/`stream/2` over `/api/v1/leadFields` (offset pagination,
+  reusing `ExPipedrive.Field`) and `list/1` over `/api/v1/leadSources`
+  (fixed source names via `ExPipedrive.LeadSource`)
+  ([#104](https://github.com/blksheep80/ex_pipedrive/issues/104)).
 - Expand `ExPipedrive.ActivityTypes` (API v1): `list/1` (plus
   `list_activity_types/1` alias), client-side `get/2`, `create/2`,
   `update/3`, `delete/2` against `/api/v1/activityTypes`; `ActivityType`
