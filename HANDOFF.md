@@ -29,6 +29,8 @@ Status as of 2026-07-31. Use this when starting a new agent session in this repo
 - **Fields helpers** ([#22](https://github.com/blksheep80/ex_pipedrive/issues/22), [#65](https://github.com/blksheep80/ex_pipedrive/pull/65)): v2 Deal/Person/Org Fields list/stream + `ExPipedrive.Fields` key/label resolve.
 - **Upstream #25**: skipped — LineDrive PR #26 is mistitled; only v1 `pipeline_id` filter (already covered by v2 `Deals.list_page/stream`).
 
+- **Wave A CRM coverage** ([#66](https://github.com/blksheep80/ex_pipedrive/issues/66)): Users [#67](https://github.com/blksheep80/ex_pipedrive/issues/67)/[#90](https://github.com/blksheep80/ex_pipedrive/pull/90), Filters [#69](https://github.com/blksheep80/ex_pipedrive/issues/69)/[#91](https://github.com/blksheep80/ex_pipedrive/pull/91), Labels [#70](https://github.com/blksheep80/ex_pipedrive/issues/70)/[#92](https://github.com/blksheep80/ex_pipedrive/pull/92), LeadValue currency [#80](https://github.com/blksheep80/ex_pipedrive/issues/80)/[#89](https://github.com/blksheep80/ex_pipedrive/pull/89).
+
 ## Locked decisions
 
 | Item | Decision |
@@ -77,10 +79,12 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 Priority order (see epic for full child list):
 
-1. High-value CRM coverage: [#67](https://github.com/blksheep80/ex_pipedrive/issues/67) Users · [#68](https://github.com/blksheep80/ex_pipedrive/issues/68) Files · [#69](https://github.com/blksheep80/ex_pipedrive/issues/69) Filters · [#70](https://github.com/blksheep80/ex_pipedrive/issues/70) Labels
+1. [#68](https://github.com/blksheep80/ex_pipedrive/issues/68) Files / attachments (next high-value CRM gap)
 2. More coverage: [#71](https://github.com/blksheep80/ex_pipedrive/issues/71)–[#77](https://github.com/blksheep80/ex_pipedrive/issues/77), [#87](https://github.com/blksheep80/ex_pipedrive/issues/87), [#88](https://github.com/blksheep80/ex_pipedrive/issues/88)
 3. Polish: [#78](https://github.com/blksheep80/ex_pipedrive/issues/78)–[#84](https://github.com/blksheep80/ex_pipedrive/issues/84), [#86](https://github.com/blksheep80/ex_pipedrive/issues/86)
 4. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
+
+**Done in Wave A:** [#67](https://github.com/blksheep80/ex_pipedrive/issues/67) Users · [#69](https://github.com/blksheep80/ex_pipedrive/issues/69) Filters · [#70](https://github.com/blksheep80/ex_pipedrive/issues/70) Labels · [#80](https://github.com/blksheep80/ex_pipedrive/issues/80) LeadValue.
 
 **Hex:** [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published ([release v0.1.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.1.0)); [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) done.
 
@@ -89,7 +93,7 @@ Priority order (see epic for full child list):
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Work from epic #66. Prefer #67 Users or CRM gaps #68–#70. Hex 0.1.0 is live — bump version for later releases. Small PRs.
+Open HANDOFF.md. Wave A done. Next: #68 Files/attachments, or Wave B (#71/#73/#76). Prefer small PRs; use isolated worktrees for parallel waves.
 ```
 
 ## How to resume
