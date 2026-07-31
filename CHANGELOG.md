@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `ExPipedrive.Filters` (API v1): `list/2`, `get/2`, `create/2`, `update/3`,
+  `delete/2` against `/api/v1/filters`; `conditions` accepted as a plain map
+  ([#69](https://github.com/blksheep80/ex_pipedrive/issues/69)).
+
 ## [0.1.0] - 2026-07-31
 
 First Hex release of **ExPipedrive**, a v2-first fork of
