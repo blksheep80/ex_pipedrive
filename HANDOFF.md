@@ -31,6 +31,7 @@ Status as of 2026-07-31. Use this when starting a new agent session in this repo
 
 - **Wave A CRM coverage** ([#66](https://github.com/blksheep80/ex_pipedrive/issues/66)): Users [#67](https://github.com/blksheep80/ex_pipedrive/issues/67)/[#90](https://github.com/blksheep80/ex_pipedrive/pull/90), Filters [#69](https://github.com/blksheep80/ex_pipedrive/issues/69)/[#91](https://github.com/blksheep80/ex_pipedrive/pull/91), Labels [#70](https://github.com/blksheep80/ex_pipedrive/issues/70)/[#92](https://github.com/blksheep80/ex_pipedrive/pull/92), LeadValue currency [#80](https://github.com/blksheep80/ex_pipedrive/issues/80)/[#89](https://github.com/blksheep80/ex_pipedrive/pull/89).
 - **Files / attachments** ([#68](https://github.com/blksheep80/ex_pipedrive/issues/68), [#93](https://github.com/blksheep80/ex_pipedrive/pull/93)): `ExPipedrive.Files` multipart upload/download/list/get/update/delete + Google Drive remote helpers (API v1).
+- **Wave B** ([#71](https://github.com/blksheep80/ex_pipedrive/issues/71)/[#95](https://github.com/blksheep80/ex_pipedrive/pull/95) ProductVariations, [#73](https://github.com/blksheep80/ex_pipedrive/issues/73)/[#96](https://github.com/blksheep80/ex_pipedrive/pull/96) Followers/DealParticipants/OrgRelationships, [#76](https://github.com/blksheep80/ex_pipedrive/issues/76)/[#94](https://github.com/blksheep80/ex_pipedrive/pull/94) CallLogs).
 
 ## Locked decisions
 
@@ -80,12 +81,11 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 Priority order (see epic for full child list):
 
-1. Wave B coverage: [#71](https://github.com/blksheep80/ex_pipedrive/issues/71) Product variations · [#73](https://github.com/blksheep80/ex_pipedrive/issues/73) Followers/participants · [#76](https://github.com/blksheep80/ex_pipedrive/issues/76) Call logs (optional [#72](https://github.com/blksheep80/ex_pipedrive/issues/72) Activity/Product Fields)
-2. More coverage: [#74](https://github.com/blksheep80/ex_pipedrive/issues/74)–[#77](https://github.com/blksheep80/ex_pipedrive/issues/77), [#87](https://github.com/blksheep80/ex_pipedrive/issues/87), [#88](https://github.com/blksheep80/ex_pipedrive/issues/88)
-3. Polish: [#78](https://github.com/blksheep80/ex_pipedrive/issues/78)–[#84](https://github.com/blksheep80/ex_pipedrive/issues/84), [#86](https://github.com/blksheep80/ex_pipedrive/issues/86)
-4. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
+1. More coverage: [#72](https://github.com/blksheep80/ex_pipedrive/issues/72) Activity/Product Fields · [#74](https://github.com/blksheep80/ex_pipedrive/issues/74) Mailbox · [#75](https://github.com/blksheep80/ex_pipedrive/issues/75) Goals · [#77](https://github.com/blksheep80/ex_pipedrive/issues/77) Currencies/Recents/Permissions · [#87](https://github.com/blksheep80/ex_pipedrive/issues/87) ActivityTypes · [#88](https://github.com/blksheep80/ex_pipedrive/issues/88) catch-all
+2. Polish: [#78](https://github.com/blksheep80/ex_pipedrive/issues/78)–[#84](https://github.com/blksheep80/ex_pipedrive/issues/84), [#86](https://github.com/blksheep80/ex_pipedrive/issues/86)
+3. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
 
-**Done recently:** Wave A (#67/#69/#70/#80) · [#68](https://github.com/blksheep80/ex_pipedrive/issues/68) Files.
+**Done recently:** Wave A (#67/#69/#70/#80) · [#68](https://github.com/blksheep80/ex_pipedrive/issues/68) Files · Wave B (#71/#73/#76).
 
 **Hex:** [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published ([release v0.1.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.1.0)); [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) done.
 
@@ -94,7 +94,7 @@ Priority order (see epic for full child list):
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Files (#68) done. Next: Wave B (#71 variations, #73 followers, #76 call logs). Prefer isolated worktrees for parallel PRs.
+Open HANDOFF.md. Waves A–B done. Next: #72 Fields, #74 Mailbox, #75 Goals, #77 admin meta, or polish #78–#86. Prefer isolated worktrees for parallel PRs.
 ```
 
 ## How to resume
