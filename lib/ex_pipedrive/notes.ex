@@ -6,6 +6,13 @@ defmodule ExPipedrive.Notes do
   `get/2`, `create/2`, and `list/2` aliases for new code; `add_note/2` and
   `list_notes/2` remain supported for compatibility. A v2 Notes resource can
   replace this shim without changing callers that use those aliases.
+
+  ## List return shapes
+
+  Paginated note lists return `{:ok, %ExPipedrive.PagedResult{}}` (v1 offset
+  pagination). Prefer `list/2` with filters such as `:org_id` over
+  `get_all_org_notes/2` (kept as a thin wrapper that returns the same
+  `PagedResult` shape).
   """
 
   alias ExPipedrive.Note
@@ -55,26 +62,29 @@ defmodule ExPipedrive.Notes do
     end)
   end
 
-  def get_all_org_notes(%Client{} = client, org_id, opts \\ []) do
-    sort = Keyword.get(opts, :sort, "add_time DESC")
-    start = Keyword.get(opts, :start, 0)
-    limit = Keyword.get(opts, :limit, 20)
+  @doc """
+  Lists notes for an organization via `GET /api/v1/notes?org_id=…`.
 
-    client
-    |> Request.get("notes",
-      api_version: :v1,
-      query: [org_id: org_id, start: start, limit: limit, sort: sort]
-    )
-    |> Response.map([200], fn %{body: %{"success" => true, "data" => data}} ->
-      Enum.map(data, &Note.new/1)
-    end)
+  Prefer `list/2` with `:org_id` for new code. Returns
+  `{:ok, %PagedResult{}}` (same as `list/2`).
+
+  Accepts either `get_all_org_notes(client, org_id, opts)` or
+  `get_all_org_notes(client, org_id: id, …)` for historical call sites.
+  """
+  def get_all_org_notes(%Client{} = client, opts) when is_list(opts) do
+    opts = Keyword.put_new(opts, :limit, 20)
+    list(client, opts)
+  end
+
+  def get_all_org_notes(%Client{} = client, org_id, opts \\ []) do
+    get_all_org_notes(client, Keyword.put(opts, :org_id, org_id))
   end
 
   @doc """
   Lists notes through `GET /api/v1/notes`.
 
   Supports the legacy v1 pagination and filtering options accepted by
-  `list_notes/2`.
+  `list_notes/2`. Returns `{:ok, %PagedResult{}}`.
   """
   def list(%Client{} = client, opts \\ []), do: list_notes(client, opts)
 
