@@ -47,6 +47,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeProjectBoardV2ApiHandler
   import ExPipedrive.FakeProjectV2ApiHandler
   import ExPipedrive.FakeStageV2ApiHandler
+  import ExPipedrive.FakeTaskV2ApiHandler
   import ExPipedrive.FakeUserApiHandler
   import ExPipedrive.FakeWebhookApiHandler
 
@@ -608,6 +609,26 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   get "/api/v2/activities/:id" do
     handle_get_activity_v2(conn, conn.params)
+  end
+
+  get "/api/v2/tasks" do
+    handle_list_tasks_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/tasks" do
+    handle_create_task_v2(conn)
+  end
+
+  patch "/api/v2/tasks/:id" do
+    handle_update_task_v2(conn)
+  end
+
+  delete "/api/v2/tasks/:id" do
+    handle_delete_task_v2(conn, conn.params)
+  end
+
+  get "/api/v2/tasks/:id" do
+    handle_get_task_v2(conn, conn.params)
   end
 
   get "/api/v2/pipelines" do
