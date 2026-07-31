@@ -4,14 +4,18 @@ Elixir client for the [Pipedrive](https://www.pipedrive.com) CRM API.
 
 This repository is a fork of [tmecklem/line_drive](https://github.com/tmecklem/line_drive), rebranded as **ExPipedrive** (`ex_pipedrive` / `ExPipedrive.*`) and evolving toward a **v2-first** SDK.
 
-> **Status:** early foundation — rebrand complete; v2 client work is tracked in [HANDOFF.md](HANDOFF.md) and the [issue tracker](https://github.com/blksheep80/ex_pipedrive/issues).
+> **Status:** Hex package `ex_pipedrive` **0.1.0** — v2-first client with Deals,
+> Persons, Organizations, Activities, Pipelines, Stages, Products, Search, Fields,
+> OAuth TokenStore, Raw escape hatch, and webhook helpers. Further API coverage is
+> tracked in [issue #66](https://github.com/blksheep80/ex_pipedrive/issues/66) and
+> [HANDOFF.md](https://github.com/blksheep80/ex_pipedrive/blob/main/HANDOFF.md).
 
 ## Goals
 
 - Pipedrive API v2 as the default, with explicit v1 fallback where needed
 - API token **and** OAuth (pluggable TokenStore; no Ecto in core)
 - Lean core library; optional packages later for webhooks, Oban sync, Phoenix helpers
-- MVP proof flows: stream open deals via cursor pagination; create person + deal
+- Broad resource coverage over time (see epic [#66](https://github.com/blksheep80/ex_pipedrive/issues/66))
 
 ## Installation
 
@@ -23,7 +27,9 @@ def deps do
 end
 ```
 
-Until the package is on Hex, you can depend on GitHub:
+Docs: [https://hexdocs.pm/ex_pipedrive](https://hexdocs.pm/ex_pipedrive)
+
+To depend on `main` instead of a Hex release:
 
 ```elixir
 def deps do
@@ -275,8 +281,8 @@ client =
 
 ### Tooling
 
-- Elixir / OTP: see [`.tool-versions`](.tool-versions) (Elixir 1.17.2 / OTP 27)
-- Optional Nix shell: [`devenv.nix`](devenv.nix) (`direnv allow` then `devenv shell`)
+- Elixir / OTP: see [`.tool-versions`](https://github.com/blksheep80/ex_pipedrive/blob/main/.tool-versions) (Elixir 1.17.2 / OTP 27)
+- Optional Nix shell: [`devenv.nix`](https://github.com/blksheep80/ex_pipedrive/blob/main/devenv.nix) (`direnv allow` then `devenv shell`)
 - Issue tracking: [beads](https://github.com/gastownhall/beads) via `bd` (prefix `expd-`)
 
 ```bash
@@ -288,7 +294,7 @@ mix doctor
 mix docs
 ```
 
-Dialyzer (`mix dialyzer`) is optional locally before releases; not required in CI yet (see [AUDIT.md](AUDIT.md) tooling decisions).
+Dialyzer (`mix dialyzer`) is optional locally before releases; not required in CI yet (see [AUDIT.md](https://github.com/blksheep80/ex_pipedrive/blob/main/AUDIT.md) tooling decisions).
 
 ### Hex release
 

@@ -1,6 +1,6 @@
 # ExPipedrive handoff
 
-Status as of 2026-07-30. Use this when starting a new agent session in this repo.
+Status as of 2026-07-31. Use this when starting a new agent session in this repo.
 
 ## Current state
 
@@ -17,7 +17,7 @@ Status as of 2026-07-30. Use this when starting a new agent session in this repo
 - **Cursor pagination + Stream** ([#7](https://github.com/blksheep80/ex_pipedrive/issues/7), [#42](https://github.com/blksheep80/ex_pipedrive/pull/42)): `ExPipedrive.Page` / `Cursor.stream/2`; `list_deals_page` / `stream_deals` (+ persons).
 - **Deals / Persons v2 + MVP flows** ([#8](https://github.com/blksheep80/ex_pipedrive/issues/8) / [#9](https://github.com/blksheep80/ex_pipedrive/issues/9) / [#10](https://github.com/blksheep80/ex_pipedrive/issues/10), [#43](https://github.com/blksheep80/ex_pipedrive/pull/43)): v2 get/create/update/(deal)delete; map-in write attrs; README + fake-server MVP flows.
 - **OAuth Token + TokenStore** ([#6](https://github.com/blksheep80/ex_pipedrive/issues/6), [#44](https://github.com/blksheep80/ex_pipedrive/pull/44)): `Oauth.Token`, `exchange_authorization_code` / `refresh` / `ensure_fresh`, pluggable `TokenStore` (+ Memory), `Client.from_token` / `from_token_store`.
-- **Hex / docs / CI prep** ([#28](https://github.com/blksheep80/ex_pipedrive/issues/28), [#45](https://github.com/blksheep80/ex_pipedrive/pull/45)): version `0.1.0`, CHANGELOG, ExDoc config, CI matrix, Hex publish workflow. Cut GitHub Release `v0.1.0` (with `HEX_API_KEY`) to publish.
+- **Hex / docs / CI prep** ([#28](https://github.com/blksheep80/ex_pipedrive/issues/28), [#45](https://github.com/blksheep80/ex_pipedrive/pull/45), [#85](https://github.com/blksheep80/ex_pipedrive/issues/85)): version `0.1.0`, CHANGELOG, ExDoc, CI matrix, Hex publish workflow; `HEX_API_KEY` secret set. First Hex publish via GitHub Release `v0.1.0`.
 - **Quality tooling** ([#32](https://github.com/blksheep80/ex_pipedrive/issues/32)): `doctor` gate; TypedStruct kept; Sobelow/ExMachina skipped; Dialyzer local-only for now (AUDIT).
 - On `main`, v0.1 foundation is complete. **v0.2** resource epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17) children [#47](https://github.com/blksheep80/ex_pipedrive/issues/47)–[#52](https://github.com/blksheep80/ex_pipedrive/issues/52) are done (Organizations–Search). Product variations remain a follow-up. Upstream search-options decision [#24](https://github.com/blksheep80/ex_pipedrive/issues/24): v2 `Search` uses explicit opts (`item_types`, `fields`, `exact_match`, …) instead of opaque keyword merge from LineDrive PR #22.
 - **Raw escape hatch** ([#15](https://github.com/blksheep80/ex_pipedrive/issues/15), [#59](https://github.com/blksheep80/ex_pipedrive/pull/59)): `ExPipedrive.Raw.request/4` for unsupported v1/v2 endpoints (query/body/headers pass-through; shared auth/JSON/`Error` normalization).
@@ -73,18 +73,23 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **v0.2 core track:** foundation + resources + Raw/Resource/rate-limit + Leads/Notes v1 + webhook surface are done.
 
-**Next (v0.3 / optional):**
+**Next (v0.3+ API coverage epic):** [#66](https://github.com/blksheep80/ex_pipedrive/issues/66)
 
-1. [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) / [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) optional Oban / Phoenix OAuth packages
-2. Extract `ex_pipedrive_web` Hex package from the in-repo webhook surface (#19)
-3. Activity/Product Fields (if needed beyond Deal/Person/Org)
+Priority order (see epic for full child list):
 
-**Upstream carryovers:** [#24](https://github.com/blksheep80/ex_pipedrive/issues/24) and [#25](https://github.com/blksheep80/ex_pipedrive/issues/25) closed.
+1. [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) Hex publish readiness (human: Hex account + `HEX_API_KEY` secret) — name `ex_pipedrive` is available
+2. [#67](https://github.com/blksheep80/ex_pipedrive/issues/67) Users bug + API expand
+3. High-value CRM: [#68](https://github.com/blksheep80/ex_pipedrive/issues/68) Files · [#69](https://github.com/blksheep80/ex_pipedrive/issues/69) Filters · [#70](https://github.com/blksheep80/ex_pipedrive/issues/70) Labels
+4. More coverage: [#71](https://github.com/blksheep80/ex_pipedrive/issues/71)–[#77](https://github.com/blksheep80/ex_pipedrive/issues/77), [#87](https://github.com/blksheep80/ex_pipedrive/issues/87)
+5. Polish: [#78](https://github.com/blksheep80/ex_pipedrive/issues/78)–[#84](https://github.com/blksheep80/ex_pipedrive/issues/84), [#86](https://github.com/blksheep80/ex_pipedrive/issues/86)
+6. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
+
+**Upstream / community:** [#26](https://github.com/blksheep80/ex_pipedrive/issues/26). [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) notify LineDrive maintainer — **HOLD** until epic [#66](https://github.com/blksheep80/ex_pipedrive/issues/66) coverage is substantially complete.
 
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Core SDK track through Fields/Webhooks is done. Next: optional packages (#20 Oban, #21 Phoenix OAuth) or extract ex_pipedrive_web. Prefer small PRs. Do not publish Hex unless asked.
+Open HANDOFF.md. Work from epic #66. Prefer #67 Users or CRM gaps #68–#70. For Hex: only prep #85 until human sets HEX_API_KEY; do not publish unless asked. Small PRs.
 ```
 
 ## How to resume

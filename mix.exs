@@ -50,7 +50,10 @@ defmodule ExPipedrive.MixProject do
 
   defp description do
     """
-    Elixir client for the Pipedrive CRM API (v2-first), forked from LineDrive.
+    Elixir client for the Pipedrive CRM API. v2-first (Deals, Persons, Orgs,
+    Activities, Pipelines, Stages, Products, Search, Fields), with OAuth
+    TokenStore, retries/telemetry, Raw escape hatch, and webhook helpers.
+    Forked from LineDrive.
     """
   end
 
@@ -61,6 +64,7 @@ defmodule ExPipedrive.MixProject do
       links: %{
         "GitHub" => @source_url,
         "Changelog" => "#{@source_url}/blob/main/CHANGELOG.md",
+        "HexDocs" => "https://hexdocs.pm/ex_pipedrive",
         "Upstream (LineDrive)" => "https://github.com/tmecklem/line_drive"
       },
       files: ~w(lib .formatter.exs mix.exs README.md LICENSE.md CHANGELOG.md)
@@ -72,7 +76,7 @@ defmodule ExPipedrive.MixProject do
       main: "readme",
       source_ref: "v#{@version}",
       source_url: @source_url,
-      extras: ["README.md", "CHANGELOG.md", "LICENSE.md", "HANDOFF.md", "AUDIT.md"],
+      extras: ["README.md", "CHANGELOG.md", "LICENSE.md"],
       groups_for_modules: [
         HTTP: [
           ExPipedrive,
@@ -90,11 +94,27 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.PagedResult,
           ExPipedrive.WriteAttrs
         ],
-        "Deals & Persons": [
+        "CRM resources": [
           ExPipedrive.Deals,
           ExPipedrive.Persons,
+          ExPipedrive.Organizations,
+          ExPipedrive.Activities,
+          ExPipedrive.Pipelines,
+          ExPipedrive.Stages,
+          ExPipedrive.Products,
+          ExPipedrive.Leads,
+          ExPipedrive.Notes,
+          ExPipedrive.ActivityTypes,
+          ExPipedrive.Users,
           ExPipedrive.Deal,
-          ExPipedrive.Person
+          ExPipedrive.Person,
+          ExPipedrive.Organization,
+          ExPipedrive.Activity,
+          ExPipedrive.Pipeline,
+          ExPipedrive.Stage,
+          ExPipedrive.Product,
+          ExPipedrive.Lead,
+          ExPipedrive.Note
         ],
         Fields: [
           ExPipedrive.Fields,

@@ -3,7 +3,7 @@ defmodule ExPipedrive.WriteAttrs do
   Normalizes write payloads for Pipedrive create/update calls.
 
   Used by resource modules and by host apps implementing
-  `ExPipedrive.Resource.encode/1`.
+  `c:ExPipedrive.Resource.encode/1`.
   """
 
   @doc """
