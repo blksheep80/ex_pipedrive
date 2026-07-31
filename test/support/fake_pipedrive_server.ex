@@ -21,6 +21,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeFollowerV2ApiHandler
   import ExPipedrive.FakeLeadApiHandler
   import ExPipedrive.FakeLeadLabelApiHandler
+  import ExPipedrive.FakeMailboxApiHandler
   import ExPipedrive.FakeNoteApiHandler
   import ExPipedrive.FakeOrganizationApiHandler
   import ExPipedrive.FakeOrganizationFieldApiHandler
@@ -662,6 +663,42 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   delete "/api/v2/products/:id/variations/:variation_id" do
     handle_delete_product_variation_v2(conn, conn.params)
+  end
+
+  get "/api/v1/mailbox/mailThreads" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_mail_threads(conn.query_params)
+  end
+
+  put "/api/v1/mailbox/mailThreads/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_update_mail_thread()
+  end
+
+  delete "/api/v1/mailbox/mailThreads/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_delete_mail_thread(conn.params)
+  end
+
+  get "/api/v1/mailbox/mailThreads/:id/mailMessages" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_mail_thread_messages(conn.params)
+  end
+
+  get "/api/v1/mailbox/mailThreads/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_mail_thread(conn.params)
+  end
+
+  get "/api/v1/mailbox/mailMessages/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_mail_message(conn.params)
   end
 
   match _ do

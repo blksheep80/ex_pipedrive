@@ -142,6 +142,12 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.OrganizationRelationships,
           ExPipedrive.OrganizationRelationship
         ],
+        Mailbox: [
+          ExPipedrive.Mailbox,
+          ExPipedrive.MailThread,
+          ExPipedrive.MailMessage,
+          ExPipedrive.MailMessageParty
+        ],
         OAuth: [
           ExPipedrive.Oauth,
           ExPipedrive.Oauth.Token,

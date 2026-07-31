@@ -20,6 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.Mailbox` (API v1): `list_threads/2`, `get_thread/2`,
+  `list_thread_messages/2`, `get_message/3`, `update_thread/3`,
+  `delete_thread/2` against `/api/v1/mailbox/{mailThreads,mailMessages}`;
+  typed `ExPipedrive.MailThread`, `MailMessage`, and `MailMessageParty`
+  structs (`mail:read`/`mail:full` OAuth scopes)
+  ([#74](https://github.com/blksheep80/ex_pipedrive/issues/74)).
 - Followers, deal participants, and organization relationships
   ([#73](https://github.com/blksheep80/ex_pipedrive/issues/73)):
   `ExPipedrive.Followers` (API v2) manages followers on deals, persons, and
