@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Labels API ([#70](https://github.com/blksheep80/ex_pipedrive/issues/70)):
+  `ExPipedrive.DealLabels`, `PersonLabels`, `OrganizationLabels` manage label
+  definitions via the API v2 `label_ids` field-options bulk endpoints
+  (`POST`/`PATCH`/`DELETE /api/v2/{deal,person,organization}Fields/label_ids/options`);
+  `ExPipedrive.LeadLabels` is an API v1 shim over the dedicated
+  `/leadLabels` endpoint; `ExPipedrive.Labels` facade delegates across all
+  four. Typed `ExPipedrive.Label` struct. Assigning/clearing labels on an
+  entity remains a normal `label_ids` write via that entity's own
+  `update/3` — there is no separate assign/clear endpoint.
 - `ExPipedrive.Filters` (API v1): `list/2`, `get/2`, `create/2`, `update/3`,
   `delete/2` against `/api/v1/filters`; `conditions` accepted as a plain map
   ([#69](https://github.com/blksheep80/ex_pipedrive/issues/69)).
