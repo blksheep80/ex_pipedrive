@@ -9,6 +9,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeActivityApiHandler
   import ExPipedrive.FakeActivityTypeApiHandler
   import ExPipedrive.FakeActivityV2ApiHandler
+  import ExPipedrive.FakeAdminMetaApiHandler
   import ExPipedrive.FakeCallLogApiHandler
   import ExPipedrive.FakeDealApiHandler
   import ExPipedrive.FakeDealFieldApiHandler
@@ -738,6 +739,90 @@ defmodule ExPipedrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_get_goal_result(conn.params)
+  end
+
+  get "/api/v1/currencies" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_currencies(conn.query_params)
+  end
+
+  get "/api/v1/recents" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_recents(conn.query_params)
+  end
+
+  get "/api/v1/roles" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_roles()
+  end
+
+  get "/api/v1/roles/:id/assignments" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_role_assignments(conn.params)
+  end
+
+  get "/api/v1/roles/:id/pipelines" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_role_pipelines(conn.params)
+  end
+
+  get "/api/v1/roles/:id/settings" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_role_settings(conn.params)
+  end
+
+  get "/api/v1/roles/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_role(conn.params)
+  end
+
+  get "/api/v1/permissionSets" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_permission_sets(conn.query_params)
+  end
+
+  get "/api/v1/permissionSets/:id/assignments" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_permission_set_assignments(conn.params)
+  end
+
+  get "/api/v1/permissionSets/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_permission_set(conn.params)
+  end
+
+  get "/api/v1/legacyTeams" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_teams(conn.query_params)
+  end
+
+  get "/api/v1/legacyTeams/user/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_user_teams(conn.params)
+  end
+
+  get "/api/v1/legacyTeams/:id/users" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_team_users(conn.params)
+  end
+
+  get "/api/v1/legacyTeams/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_team(conn.params)
   end
 
   match _ do
