@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Expand `ExPipedrive.ActivityTypes` (API v1): `list/1` (plus
+  `list_activity_types/1` alias), client-side `get/2`, `create/2`,
+  `update/3`, `delete/2` against `/api/v1/activityTypes`; `ActivityType`
+  gains `order_nr`/`icon_key`/`color`
+  ([#87](https://github.com/blksheep80/ex_pipedrive/issues/87)).
 - Admin / meta APIs (v1 read-first)
   ([#77](https://github.com/blksheep80/ex_pipedrive/issues/77)):
   `ExPipedrive.Currencies` (`list`/`get`/`get_by_code` over
