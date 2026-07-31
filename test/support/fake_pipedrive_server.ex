@@ -44,6 +44,8 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakeItemSearchV2ApiHandler
   import ExPipedrive.FakeProductV2ApiHandler
   import ExPipedrive.FakeProductVariationV2ApiHandler
+  import ExPipedrive.FakeProjectBoardV2ApiHandler
+  import ExPipedrive.FakeProjectV2ApiHandler
   import ExPipedrive.FakeStageV2ApiHandler
   import ExPipedrive.FakeTaskV2ApiHandler
   import ExPipedrive.FakeUserApiHandler
@@ -731,6 +733,50 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   delete "/api/v2/deals/:id/installments/:installment_id" do
     handle_delete_deal_installment_v2(conn, conn.params)
+  end
+
+  get "/api/v2/projects" do
+    handle_list_projects_v2(conn, conn.query_params)
+  end
+
+  get "/api/v2/projects/archived" do
+    handle_list_archived_projects_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/projects" do
+    handle_create_project_v2(conn)
+  end
+
+  patch "/api/v2/projects/:id" do
+    handle_update_project_v2(conn)
+  end
+
+  delete "/api/v2/projects/:id" do
+    handle_delete_project_v2(conn, conn.params)
+  end
+
+  get "/api/v2/projects/:id" do
+    handle_get_project_v2(conn, conn.params)
+  end
+
+  get "/api/v2/boards" do
+    handle_list_project_boards_v2(conn, conn.query_params)
+  end
+
+  post "/api/v2/boards" do
+    handle_create_project_board_v2(conn)
+  end
+
+  patch "/api/v2/boards/:id" do
+    handle_update_project_board_v2(conn)
+  end
+
+  delete "/api/v2/boards/:id" do
+    handle_delete_project_board_v2(conn, conn.params)
+  end
+
+  get "/api/v2/boards/:id" do
+    handle_get_project_board_v2(conn, conn.params)
   end
 
   get "/api/v2/persons/:id/followers" do

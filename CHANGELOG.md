@@ -25,6 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.Projects` and `ExPipedrive.ProjectBoards` (API v2): CRUD plus
+  cursor list/stream for projects (including archived list), and full board
+  lifecycle on `/api/v2/boards`; typed `ExPipedrive.Project` and
+  `ExPipedrive.ProjectBoard`. Phases, templates, fields, search, and archive
+  actions deferred
+  ([#105](https://github.com/blksheep80/ex_pipedrive/issues/105)).
 - `ExPipedrive.Tasks` (API v2, beta): `list_page/2`/`stream/2`, `get/2`,
   `create/2`, `update/3`, and `delete/2` against `/api/v2/tasks`; typed
   `ExPipedrive.Task`
