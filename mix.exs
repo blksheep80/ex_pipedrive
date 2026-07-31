@@ -147,6 +147,7 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.ActivityFields,
           ExPipedrive.ProductFields,
           ExPipedrive.LeadFields,
+          ExPipedrive.NoteFields,
           ExPipedrive.Field,
           ExPipedrive.FieldOption
         ],

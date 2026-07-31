@@ -30,6 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   reusing `ExPipedrive.Field`) and `list/1` over `/api/v1/leadSources`
   (fixed source names via `ExPipedrive.LeadSource`)
   ([#104](https://github.com/blksheep80/ex_pipedrive/issues/104)).
+- `ExPipedrive.NoteFields` (API v1): `list/1` (plus `list_note_fields/1`
+  alias) over `/api/v1/noteFields`; reuses `ExPipedrive.Field`
+  ([#107](https://github.com/blksheep80/ex_pipedrive/issues/107)).
 - `ExPipedrive.DealProducts` (API v2): `list_page/3`/`stream/3`, client-side
   `get/3`, `create/3`, `update/4` (PATCH), `delete/3`, and `delete_many/3`
   against `/api/v2/deals/:id/products`; typed `ExPipedrive.DealProduct`
