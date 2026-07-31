@@ -32,6 +32,7 @@ defmodule ExPipedrive.FakePipedriveServer do
   import ExPipedrive.FakePipelineV2ApiHandler
   import ExPipedrive.FakeItemSearchV2ApiHandler
   import ExPipedrive.FakeProductV2ApiHandler
+  import ExPipedrive.FakeProductVariationV2ApiHandler
   import ExPipedrive.FakeStageV2ApiHandler
   import ExPipedrive.FakeUserApiHandler
   import ExPipedrive.FakeWebhookApiHandler
@@ -574,6 +575,22 @@ defmodule ExPipedrive.FakePipedriveServer do
 
   get "/api/v2/products/:id" do
     handle_get_product_v2(conn, conn.params)
+  end
+
+  get "/api/v2/products/:id/variations" do
+    handle_list_product_variations_v2(conn, conn.params, conn.query_params)
+  end
+
+  post "/api/v2/products/:id/variations" do
+    handle_create_product_variation_v2(conn)
+  end
+
+  patch "/api/v2/products/:id/variations/:variation_id" do
+    handle_update_product_variation_v2(conn)
+  end
+
+  delete "/api/v2/products/:id/variations/:variation_id" do
+    handle_delete_product_variation_v2(conn, conn.params)
   end
 
   match _ do

@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `ExPipedrive.ProductVariations` (API v2): `list_page/3`, `stream/3`,
+  `get/3` (client-side, since Pipedrive has no single-variation endpoint),
+  `create/3`, `update/4`, `delete/3` against the nested
+  `/api/v2/products/:id/variations` API; typed `ExPipedrive.ProductVariation`
+  struct ([#71](https://github.com/blksheep80/ex_pipedrive/issues/71)).
 - `ExPipedrive.CallLogs` (API v1): `list/2`, `get/2`, `create/2`,
   `add_recording/4` (multipart audio upload), `delete/2` against
   `/api/v1/callLogs`; typed `ExPipedrive.CallLog` struct with string ids
