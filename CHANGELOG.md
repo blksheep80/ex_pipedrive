@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Resource adoption** — `Deals`, `Persons`, `Organizations`, `Activities`,
+  and `Pipelines` implement `ExPipedrive.Resource` for v2 CRUD/list/stream
+  (same pattern as Products/Stages). Public APIs unchanged; v1 legacy helpers
+  retained ([#78](https://github.com/blksheep80/ex_pipedrive/issues/78)).
 - **List return shapes** — `Notes.get_all_org_notes/2` now returns
   `{:ok, %PagedResult{}}` like `Notes.list/2` (was a bare note list). Prefer
   `list/2` with `:org_id`. Documented list conventions on `ExPipedrive.Page`;

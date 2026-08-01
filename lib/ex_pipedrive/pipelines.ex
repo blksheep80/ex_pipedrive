@@ -3,25 +3,39 @@ defmodule ExPipedrive.Pipelines do
   Pipedrive pipelines resource.
 
   v2-first helpers (`get/2`, `create/2`, `update/3`, `delete/2`, `list_page/2`,
-  `stream/2`) talk to `/api/v2/pipelines`. Legacy `list_pipelines/1` and
-  `list_pipeline_deals/2` remain on API v1 — prefer `list_page/2` / `stream/2`
-  for new code (`list_pipelines/1` returns a bare `{:ok, list}`).
+  `stream/2`) talk to `/api/v2/pipelines` via `ExPipedrive.Resource`. Legacy
+  `list_pipelines/1` and `list_pipeline_deals/2` remain on API v1 — prefer
+  `list_page/2` / `stream/2` for new code (`list_pipelines/1` returns a bare
+  `{:ok, list}`).
 
   For deals in a pipeline on v2, prefer `ExPipedrive.Deals.list_page/2` or
   `stream/2` with `pipeline_id:` — Pipedrive deprecated
   `GET /pipelines/:id/deals`.
   """
 
-  alias ExPipedrive.Cursor
+  @behaviour ExPipedrive.Resource
+
   alias ExPipedrive.Deal
-  alias ExPipedrive.Page
   alias ExPipedrive.Pipeline
   alias ExPipedrive.Request
+  alias ExPipedrive.Resource
   alias ExPipedrive.Response
   alias ExPipedrive.WriteAttrs
   alias Tesla.Client
 
   @write_fields ~w(name is_deal_probability_enabled)
+
+  @impl true
+  def path, do: "pipelines"
+
+  @impl true
+  def decode(data) when is_map(data), do: Pipeline.new(data)
+
+  @impl true
+  def encode(attrs), do: WriteAttrs.take(attrs, @write_fields)
+
+  @impl true
+  def list_query_keys, do: [:sort_by, :sort_direction]
 
   # --- API v2 ---
 
@@ -29,11 +43,7 @@ defmodule ExPipedrive.Pipelines do
   Fetches a pipeline by id via `GET /api/v2/pipelines/:id`.
   """
   def get(%Client{} = client, pipeline_id) do
-    client
-    |> Request.get("pipelines/:id", opts: [path_params: [id: pipeline_id]])
-    |> Response.map([200], fn %{body: %{"data" => pipeline_data}} ->
-      Pipeline.new(pipeline_data)
-    end)
+    Resource.get(__MODULE__, client, pipeline_id)
   end
 
   @doc """
@@ -42,35 +52,21 @@ defmodule ExPipedrive.Pipelines do
   Accepts a map (preferred) or `%Pipeline{}`. Returns `{:ok, %Pipeline{}}`.
   """
   def create(%Client{} = client, attrs) do
-    body = WriteAttrs.take(attrs, @write_fields)
-
-    client
-    |> Request.post("pipelines", body)
-    |> Response.map([200, 201], fn %{body: %{"data" => pipeline_data}} ->
-      Pipeline.new(pipeline_data)
-    end)
+    Resource.create(__MODULE__, client, attrs)
   end
 
   @doc """
   Updates a pipeline via `PATCH /api/v2/pipelines/:id`.
   """
   def update(%Client{} = client, pipeline_id, attrs) do
-    body = WriteAttrs.take(attrs, @write_fields)
-
-    client
-    |> Request.patch("pipelines/:id", body, opts: [path_params: [id: pipeline_id]])
-    |> Response.map([200], fn %{body: %{"data" => pipeline_data}} ->
-      Pipeline.new(pipeline_data)
-    end)
+    Resource.update(__MODULE__, client, pipeline_id, attrs)
   end
 
   @doc """
   Deletes a pipeline via `DELETE /api/v2/pipelines/:id`.
   """
   def delete(%Client{} = client, pipeline_id) do
-    client
-    |> Request.delete("pipelines/:id", opts: [path_params: [id: pipeline_id]])
-    |> Response.map([200], fn %{body: body} -> body end)
+    Resource.delete(__MODULE__, client, pipeline_id)
   end
 
   @doc """
@@ -90,34 +86,11 @@ defmodule ExPipedrive.Pipelines do
   end
 
   def list_pipelines_page(%Client{} = client, opts \\ []) do
-    limit = Cursor.clamp_limit(Keyword.get(opts, :limit))
-
-    query =
-      opts
-      |> Keyword.take([:cursor, :sort_by, :sort_direction])
-      |> Keyword.put(:limit, limit)
-      |> Enum.reject(fn {_k, v} -> is_nil(v) end)
-
-    client
-    |> Request.get("pipelines", query: query)
-    |> Response.map([200], fn %{body: body} ->
-      items =
-        body
-        |> Map.get("data")
-        |> List.wrap()
-        |> Enum.map(&Pipeline.new/1)
-
-      Page.from_items(items, body)
-    end)
+    Resource.list_page(__MODULE__, client, opts)
   end
 
   def stream_pipelines(%Client{} = client, opts \\ []) do
-    Cursor.stream(
-      fn page_opts ->
-        list_pipelines_page(client, Keyword.merge(opts, page_opts))
-      end,
-      opts
-    )
+    Resource.stream(__MODULE__, client, opts)
   end
 
   # --- API v1 (legacy) ---

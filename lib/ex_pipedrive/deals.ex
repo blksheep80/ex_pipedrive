@@ -3,16 +3,18 @@ defmodule ExPipedrive.Deals do
   Pipedrive deals resource.
 
   v2-first helpers (`get/2`, `create/2`, `update/3`, `delete/2`, `list_page/2`,
-  `stream/2`) talk to `/api/v2/deals`. Prefer `ExPipedrive.Search.search_deals/3`
-  (or `search_v2/3` here) for v2 itemSearch. Legacy `get_deal/2`, `list_deals/2`,
-  and `search_deals/3` remain on API v1 for compatibility.
+  `stream/2`) talk to `/api/v2/deals` via `ExPipedrive.Resource`. Prefer
+  `ExPipedrive.Search.search_deals/3` (or `search_v2/3` here) for v2 itemSearch.
+  Legacy `get_deal/2`, `list_deals/2`, and `search_deals/3` remain on API v1 for
+  compatibility.
   """
 
-  alias ExPipedrive.Cursor
+  @behaviour ExPipedrive.Resource
+
   alias ExPipedrive.Deal
-  alias ExPipedrive.Page
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
+  alias ExPipedrive.Resource
   alias ExPipedrive.Response
   alias ExPipedrive.Search
   alias ExPipedrive.WriteAttrs
@@ -24,17 +26,27 @@ defmodule ExPipedrive.Deals do
     custom_fields
   )
 
+  @impl true
+  def path, do: "deals"
+
+  @impl true
+  def decode(data) when is_map(data), do: Deal.new(data)
+
+  @impl true
+  def encode(attrs), do: WriteAttrs.take(attrs, @write_fields)
+
+  @impl true
+  def list_query_keys do
+    [:status, :owner_id, :person_id, :org_id, :pipeline_id, :stage_id]
+  end
+
   # --- API v2 ---
 
   @doc """
   Fetches a deal by id via `GET /api/v2/deals/:id`.
   """
   def get(%Client{} = client, deal_id) do
-    client
-    |> Request.get("deals/:id", opts: [path_params: [id: deal_id]])
-    |> Response.map([200], fn %{body: %{"data" => deal_data}} ->
-      Deal.new(deal_data)
-    end)
+    Resource.get(__MODULE__, client, deal_id)
   end
 
   @doc """
@@ -43,41 +55,28 @@ defmodule ExPipedrive.Deals do
   Accepts a map (preferred) or `%Deal{}`. Returns `{:ok, %Deal{}}`.
   """
   def create(%Client{} = client, attrs) do
-    body = WriteAttrs.take(attrs, @write_fields)
-
-    client
-    |> Request.post("deals", body)
-    |> Response.map([201], fn %{body: %{"data" => deal_data}} ->
-      Deal.new(deal_data)
-    end)
+    Resource.create(__MODULE__, client, attrs, success_statuses: [201])
   end
 
   @doc """
   Updates a deal via `PATCH /api/v2/deals/:id`.
   """
   def update(%Client{} = client, deal_id, attrs) do
-    body = WriteAttrs.take(attrs, @write_fields)
-
-    client
-    |> Request.patch("deals/:id", body, opts: [path_params: [id: deal_id]])
-    |> Response.map([200], fn %{body: %{"data" => deal_data}} ->
-      Deal.new(deal_data)
-    end)
+    Resource.update(__MODULE__, client, deal_id, attrs)
   end
 
   @doc """
   Deletes a deal via `DELETE /api/v2/deals/:id`.
   """
   def delete(%Client{} = client, deal_id) do
-    client
-    |> Request.delete("deals/:id", opts: [path_params: [id: deal_id]])
-    |> Response.map([200], fn %{body: body} -> body end)
+    Resource.delete(__MODULE__, client, deal_id)
   end
 
   @doc """
   Lists one page of deals via API v2 cursor pagination.
 
-  Options: `:cursor`, `:limit` (clamped to 500), `:status`, and other filters.
+  Options: `:cursor`, `:limit` (clamped to 500), `:status`, `:owner_id`,
+  `:person_id`, `:org_id`, `:pipeline_id`, `:stage_id`.
   """
   def list_page(%Client{} = client, opts \\ []) do
     list_deals_page(client, opts)
@@ -97,34 +96,11 @@ defmodule ExPipedrive.Deals do
   end
 
   def list_deals_page(%Client{} = client, opts \\ []) do
-    limit = Cursor.clamp_limit(Keyword.get(opts, :limit))
-
-    query =
-      opts
-      |> Keyword.take([:cursor, :status, :owner_id, :person_id, :org_id, :pipeline_id, :stage_id])
-      |> Keyword.put(:limit, limit)
-      |> Enum.reject(fn {_k, v} -> is_nil(v) end)
-
-    client
-    |> Request.get("deals", query: query)
-    |> Response.map([200], fn %{body: body} ->
-      items =
-        body
-        |> Map.get("data")
-        |> List.wrap()
-        |> Enum.map(&Deal.new/1)
-
-      Page.from_items(items, body)
-    end)
+    Resource.list_page(__MODULE__, client, opts)
   end
 
   def stream_deals(%Client{} = client, opts \\ []) do
-    Cursor.stream(
-      fn page_opts ->
-        list_deals_page(client, Keyword.merge(opts, page_opts))
-      end,
-      opts
-    )
+    Resource.stream(__MODULE__, client, opts)
   end
 
   # --- API v1 (legacy) ---

@@ -2,10 +2,11 @@ defmodule ExPipedrive.Resource do
   @moduledoc """
   Behaviour and HTTP helpers for Pipedrive resource modules.
 
-  Core v2 modules (`ExPipedrive.Products`, `ExPipedrive.Stages`, …) implement
-  this behaviour and delegate CRUD / list / stream to the helpers below. Host
-  apps can do the same for endpoints without a first-class module. Prefer
-  `ExPipedrive.Raw` for one-off untyped calls.
+  Core v2 modules implement this behaviour and delegate CRUD / list / stream to
+  the helpers below: `Products`, `Stages`, `Deals`, `Persons`, `Organizations`,
+  `Activities`, and `Pipelines`. Host apps can do the same for endpoints
+  without a first-class module. Prefer `ExPipedrive.Raw` for one-off untyped
+  calls. Nested or v1-only modules may intentionally skip this behaviour.
 
   ## Callbacks
 
