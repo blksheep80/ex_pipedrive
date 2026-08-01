@@ -25,6 +25,7 @@ Status as of 2026-07-31. Use this when starting a new agent session in this repo
 - **Rate-limit / telemetry** ([#13](https://github.com/blksheep80/ex_pipedrive/issues/13), [#61](https://github.com/blksheep80/ex_pipedrive/pull/61)): `Middleware.Retry` (429/`Retry-After`, 502–504), `Middleware.Telemetry` (`[:ex_pipedrive, :request, …]`), `RateLimit` parser, Client `:retry`/`:telemetry`/`:middleware`.
 - **Leads / Notes v1 shims** ([#18](https://github.com/blksheep80/ex_pipedrive/issues/18), [#62](https://github.com/blksheep80/ex_pipedrive/pull/62)): explicit v1 routing, map writes, `get/create/list` aliases.
 - **Webhook surface** ([#19](https://github.com/blksheep80/ex_pipedrive/issues/19), [#63](https://github.com/blksheep80/ex_pipedrive/pull/63)): `Webhook.Event` / `Webhook.Handler`; optional Basic auth; package extract deferred.
+- **Webhook event normalization** ([#81](https://github.com/blksheep80/ex_pipedrive/issues/81)): typed decode for org/activity/lead/note/product (+ pipeline/stage/user/…); v1 merged + v2 create/change/delete; unknown resources stay maps.
 - **Webhook subscriptions** ([#23](https://github.com/blksheep80/ex_pipedrive/issues/23), [#64](https://github.com/blksheep80/ex_pipedrive/pull/64)): `ExPipedrive.Webhooks` create/list/delete (API v1 management).
 - **Fields helpers** ([#22](https://github.com/blksheep80/ex_pipedrive/issues/22), [#65](https://github.com/blksheep80/ex_pipedrive/pull/65)): v2 Deal/Person/Org Fields list/stream + `ExPipedrive.Fields` key/label resolve.
 - **Upstream #25**: skipped — LineDrive PR #26 is mistitled; only v1 `pipeline_id` filter (already covered by v2 `Deals.list_page/stream`).
@@ -83,13 +84,12 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **Next (v0.3+ API coverage epic):** [#66](https://github.com/blksheep80/ex_pipedrive/issues/66)
 
-Priority order (see [AUDIT.md](AUDIT.md) + epic):
+Priority order (remaining open):
 
-1. Coverage children from #88: [#102](https://github.com/blksheep80/ex_pipedrive/issues/102) DealProducts · [#103](https://github.com/blksheep80/ex_pipedrive/issues/103) DealInstallments · [#104](https://github.com/blksheep80/ex_pipedrive/issues/104) LeadFields · [#105](https://github.com/blksheep80/ex_pipedrive/issues/105) Projects · [#106](https://github.com/blksheep80/ex_pipedrive/issues/106) Tasks · [#107](https://github.com/blksheep80/ex_pipedrive/issues/107) NoteFields
-2. Polish: [#78](https://github.com/blksheep80/ex_pipedrive/issues/78)–[#84](https://github.com/blksheep80/ex_pipedrive/issues/84), [#86](https://github.com/blksheep80/ex_pipedrive/issues/86)
-3. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
+1. Polish: [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) Dialyzer in CI
+2. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
 
-**Done recently:** Waves A–C · [#77](https://github.com/blksheep80/ex_pipedrive/issues/77) admin meta · [#87](https://github.com/blksheep80/ex_pipedrive/issues/87) ActivityTypes · [#83](https://github.com/blksheep80/ex_pipedrive/issues/83)/[#88](https://github.com/blksheep80/ex_pipedrive/issues/88) AUDIT refresh + catch-all split.
+**Done recently:** Coverage #102–#107 · polish #78–#80/#86 · webhook event matrix [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) · Waves A–C · admin meta · ActivityTypes · AUDIT refresh.
 
 **Hex:** [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published ([release v0.1.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.1.0)); [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) done.
 
@@ -98,7 +98,7 @@ Priority order (see [AUDIT.md](AUDIT.md) + epic):
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md + AUDIT.md. Next coverage: #102 DealProducts (then #103/#104). Prefer isolated worktrees for parallel PRs.
+Open HANDOFF.md. Next: #84 Dialyzer in CI, or #82 extract ex_pipedrive_web (after #81).
 ```
 
 ## How to resume
