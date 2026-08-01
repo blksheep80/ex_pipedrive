@@ -28,6 +28,8 @@ defmodule ExPipedrive.Leads do
   def create(%Client{} = client, attrs), do: create_lead(client, attrs)
 
   @doc """
+  Soft-deprecated: prefer `create/2`.
+
   Creates a lead through `POST /api/v1/leads`.
   """
   def create_lead(%Client{} = client, attrs) when is_map(attrs) do
@@ -44,6 +46,8 @@ defmodule ExPipedrive.Leads do
   def get(%Client{} = client, lead_id), do: get_lead(client, lead_id)
 
   @doc """
+  Soft-deprecated: prefer `get/2`.
+
   Fetches a lead by id through `GET /api/v1/leads/:id`.
   """
   def get_lead(%Client{} = client, lead_id) do
@@ -86,6 +90,8 @@ defmodule ExPipedrive.Leads do
   def list(%Client{} = client, opts \\ []), do: list_leads(client, opts)
 
   @doc """
+  Soft-deprecated: prefer `list/2`.
+
   Lists leads through `GET /api/v1/leads`.
   """
   def list_leads(%Client{} = client, opts \\ []) do
@@ -111,6 +117,9 @@ defmodule ExPipedrive.Leads do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `list/2` filters where possible.
+  """
   def search_leads(%Client{} = client, term, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)

@@ -105,6 +105,9 @@ defmodule ExPipedrive.Deals do
 
   # --- API v1 (legacy) ---
 
+  @doc """
+  Soft-deprecated: prefer `get/2` (API v2).
+  """
   def get_deal(%Client{} = client, deal_id) do
     client
     |> Request.get("deals/:id", api_version: :v1, opts: [path_params: [id: deal_id]])
@@ -113,6 +116,9 @@ defmodule ExPipedrive.Deals do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `list_page/2` or `stream/2` (API v2).
+  """
   def list_deals(%Client{} = client, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)
@@ -132,6 +138,9 @@ defmodule ExPipedrive.Deals do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `ExPipedrive.Search.search_deals/3` or `search_v2/3`.
+  """
   def search_deals(%Client{} = client, term, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)

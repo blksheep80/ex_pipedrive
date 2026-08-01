@@ -95,6 +95,9 @@ defmodule ExPipedrive.Organizations do
 
   # --- API v1 (legacy) ---
 
+  @doc """
+  Soft-deprecated: prefer `get/2` (API v2).
+  """
   def get_organization(%Client{} = client, org_id) do
     client
     |> Request.get("organizations/:id", api_version: :v1, opts: [path_params: [id: org_id]])
@@ -103,6 +106,9 @@ defmodule ExPipedrive.Organizations do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `create/2` (API v2).
+  """
   def create_organization(%Client{} = client, %Organization{id: nil} = org) do
     client
     |> Request.post("organizations", org, api_version: :v1)
@@ -111,6 +117,9 @@ defmodule ExPipedrive.Organizations do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `list_page/2` or `stream/2` (API v2).
+  """
   def list_organizations(%Client{} = client, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)
@@ -126,6 +135,9 @@ defmodule ExPipedrive.Organizations do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `ExPipedrive.Search.search_organizations/3` or `search_v2/3`.
+  """
   def search_organizations(%Client{} = client, term, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)
@@ -150,6 +162,9 @@ defmodule ExPipedrive.Organizations do
     Search.search_organizations(client, term, opts)
   end
 
+  @doc """
+  Soft-deprecated: prefer `update/3` (API v2).
+  """
   def update_organization(%Client{} = client, org_id, body) do
     client
     |> Request.put("organizations/:id", body,

@@ -124,7 +124,7 @@ Confirmed against OpenAPI tags (2026-07-31). Prefer **v2** when both exist.
 | Work | Issue |
 |---|---|
 | Finish `Resource` adoption | [#78](https://github.com/blksheep80/ex_pipedrive/issues/78) — core CRM modules done; nested/v1 may stay exceptions |
-| Facade / dual twin cleanup | [#79](https://github.com/blksheep80/ex_pipedrive/issues/79) |
+| Facade / dual twin cleanup | [#79](https://github.com/blksheep80/ex_pipedrive/issues/79) — soft-deprecated; remove twins in a later major |
 | Webhook event expansion | [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) |
 | `ex_pipedrive_web` package | [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |
 | Dialyzer in CI | [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) |
