@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Facade / twin cleanup** — Document blessed path (`ExPipedrive.Deals.get/2`,
+  `list_page/2`, `stream/2`, …). Soft-deprecate legacy v1 twin names on resource
+  modules and the root facade; nothing removed yet
+  ([#79](https://github.com/blksheep80/ex_pipedrive/issues/79)).
 - **Resource adoption** — `Deals`, `Persons`, `Organizations`, `Activities`,
   and `Pipelines` implement `ExPipedrive.Resource` for v2 CRUD/list/stream
   (same pattern as Products/Stages). Public APIs unchanged; v1 legacy helpers

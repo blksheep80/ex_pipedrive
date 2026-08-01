@@ -36,6 +36,8 @@ defmodule ExPipedrive.Notes do
   def create(%Client{} = client, attrs), do: add_note(client, attrs)
 
   @doc """
+  Soft-deprecated: prefer `create/2`.
+
   Creates a note through `POST /api/v1/notes`.
   """
   def add_note(%Client{} = client, attrs) when is_map(attrs) do
@@ -52,6 +54,8 @@ defmodule ExPipedrive.Notes do
   def get(%Client{} = client, note_id), do: get_note(client, note_id)
 
   @doc """
+  Soft-deprecated: prefer `get/2`.
+
   Fetches a note by id through `GET /api/v1/notes/:id`.
   """
   def get_note(%Client{} = client, note_id) do
@@ -63,6 +67,8 @@ defmodule ExPipedrive.Notes do
   end
 
   @doc """
+  Soft-deprecated: prefer `list/2` with `org_id:`.
+
   Lists notes for an organization via `GET /api/v1/notes?org_id=…`.
 
   Prefer `list/2` with `:org_id` for new code. Returns
@@ -76,6 +82,9 @@ defmodule ExPipedrive.Notes do
     list(client, opts)
   end
 
+  @doc """
+  Soft-deprecated: prefer `list/2` with `org_id:`.
+  """
   def get_all_org_notes(%Client{} = client, org_id, opts \\ []) do
     get_all_org_notes(client, Keyword.put(opts, :org_id, org_id))
   end
@@ -89,6 +98,8 @@ defmodule ExPipedrive.Notes do
   def list(%Client{} = client, opts \\ []), do: list_notes(client, opts)
 
   @doc """
+  Soft-deprecated: prefer `list/2`.
+
   Lists notes through `GET /api/v1/notes`.
   """
   def list_notes(%Client{} = client, opts \\ []) do

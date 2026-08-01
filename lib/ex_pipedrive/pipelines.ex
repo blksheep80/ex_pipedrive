@@ -96,6 +96,8 @@ defmodule ExPipedrive.Pipelines do
   # --- API v1 (legacy) ---
 
   @doc """
+  Soft-deprecated: prefer `list_page/2` or `stream/2` (API v2).
+
   Lists all pipelines via API v1 `GET /pipelines`.
 
   Soft-deprecated: prefer `list_page/2` or `stream/2` (API v2, `{:ok, %Page{}}`
@@ -111,6 +113,8 @@ defmodule ExPipedrive.Pipelines do
   end
 
   @doc """
+  Soft-deprecated: prefer `ExPipedrive.Deals.list_page/2` with `pipeline_id:`.
+
   Lists deals in a pipeline via deprecated v1 `GET /pipelines/:id/deals`.
 
   Prefer `ExPipedrive.Deals.list_page(client, pipeline_id: id)` on API v2.

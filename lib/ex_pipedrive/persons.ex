@@ -78,6 +78,9 @@ defmodule ExPipedrive.Persons do
 
   # --- API v1 (legacy) ---
 
+  @doc """
+  Soft-deprecated: prefer `get/2` (API v2).
+  """
   def get_person(%Client{} = client, id) do
     client
     |> Request.get("persons/:id", api_version: :v1, opts: [path_params: [id: id]])
@@ -86,6 +89,9 @@ defmodule ExPipedrive.Persons do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `create/2` (API v2).
+  """
   def create_person(%Client{} = client, %Person{} = person) do
     client
     |> Request.post("persons", person, api_version: :v1)
@@ -94,6 +100,9 @@ defmodule ExPipedrive.Persons do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `list_page/2` or `stream/2` (API v2).
+  """
   def list_persons(%Client{} = client, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)
@@ -109,6 +118,9 @@ defmodule ExPipedrive.Persons do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `ExPipedrive.Search.search_persons/3` or `search_v2/3`.
+  """
   def search_persons(%Client{} = client, term, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)

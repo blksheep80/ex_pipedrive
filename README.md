@@ -142,16 +142,22 @@ their `stream/2` helpers when definitions span cursor pages. Their legacy
   )
 ```
 
-API token auth remains the simple path for single-tenant scripts. Legacy v1
-list/search helpers remain available (e.g. `ExPipedrive.list_deals/2`).
+API token auth remains the simple path for single-tenant scripts.
+
+### Public API surface
+
+Prefer **resource modules** (`ExPipedrive.Deals`, `ExPipedrive.Persons`, …) with
+v2 names (`get/2`, `create/2`, `list_page/2`, `stream/2`). The root `ExPipedrive`
+module is a thin compatibility facade — incomplete by design and not the
+blessed path for new code. Legacy twin names (`get_deal/2`, `list_deals/2`,
+`create_person/2`, …) are soft-deprecated; see ExDoc `@deprecated` tags.
 
 ### Leads and Notes (API v1 shims)
 
 `ExPipedrive.Leads` and `ExPipedrive.Notes` explicitly use API v1 while their
-v2 endpoints are unavailable. Use their consistent `get/2`, `create/2`, and
-`list/2` helpers (plus `Leads.update/3`; or existing `get_lead/2`,
-`create_lead/2`, `add_note/2`, and
-`list_*` names); these aliases will make migration to v2 straightforward.
+v2 endpoints are unavailable. Prefer `get/2`, `create/2`, and `list/2` (plus
+`Leads.update/3`). Older `*_lead` / `add_note` / `list_notes` names remain but
+are soft-deprecated.
 
 ### Webhook subscriptions (API v1 management)
 

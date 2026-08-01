@@ -97,6 +97,9 @@ defmodule ExPipedrive.Activities do
 
   # --- API v1 (legacy) ---
 
+  @doc """
+  Soft-deprecated: prefer `create/2` (API v2).
+  """
   def add_activity(%Client{} = client, %Activity{id: nil} = activity) do
     client
     |> Request.post("activities", activity, api_version: :v1)
@@ -105,6 +108,9 @@ defmodule ExPipedrive.Activities do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `list_page/2` or `stream/2` (API v2).
+  """
   def list_activities(%Client{} = client, opts \\ []) do
     param_mappings = [
       {:limit, :limit, 100},
@@ -135,6 +141,9 @@ defmodule ExPipedrive.Activities do
     end)
   end
 
+  @doc """
+  Soft-deprecated: prefer `list_page/2` with `owner_id:` (API v2).
+  """
   def list_own_activities(%Client{} = client, opts \\ []) do
     param_mappings = [
       {:limit, :limit, 100},
