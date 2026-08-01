@@ -35,7 +35,7 @@ session sequencing; prefer GitHub issues for acceptance criteria.
 |---|---|---|
 | HTTP | `Client`, `Request`, `Response`, `Error`, `Raw` | v2 default paths; v1 via `api_version: :v1` |
 | Pagination | `Page`, `Cursor`, `PagedResult`, `Pagination`, `AdditionalData` | Cursor streams on v2 list resources |
-| Resource helper | `Resource`, `WriteAttrs` | Adopted by Products/Stages; broader adoption [#78](https://github.com/blksheep80/ex_pipedrive/issues/78) |
+| Resource helper | `Resource`, `WriteAttrs` | Adopted by Products/Stages/Deals/Persons/Orgs/Activities/Pipelines ([#78](https://github.com/blksheep80/ex_pipedrive/issues/78)) |
 | OAuth | `Oauth`, `Oauth.Token`, `TokenStore` (+ Memory) | Phoenix helpers deferred [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) |
 | Webhooks | `Webhooks` (subscriptions), `Webhook.Event` / `Handler`, `Incoming.Handler` | Event expansion [#81](https://github.com/blksheep80/ex_pipedrive/issues/81); extract package [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |
 | Search | `Search` | v2 item search; explicit opts ([#24](https://github.com/blksheep80/ex_pipedrive/issues/24)) |
@@ -123,7 +123,7 @@ Confirmed against OpenAPI tags (2026-07-31). Prefer **v2** when both exist.
 
 | Work | Issue |
 |---|---|
-| Finish `Resource` adoption | [#78](https://github.com/blksheep80/ex_pipedrive/issues/78) |
+| Finish `Resource` adoption | [#78](https://github.com/blksheep80/ex_pipedrive/issues/78) — core CRM modules done; nested/v1 may stay exceptions |
 | Facade / dual twin cleanup | [#79](https://github.com/blksheep80/ex_pipedrive/issues/79) |
 | Webhook event expansion | [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) |
 | `ex_pipedrive_web` package | [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |

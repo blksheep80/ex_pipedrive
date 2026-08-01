@@ -3,18 +3,19 @@ defmodule ExPipedrive.Organizations do
   Pipedrive organizations resource.
 
   v2-first helpers (`get/2`, `create/2`, `update/3`, `delete/2`, `list_page/2`,
-  `stream/2`) talk to `/api/v2/organizations`. Prefer
+  `stream/2`) talk to `/api/v2/organizations` via `ExPipedrive.Resource`. Prefer
   `ExPipedrive.Search.search_organizations/3` (or `search_v2/3` here) for v2
   itemSearch. Legacy `get_organization/2`, `create_organization/2`,
   `list_organizations/2`, `search_organizations/3`, and `update_organization/3`
   remain on API v1 for compatibility.
   """
 
-  alias ExPipedrive.Cursor
+  @behaviour ExPipedrive.Resource
+
   alias ExPipedrive.Organization
-  alias ExPipedrive.Page
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Request
+  alias ExPipedrive.Resource
   alias ExPipedrive.Response
   alias ExPipedrive.Search
   alias ExPipedrive.WriteAttrs
@@ -24,17 +25,25 @@ defmodule ExPipedrive.Organizations do
     name owner_id visible_to label_ids address custom_fields
   )
 
+  @impl true
+  def path, do: "organizations"
+
+  @impl true
+  def decode(data) when is_map(data), do: Organization.new(data)
+
+  @impl true
+  def encode(attrs), do: WriteAttrs.take(attrs, @write_fields)
+
+  @impl true
+  def list_query_keys, do: [:owner_id]
+
   # --- API v2 ---
 
   @doc """
   Fetches an organization by id via `GET /api/v2/organizations/:id`.
   """
   def get(%Client{} = client, org_id) do
-    client
-    |> Request.get("organizations/:id", opts: [path_params: [id: org_id]])
-    |> Response.map([200], fn %{body: %{"data" => org_data}} ->
-      Organization.new(org_data)
-    end)
+    Resource.get(__MODULE__, client, org_id)
   end
 
   @doc """
@@ -43,35 +52,21 @@ defmodule ExPipedrive.Organizations do
   Accepts a map (preferred) or `%Organization{}`. Returns `{:ok, %Organization{}}`.
   """
   def create(%Client{} = client, attrs) do
-    body = WriteAttrs.take(attrs, @write_fields)
-
-    client
-    |> Request.post("organizations", body)
-    |> Response.map([201], fn %{body: %{"data" => org_data}} ->
-      Organization.new(org_data)
-    end)
+    Resource.create(__MODULE__, client, attrs, success_statuses: [201])
   end
 
   @doc """
   Updates an organization via `PATCH /api/v2/organizations/:id`.
   """
   def update(%Client{} = client, org_id, attrs) do
-    body = WriteAttrs.take(attrs, @write_fields)
-
-    client
-    |> Request.patch("organizations/:id", body, opts: [path_params: [id: org_id]])
-    |> Response.map([200], fn %{body: %{"data" => org_data}} ->
-      Organization.new(org_data)
-    end)
+    Resource.update(__MODULE__, client, org_id, attrs)
   end
 
   @doc """
   Deletes an organization via `DELETE /api/v2/organizations/:id`.
   """
   def delete(%Client{} = client, org_id) do
-    client
-    |> Request.delete("organizations/:id", opts: [path_params: [id: org_id]])
-    |> Response.map([200], fn %{body: body} -> body end)
+    Resource.delete(__MODULE__, client, org_id)
   end
 
   @doc """
@@ -91,34 +86,11 @@ defmodule ExPipedrive.Organizations do
   end
 
   def list_organizations_page(%Client{} = client, opts \\ []) do
-    limit = Cursor.clamp_limit(Keyword.get(opts, :limit))
-
-    query =
-      opts
-      |> Keyword.take([:cursor, :owner_id])
-      |> Keyword.put(:limit, limit)
-      |> Enum.reject(fn {_k, v} -> is_nil(v) end)
-
-    client
-    |> Request.get("organizations", query: query)
-    |> Response.map([200], fn %{body: body} ->
-      items =
-        body
-        |> Map.get("data")
-        |> List.wrap()
-        |> Enum.map(&Organization.new/1)
-
-      Page.from_items(items, body)
-    end)
+    Resource.list_page(__MODULE__, client, opts)
   end
 
   def stream_organizations(%Client{} = client, opts \\ []) do
-    Cursor.stream(
-      fn page_opts ->
-        list_organizations_page(client, Keyword.merge(opts, page_opts))
-      end,
-      opts
-    )
+    Resource.stream(__MODULE__, client, opts)
   end
 
   # --- API v1 (legacy) ---

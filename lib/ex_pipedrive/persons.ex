@@ -3,16 +3,20 @@ defmodule ExPipedrive.Persons do
   Pipedrive persons resource.
 
   v2-first helpers (`get/2`, `create/2`, `update/3`, `list_page/2`, `stream/2`)
-  talk to `/api/v2/persons`. Prefer `ExPipedrive.Search.search_persons/3`
-  (or `search_v2/3` here) for v2 itemSearch. Legacy `get_person/2`,
-  `create_person/2`, `list_persons/2`, and `search_persons/3` remain on API v1.
+  talk to `/api/v2/persons` via `ExPipedrive.Resource`. Prefer
+  `ExPipedrive.Search.search_persons/3` (or `search_v2/3` here) for v2
+  itemSearch. Legacy `get_person/2`, `create_person/2`, `list_persons/2`, and
+  `search_persons/3` remain on API v1.
+
+  Persons have no v2 delete in this client (intentional; use Raw if needed).
   """
 
-  alias ExPipedrive.Cursor
-  alias ExPipedrive.Page
+  @behaviour ExPipedrive.Resource
+
   alias ExPipedrive.PagedResult
   alias ExPipedrive.Person
   alias ExPipedrive.Request
+  alias ExPipedrive.Resource
   alias ExPipedrive.Response
   alias ExPipedrive.Search
   alias ExPipedrive.WriteAttrs
@@ -22,17 +26,25 @@ defmodule ExPipedrive.Persons do
     name owner_id org_id emails phones visible_to label_ids custom_fields
   )
 
+  @impl true
+  def path, do: "persons"
+
+  @impl true
+  def decode(data) when is_map(data), do: Person.new(data)
+
+  @impl true
+  def encode(attrs), do: WriteAttrs.take(attrs, @write_fields)
+
+  @impl true
+  def list_query_keys, do: [:owner_id, :org_id]
+
   # --- API v2 ---
 
   @doc """
   Fetches a person by id via `GET /api/v2/persons/:id`.
   """
   def get(%Client{} = client, person_id) do
-    client
-    |> Request.get("persons/:id", opts: [path_params: [id: person_id]])
-    |> Response.map([200], fn %{body: %{"data" => data}} ->
-      Person.new(data)
-    end)
+    Resource.get(__MODULE__, client, person_id)
   end
 
   @doc """
@@ -42,26 +54,14 @@ defmodule ExPipedrive.Persons do
   under `emails` / `phones` lists.
   """
   def create(%Client{} = client, attrs) do
-    body = WriteAttrs.take(attrs, @write_fields)
-
-    client
-    |> Request.post("persons", body)
-    |> Response.map([201], fn %{body: %{"data" => person_data}} ->
-      Person.new(person_data)
-    end)
+    Resource.create(__MODULE__, client, attrs, success_statuses: [201])
   end
 
   @doc """
   Updates a person via `PATCH /api/v2/persons/:id`.
   """
   def update(%Client{} = client, person_id, attrs) do
-    body = WriteAttrs.take(attrs, @write_fields)
-
-    client
-    |> Request.patch("persons/:id", body, opts: [path_params: [id: person_id]])
-    |> Response.map([200], fn %{body: %{"data" => person_data}} ->
-      Person.new(person_data)
-    end)
+    Resource.update(__MODULE__, client, person_id, attrs)
   end
 
   def list_page(%Client{} = client, opts \\ []), do: list_persons_page(client, opts)
@@ -69,34 +69,11 @@ defmodule ExPipedrive.Persons do
   def stream(%Client{} = client, opts \\ []), do: stream_persons(client, opts)
 
   def list_persons_page(%Client{} = client, opts \\ []) do
-    limit = Cursor.clamp_limit(Keyword.get(opts, :limit))
-
-    query =
-      opts
-      |> Keyword.take([:cursor, :owner_id, :org_id])
-      |> Keyword.put(:limit, limit)
-      |> Enum.reject(fn {_k, v} -> is_nil(v) end)
-
-    client
-    |> Request.get("persons", query: query)
-    |> Response.map([200], fn %{body: body} ->
-      items =
-        body
-        |> Map.get("data")
-        |> List.wrap()
-        |> Enum.map(&Person.new/1)
-
-      Page.from_items(items, body)
-    end)
+    Resource.list_page(__MODULE__, client, opts)
   end
 
   def stream_persons(%Client{} = client, opts \\ []) do
-    Cursor.stream(
-      fn page_opts ->
-        list_persons_page(client, Keyword.merge(opts, page_opts))
-      end,
-      opts
-    )
+    Resource.stream(__MODULE__, client, opts)
   end
 
   # --- API v1 (legacy) ---
