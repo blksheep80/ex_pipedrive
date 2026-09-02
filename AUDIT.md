@@ -37,7 +37,7 @@ session sequencing; prefer GitHub issues for acceptance criteria.
 | Pagination | `Page`, `Cursor`, `PagedResult`, `Pagination`, `AdditionalData` | Cursor streams on v2 list resources |
 | Resource helper | `Resource`, `WriteAttrs` | Adopted by Products/Stages/Deals/Persons/Orgs/Activities/Pipelines ([#78](https://github.com/blksheep80/ex_pipedrive/issues/78)) |
 | OAuth | `Oauth`, `Oauth.Token`, `TokenStore` (+ Memory) | Phoenix helpers deferred [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) |
-| Webhooks | `Webhooks` (subscriptions), `Webhook.Event` / `Handler`, `Incoming.Handler` | Event matrix + typed decode ([#81](https://github.com/blksheep80/ex_pipedrive/issues/81)); extract package [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |
+| Webhooks | `Webhooks` (subscriptions), `Webhook.Event` / `Handler` in core; inbound Plug in `ex_pipedrive_web` | Event matrix ([#81](https://github.com/blksheep80/ex_pipedrive/issues/81)); package extract [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |
 | Search | `Search` | v2 item search; explicit opts ([#24](https://github.com/blksheep80/ex_pipedrive/issues/24)) |
 
 Historical LineDrive risks (query-param auth, string errors, OTP Registry) are
@@ -126,7 +126,7 @@ Confirmed against OpenAPI tags (2026-07-31). Prefer **v2** when both exist.
 | Finish `Resource` adoption | [#78](https://github.com/blksheep80/ex_pipedrive/issues/78) — core CRM modules done; nested/v1 may stay exceptions |
 | Facade / dual twin cleanup | [#79](https://github.com/blksheep80/ex_pipedrive/issues/79) — soft-deprecated; remove twins in a later major |
 | Webhook event expansion | [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) |
-| `ex_pipedrive_web` package | [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |
+| `ex_pipedrive_web` package | [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) — done (`packages/ex_pipedrive_web`, not Hex-published yet) |
 | Dialyzer in CI | [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) — done (baseline flags + PLT cache) |
 | Normalize list return shapes | [#86](https://github.com/blksheep80/ex_pipedrive/issues/86) — done (`PagedResult` + docs) |
 | Oban sync package | [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) |

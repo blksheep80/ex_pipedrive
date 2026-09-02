@@ -3,11 +3,12 @@ defmodule ExPipedrive.Webhook.Handler do
   Behaviour for consuming normalized Pipedrive webhook events.
 
   Configure a module implementing this behaviour when mounting
-  `ExPipedrive.Incoming.Handler`. The callback runs synchronously, so handlers
-  should acknowledge quickly and delegate longer work to the host application.
+  `ExPipedriveWeb.Incoming.Handler` from the optional `ex_pipedrive_web`
+  package. The callback runs synchronously, so handlers should acknowledge
+  quickly and delegate longer work to the host application.
 
-  This is the intended public handler boundary for the future
-  `ex_pipedrive_web` package. The Plug itself stays optional.
+  Event structs stay in core so API-only apps can decode webhook payloads
+  without Plug.
   """
 
   alias ExPipedrive.Webhook.Event

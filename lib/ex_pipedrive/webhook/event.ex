@@ -46,9 +46,9 @@ defmodule ExPipedrive.Webhook.Event do
   delivery is always available on `:raw`. Deletes typically have `current: nil`
   and a populated `previous` (decoded when typed).
 
-  This module is part of the in-repository `ex_pipedrive_web` surface. It is
-  deliberately independent of Plug so it can move unchanged to a future
-  optional `ex_pipedrive_web` package.
+  Event structs stay in core so API-only apps can decode webhook payloads
+  without Plug. Mount `ExPipedriveWeb.Incoming.Handler` from the optional
+  `ex_pipedrive_web` package to receive POSTs.
   """
 
   alias ExPipedrive.{

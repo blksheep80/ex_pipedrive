@@ -8,7 +8,7 @@ Status as of 2026-09-02. Use this when starting a new agent session in this repo
 - **Rebrand complete** ([#1](https://github.com/blksheep80/ex_pipedrive/issues/1)): `:ex_pipedrive`, `ExPipedrive.*`, upstream attribution preserved.
 - **Audit complete** ([#2](https://github.com/blksheep80/ex_pipedrive/issues/2)): keep/adapt/deprecate decisions in [AUDIT.md](AUDIT.md).
 - **OTP coupling removed** ([#14](https://github.com/blksheep80/ex_pipedrive/issues/14)): no Application `mod`; webhooks use `on_event/1` callback.
-- **Core deps slimmed** ([#27](https://github.com/blksheep80/ex_pipedrive/issues/27)): Timex removed; Plug is optional (webhooks only); no Phoenix/Oban in core.
+- **Core deps slimmed** ([#27](https://github.com/blksheep80/ex_pipedrive/issues/27)): Timex removed; Plug is not a core dep (inbound Plug is `ex_pipedrive_web`); no Phoenix/Oban in core.
 - **v2 client foundation** ([#3](https://github.com/blksheep80/ex_pipedrive/issues/3), [#37](https://github.com/blksheep80/ex_pipedrive/pull/37)): `ExPipedrive.Client` owns base URL/`api_domain`; `ExPipedrive.Request` owns versioned paths (default `/api/v2`, explicit `:v1` fallback). Inherited resources still call v1 via `api_version: :v1` until #8/#9.
 - **Header API token auth** ([#4](https://github.com/blksheep80/ex_pipedrive/issues/4), [#38](https://github.com/blksheep80/ex_pipedrive/pull/38)): default `x-api-token` header; legacy `auth: :query` isolated for transitional v1 only.
 - **Structured errors** ([#5](https://github.com/blksheep80/ex_pipedrive/issues/5), [#39](https://github.com/blksheep80/ex_pipedrive/pull/39)): `ExPipedrive.Error` + `ExPipedrive.Response` normalize API vs transport failures.
@@ -24,7 +24,7 @@ Status as of 2026-09-02. Use this when starting a new agent session in this repo
 - **Resource behaviour** ([#16](https://github.com/blksheep80/ex_pipedrive/issues/16), [#60](https://github.com/blksheep80/ex_pipedrive/pull/60)): `ExPipedrive.Resource` path/decode/encode + CRUD/list/stream helpers; Products/Stages adopt the pattern.
 - **Rate-limit / telemetry** ([#13](https://github.com/blksheep80/ex_pipedrive/issues/13), [#61](https://github.com/blksheep80/ex_pipedrive/pull/61)): `Middleware.Retry` (429/`Retry-After`, 502–504), `Middleware.Telemetry` (`[:ex_pipedrive, :request, …]`), `RateLimit` parser, Client `:retry`/`:telemetry`/`:middleware`.
 - **Leads / Notes v1 shims** ([#18](https://github.com/blksheep80/ex_pipedrive/issues/18), [#62](https://github.com/blksheep80/ex_pipedrive/pull/62)): explicit v1 routing, map writes, `get/create/list` aliases.
-- **Webhook surface** ([#19](https://github.com/blksheep80/ex_pipedrive/issues/19), [#63](https://github.com/blksheep80/ex_pipedrive/pull/63)): `Webhook.Event` / `Webhook.Handler`; optional Basic auth; package extract deferred.
+- **Webhook surface** ([#19](https://github.com/blksheep80/ex_pipedrive/issues/19), [#63](https://github.com/blksheep80/ex_pipedrive/pull/63)): `Webhook.Event` / `Webhook.Handler` in core; inbound Plug extracted to `ex_pipedrive_web` ([#82](https://github.com/blksheep80/ex_pipedrive/issues/82)).
 - **Webhook event normalization** ([#81](https://github.com/blksheep80/ex_pipedrive/issues/81)): typed decode for org/activity/lead/note/product (+ pipeline/stage/user/…); v1 merged + v2 create/change/delete; unknown resources stay maps.
 - **Webhook subscriptions** ([#23](https://github.com/blksheep80/ex_pipedrive/issues/23), [#64](https://github.com/blksheep80/ex_pipedrive/pull/64)): `ExPipedrive.Webhooks` create/list/delete (API v1 management).
 - **Fields helpers** ([#22](https://github.com/blksheep80/ex_pipedrive/issues/22), [#65](https://github.com/blksheep80/ex_pipedrive/pull/65)): v2 Deal/Person/Org Fields list/stream + `ExPipedrive.Fields` key/label resolve.
@@ -47,7 +47,7 @@ Status as of 2026-09-02. Use this when starting a new agent session in this repo
 | Strategy | Fork of [tmecklem/line_drive](https://github.com/tmecklem/line_drive), evolve v2-first (do not rewrite from scratch) |
 | Auth | API token **and** OAuth in core; OAuth TokenStore is pluggable (no Ecto in core) |
 | HTTP | Tesla (keep unless strong reason to switch) |
-| Core vs optional | Keep core lean; later `ex_pipedrive_web`, `ex_pipedrive_oban`, optional Phoenix OAuth helpers |
+| Core vs optional | Keep core lean; `ex_pipedrive_web` for inbound webhook Plug; later `ex_pipedrive_oban`, optional Phoenix OAuth helpers |
 | MVP proof flows | (1) stream open deals via cursor pagination (2) create person + deal |
 
 ## Remotes
@@ -71,6 +71,7 @@ Without that, `gh pr create` can open PRs against `tmecklem/line_drive`.
 - **Cursor skills**: `.cursor/skills/ex-pipedrive-session`, `.cursor/skills/ex-pipedrive-pr` (plus always-on `.cursor/rules/ex-pipedrive.mdc`).
 - **devenv** (optional, NixOS-friendly): `devenv.nix` pins Elixir 1.17 / OTP 27 + `dolt` for beads. `direnv allow` or `devenv shell`.
 - **asdf / mise**: `.tool-versions` remains the non-Nix source of truth for Elixir/OTP.
+- **Optional packages**: `packages/ex_pipedrive_web` is a sibling Mix project (inbound webhook Plug). Core stays at the repo root.
 
 ## Issue backlog
 
@@ -86,9 +87,9 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 Priority order (remaining open):
 
-1. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
+1. Packages: [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
 
-**Done recently:** Dialyzer CI [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) · Coverage #102–#107 · polish #78–#80/#86 · webhook event matrix [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) · Waves A–C · admin meta · ActivityTypes · AUDIT refresh.
+**Done recently:** `ex_pipedrive_web` [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) · Dialyzer CI [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) · Coverage #102–#107 · polish #78–#80/#86 · webhook event matrix [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) · Waves A–C · admin meta · ActivityTypes · AUDIT refresh.
 
 **Hex:** [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published ([release v0.1.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.1.0)); [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) done.
 
@@ -97,7 +98,7 @@ Priority order (remaining open):
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Next: #82 extract ex_pipedrive_web, or #20 Oban / #21 Phoenix OAuth helpers.
+Open HANDOFF.md. Next: #20 Oban package, or #21 Phoenix OAuth helpers.
 ```
 
 ## How to resume

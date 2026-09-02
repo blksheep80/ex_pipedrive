@@ -1,4 +1,4 @@
-defmodule ExPipedrive.Incoming.DealHandler do
+defmodule ExPipedriveWeb.Incoming.DealHandler do
   @moduledoc """
   Payload handler for incoming deal-related webhook events. This module
   transforms the JSON into `ExPipedrive.Deal` and related structs and returns a
@@ -9,7 +9,7 @@ defmodule ExPipedrive.Incoming.DealHandler do
 
   defmacro __using__(_opts) do
     quote do
-      import ExPipedrive.Incoming.DealHandler, only: [deal_updated: 1]
+      import ExPipedriveWeb.Incoming.DealHandler, only: [deal_updated: 1]
 
       def transform_event("updated.deal", payload) do
         deal_updated(payload)

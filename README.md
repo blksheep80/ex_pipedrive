@@ -14,7 +14,8 @@ This repository is a fork of [tmecklem/line_drive](https://github.com/tmecklem/l
 
 - Pipedrive API v2 as the default, with explicit v1 fallback where needed
 - API token **and** OAuth (pluggable TokenStore; no Ecto in core)
-- Lean core library; optional packages later for webhooks, Oban sync, Phoenix helpers
+- Lean core library; optional `ex_pipedrive_web` for inbound webhook Plug,
+  later Oban sync / Phoenix OAuth helpers
 - Broad resource coverage over time (see epic [#66](https://github.com/blksheep80/ex_pipedrive/issues/66))
 
 ## Installation
@@ -25,6 +26,12 @@ def deps do
     {:ex_pipedrive, "~> 0.1.0"}
   ]
 end
+```
+
+For inbound webhook Plug helpers, also add [`ex_pipedrive_web`](packages/ex_pipedrive_web):
+
+```elixir
+{:ex_pipedrive_web, "~> 0.1.0"}
 ```
 
 Docs: [https://hexdocs.pm/ex_pipedrive](https://hexdocs.pm/ex_pipedrive)
@@ -39,11 +46,8 @@ def deps do
 end
 ```
 
-Core runtime deps are Tesla, Jason, Telemetry, and TypedStruct. **Plug is optional** — add it only if you mount `ExPipedrive.Incoming.Handler` for webhooks:
-
-```elixir
-{:plug, ">= 1.16.0"}
-```
+Core runtime deps are Tesla, Jason, Telemetry, and TypedStruct. Plug is **not**
+a core dependency.
 
 ## Usage
 
@@ -187,14 +191,9 @@ subscriptions and only receive events they can see. Use a top-level admin user
 (or its `user_id` when creating) for company-wide event coverage. Pipedrive
 allows up to 40 webhook subscriptions per user.
 
-### Incoming webhook deliveries (`ex_pipedrive_web` surface)
+### Incoming webhook deliveries (`ex_pipedrive_web`)
 
-The webhook API is designed to extract unchanged into a future optional
-`ex_pipedrive_web` package. It does not start an OTP application, Registry, or
-other fan-out process; your host application owns delivery after the handler
-callback.
-
-`ExPipedrive.Webhook.Event` normalizes Pipedrive webhook deliveries:
+`ExPipedrive.Webhook.Event` (core) normalizes Pipedrive webhook deliveries:
 
 - **v1** — `"event"` like `"updated.deal"` / `"added.organization"` with
   `current`/`previous`
@@ -206,10 +205,13 @@ callback.
 
 See the matrix on `ExPipedrive.Webhook.Event` / `Event.typed_resources/0`.
 
-Add Plug only in the host application:
+The inbound Plug router lives in the optional
+[`ex_pipedrive_web`](packages/ex_pipedrive_web) package (Hex-ready, not
+published yet). It does not start an OTP application, Registry, or other
+fan-out process; the host application owns delivery after the handler callback.
 
 ```elixir
-{:plug, ">= 1.16.0"}
+{:ex_pipedrive_web, "~> 0.1.0"}
 ```
 
 Implement the handler behaviour:
@@ -232,14 +234,15 @@ authentication is optional; provide `:auth_fn` when Pipedrive is configured
 with a username and password.
 
 ```elixir
-forward "/webhooks", to: ExPipedrive.Incoming.Handler,
+forward "/webhooks", to: ExPipedriveWeb.Incoming.Handler,
   init_opts: [
     handler: MyApp.PipedriveWebhookHandler,
     auth_fn: fn -> [username: "pipedrive", password: System.fetch_env!("PIPEDRIVE_WEBHOOK_SECRET")] end
   ]
 ```
 
-Existing integrations can continue to use
+`ExPipedrive.Incoming.Handler` remains a compatibility alias in
+`ex_pipedrive_web`. Existing integrations can continue to use
 `on_event: fn {:updated_deal, payload} -> ... end`; new integrations should
 use `ExPipedrive.Webhook.Handler`.
 
@@ -309,6 +312,16 @@ mix docs
 ```
 
 Dialyzer runs in CI on the primary matrix cell (Elixir 1.17 / OTP 27) with PLT caching. Locally, `mix dialyzer` uses PLTs under `priv/plts/` (gitignored). Stricter flags (`:error_handling`, `:underspecs`) can be added later once the baseline stays green.
+
+Inbound webhook Plug tests live in `packages/ex_pipedrive_web`:
+
+```bash
+cd packages/ex_pipedrive_web
+mix deps.get
+mix test
+mix format --check-formatted
+mix credo --strict
+```
 
 ### Hex release
 

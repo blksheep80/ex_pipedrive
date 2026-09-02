@@ -1,4 +1,4 @@
-defmodule ExPipedrive.Incoming.PersonHandler do
+defmodule ExPipedriveWeb.Incoming.PersonHandler do
   @moduledoc """
   Payload handler for incoming person-related webhook events. This module
   transforms the JSON into `ExPipedrive.Person` and related structs and returns a
@@ -9,7 +9,7 @@ defmodule ExPipedrive.Incoming.PersonHandler do
 
   defmacro __using__(_opts) do
     quote do
-      import ExPipedrive.Incoming.PersonHandler, only: [person_updated: 1]
+      import ExPipedriveWeb.Incoming.PersonHandler, only: [person_updated: 1]
 
       def transform_event("updated.person", payload) do
         person_updated(payload)

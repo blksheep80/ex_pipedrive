@@ -4,8 +4,10 @@ defmodule ExPipedrive.Webhooks do
 
   Pipedrive's webhook-management endpoints remain under `/api/v1/webhooks`;
   the webhook **delivery** format defaults to v2.0 when `:version` is omitted.
-  This module manages subscriptions, while `ExPipedrive.Webhook.*` and
-  `ExPipedrive.Incoming.*` handle webhook payloads received by your app.
+  This module manages subscriptions, while `ExPipedrive.Webhook.Event` /
+  `ExPipedrive.Webhook.Handler` normalize inbound payloads. Mount the Plug
+  router from the optional `ex_pipedrive_web` package
+  (`ExPipedriveWeb.Incoming.Handler`).
 
   ## Authorization
 
