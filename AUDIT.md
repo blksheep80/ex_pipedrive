@@ -37,7 +37,7 @@ session sequencing; prefer GitHub issues for acceptance criteria.
 | Pagination | `Page`, `Cursor`, `PagedResult`, `Pagination`, `AdditionalData` | Cursor streams on v2 list resources |
 | Resource helper | `Resource`, `WriteAttrs` | Adopted by Products/Stages/Deals/Persons/Orgs/Activities/Pipelines ([#78](https://github.com/blksheep80/ex_pipedrive/issues/78)) |
 | OAuth | `Oauth`, `Oauth.Token`, `TokenStore` (+ Memory) | Phoenix helpers deferred [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) |
-| Webhooks | `Webhooks` (subscriptions), `Webhook.Event` / `Handler`, `Incoming.Handler` | Event expansion [#81](https://github.com/blksheep80/ex_pipedrive/issues/81); extract package [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |
+| Webhooks | `Webhooks` (subscriptions), `Webhook.Event` / `Handler`, `Incoming.Handler` | Event matrix + typed decode ([#81](https://github.com/blksheep80/ex_pipedrive/issues/81)); extract package [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) |
 | Search | `Search` | v2 item search; explicit opts ([#24](https://github.com/blksheep80/ex_pipedrive/issues/24)) |
 
 Historical LineDrive risks (query-param auth, string errors, OTP Registry) are

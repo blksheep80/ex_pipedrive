@@ -194,10 +194,17 @@ The webhook API is designed to extract unchanged into a future optional
 other fan-out process; your host application owns delivery after the handler
 callback.
 
-`ExPipedrive.Webhook.Event` normalizes Pipedrive's v1
-`"updated.deal"`/`"updated.person"` payloads (and v2-ish
-`"deal.updated"`/`"person.updated"` forms). Deal and person records decode to
-`ExPipedrive.Deal` and `ExPipedrive.Person`.
+`ExPipedrive.Webhook.Event` normalizes Pipedrive webhook deliveries:
+
+- **v1** — `"event"` like `"updated.deal"` / `"added.organization"` with
+  `current`/`previous`
+- **v2** — `meta.action` + `meta.entity` with `data`/`previous` (name synthesized
+  as `"change.lead"`, `"delete.deal"`, …)
+- Typed decode for deal, person, organization, activity, lead, note, product,
+  pipeline, stage, user, activityType, deal_product, deal_installment, project,
+  task, and board; unknown resources stay maps (`event.raw` always retained)
+
+See the matrix on `ExPipedrive.Webhook.Event` / `Event.typed_resources/0`.
 
 Add Plug only in the host application:
 

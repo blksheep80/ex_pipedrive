@@ -2,18 +2,94 @@ defmodule ExPipedrive.Webhook.Event do
   @moduledoc """
   A normalized Pipedrive webhook event.
 
-  `from_payload/1` accepts the v1 `current`/`previous` envelope and the
-  equivalent v2-ish `data` field. Deal and person records are decoded into
-  `ExPipedrive.Deal` and `ExPipedrive.Person`; other resources remain maps.
+  `from_payload/1` accepts:
+
+  * **Webhooks v1** — top-level `"event"` (`"updated.deal"`, `"added.organization"`,
+    …) with `"current"` / `"previous"` bodies
+  * **Webhooks v2** — `"meta.action"` + `"meta.entity"` with `"data"` / `"previous"`
+    (no top-level event name; one is synthesized as `"action.entity"`)
+  * **v2-ish aliases** — `"event_type"` / `"event_name"`, and `"resource.action"`
+    order (`"person.updated"`)
+
+  ## Event type matrix
+
+  ### Actions
+
+  | API | Actions |
+  |---|---|
+  | v1 | `added`, `updated`, `deleted`, `merged` |
+  | v2 | `create`, `change`, `delete` |
+  | alias | `created` (treated like a first-class action token) |
+
+  ### Typed resources (decoded when a matching entity module exists)
+
+  | Resource key | Struct |
+  |---|---|
+  | `deal` | `ExPipedrive.Deal` |
+  | `person` | `ExPipedrive.Person` |
+  | `organization` | `ExPipedrive.Organization` |
+  | `activity` | `ExPipedrive.Activity` |
+  | `lead` | `ExPipedrive.Lead` |
+  | `note` | `ExPipedrive.Note` |
+  | `product` | `ExPipedrive.Product` |
+  | `pipeline` | `ExPipedrive.Pipeline` |
+  | `stage` | `ExPipedrive.Stage` |
+  | `user` | `ExPipedrive.User` |
+  | `activityType` | `ExPipedrive.ActivityType` |
+  | `deal_product` | `ExPipedrive.DealProduct` |
+  | `deal_installment` | `ExPipedrive.DealInstallment` |
+  | `project` | `ExPipedrive.Project` |
+  | `task` | `ExPipedrive.Task` |
+  | `board` | `ExPipedrive.ProjectBoard` |
+
+  Unknown resources (e.g. `phase`) keep `current` / `previous` as maps. The full
+  delivery is always available on `:raw`. Deletes typically have `current: nil`
+  and a populated `previous` (decoded when typed).
 
   This module is part of the in-repository `ex_pipedrive_web` surface. It is
   deliberately independent of Plug so it can move unchanged to a future
   optional `ex_pipedrive_web` package.
   """
 
-  alias ExPipedrive.{Deal, Person}
+  alias ExPipedrive.{
+    Activity,
+    ActivityType,
+    Deal,
+    DealInstallment,
+    DealProduct,
+    Lead,
+    Note,
+    Organization,
+    Person,
+    Pipeline,
+    Product,
+    Project,
+    ProjectBoard,
+    Stage,
+    Task,
+    User
+  }
 
-  @actions ~w(added created deleted updated)
+  @actions ~w(added created deleted updated merged create change delete)
+
+  @decoders %{
+    "deal" => Deal,
+    "person" => Person,
+    "organization" => Organization,
+    "activity" => Activity,
+    "lead" => Lead,
+    "note" => Note,
+    "product" => Product,
+    "pipeline" => Pipeline,
+    "stage" => Stage,
+    "user" => User,
+    "activityType" => ActivityType,
+    "deal_product" => DealProduct,
+    "deal_installment" => DealInstallment,
+    "project" => Project,
+    "task" => Task,
+    "board" => ProjectBoard
+  }
 
   @enforce_keys [:name, :action, :resource, :raw]
   defstruct [
@@ -27,16 +103,26 @@ defmodule ExPipedrive.Webhook.Event do
     :raw
   ]
 
+  @type resource_payload :: struct() | map() | nil
+
   @type t :: %__MODULE__{
           name: String.t(),
           action: String.t() | nil,
           resource: String.t() | nil,
-          current: Deal.t() | Person.t() | map() | nil,
-          previous: Deal.t() | Person.t() | map() | nil,
+          current: resource_payload(),
+          previous: resource_payload(),
           meta: map(),
           diff: map(),
           raw: map()
         }
+
+  @doc """
+  Resource keys that decode into entity structs.
+
+  Other resources remain maps on `:current` / `:previous`.
+  """
+  @spec typed_resources() :: [String.t()]
+  def typed_resources, do: @decoders |> Map.keys() |> Enum.sort()
 
   @doc "Normalizes a Pipedrive webhook payload into an event."
   @spec from_payload(map()) :: {:ok, t()} | {:error, :invalid_payload}
@@ -67,7 +153,20 @@ defmodule ExPipedrive.Webhook.Event do
   def from_payload(_), do: {:error, :invalid_payload}
 
   defp event_name(payload) do
-    Map.get(payload, "event") || Map.get(payload, "event_name") || Map.get(payload, "event_type")
+    Map.get(payload, "event") ||
+      Map.get(payload, "event_name") ||
+      Map.get(payload, "event_type") ||
+      synthesize_name(payload)
+  end
+
+  defp synthesize_name(payload) do
+    meta = Map.get(payload, "meta", %{})
+    action = Map.get(meta, "action")
+    resource = meta_resource(meta)
+
+    if is_binary(action) and is_binary(resource) do
+      "#{action}.#{resource}"
+    end
   end
 
   defp event_parts(name, payload) do
@@ -76,13 +175,26 @@ defmodule ExPipedrive.Webhook.Event do
     case String.split(name, ".", parts: 2) do
       [action, resource] when action in @actions -> {action, resource}
       [resource, action] when action in @actions -> {action, resource}
-      _ -> {Map.get(meta, "action"), Map.get(meta, "object")}
+      _ -> {Map.get(meta, "action"), meta_resource(meta)}
     end
   end
 
-  defp decode("deal", payload) when is_map(payload), do: Deal.new(payload)
-  defp decode("person", payload) when is_map(payload), do: Person.new(payload)
-  defp decode(_, payload), do: payload
+  defp meta_resource(meta) when is_map(meta) do
+    Map.get(meta, "entity") || Map.get(meta, "object")
+  end
+
+  defp meta_resource(_), do: nil
+
+  defp decode(_resource, nil), do: nil
+
+  defp decode(resource, payload) when is_map(payload) do
+    case Map.get(@decoders, resource) do
+      nil -> payload
+      module -> module.new(payload)
+    end
+  end
+
+  defp decode(_resource, payload), do: payload
 
   defp diff(current, previous) when is_map(current) and is_map(previous) do
     Map.filter(current, fn {key, value} -> Map.get(previous, key) != value end)

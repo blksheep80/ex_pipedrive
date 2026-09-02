@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Expand `ExPipedrive.Webhook.Event` beyond deal/person: typed decode for
+  organization, activity, lead, note, product, pipeline, stage, user,
+  activityType, deal_product, deal_installment, project, task, and board;
+  v1 `merged` plus v2 `create`/`change`/`delete`; real v2 payloads synthesize
+  an event name from `meta.action`/`meta.entity`; unknown resources stay maps
+  ([#81](https://github.com/blksheep80/ex_pipedrive/issues/81)).
+
 ### Fixed
 
 - `ExPipedrive.Users.find_users_by_name/3` matched atom-key response bodies
