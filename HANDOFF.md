@@ -47,7 +47,7 @@ Status as of 2026-09-02. Use this when starting a new agent session in this repo
 | Strategy | Fork of [tmecklem/line_drive](https://github.com/tmecklem/line_drive), evolve v2-first (do not rewrite from scratch) |
 | Auth | API token **and** OAuth in core; OAuth TokenStore is pluggable (no Ecto in core) |
 | HTTP | Tesla (keep unless strong reason to switch) |
-| Core vs optional | Keep core lean; `ex_pipedrive_web` (webhook Plug), `ex_pipedrive_oban` (cursor sync), `ex_pipedrive_phoenix` (OAuth install). Independent of Überauth. |
+| Core vs optional | Keep core lean. Optional Hex packages live in their own GitHub repos: [`ex_pipedrive_web`](https://github.com/blksheep80/ex_pipedrive_web), [`ex_pipedrive_oban`](https://github.com/blksheep80/ex_pipedrive_oban), [`ex_pipedrive_phoenix`](https://github.com/blksheep80/ex_pipedrive_phoenix). Independent of Überauth. |
 | MVP proof flows | (1) stream open deals via cursor pagination (2) create person + deal |
 
 ## Remotes
@@ -71,7 +71,7 @@ Without that, `gh pr create` can open PRs against `tmecklem/line_drive`.
 - **Cursor skills**: `.cursor/skills/ex-pipedrive-session`, `.cursor/skills/ex-pipedrive-pr` (plus always-on `.cursor/rules/ex-pipedrive.mdc`).
 - **devenv** (optional, NixOS-friendly): `devenv.nix` pins Elixir 1.17 / OTP 27 + `dolt` for beads. `direnv allow` or `devenv shell`.
 - **asdf / mise**: `.tool-versions` remains the non-Nix source of truth for Elixir/OTP.
-- **Optional packages**: `packages/ex_pipedrive_web` (inbound webhook Plug), `packages/ex_pipedrive_oban` (cursor sync workers), `packages/ex_pipedrive_phoenix` (OAuth install). Core stays at the repo root.
+- **Optional packages** (separate repos; clone next to this one for path deps): [`ex_pipedrive_web`](https://github.com/blksheep80/ex_pipedrive_web) (inbound webhook Plug), [`ex_pipedrive_oban`](https://github.com/blksheep80/ex_pipedrive_oban) (cursor sync workers), [`ex_pipedrive_phoenix`](https://github.com/blksheep80/ex_pipedrive_phoenix) (OAuth install).
 
 ## Issue backlog
 
@@ -85,18 +85,18 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **v0.3 coverage epic** [#66](https://github.com/blksheep80/ex_pipedrive/issues/66): **closed** — children done (resources, polish, packaging #82/#20/#21, Hex #85).
 
-Priority order (remaining open): none. Hex **0.2.0** via [#124](https://github.com/blksheep80/ex_pipedrive/issues/124). Sibling Hex **0.1.0** via [#128](https://github.com/blksheep80/ex_pipedrive/issues/128).
+Priority order (remaining open): none. Hex **0.2.0** via [#124](https://github.com/blksheep80/ex_pipedrive/issues/124). Sibling Hex **0.1.0** via [#128](https://github.com/blksheep80/ex_pipedrive/issues/128). Optional packages split to their own GitHub repos via [#130](https://github.com/blksheep80/ex_pipedrive/issues/130).
 
 **Done recently:** Phoenix OAuth helpers [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) · `ex_pipedrive_oban` [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) · `ex_pipedrive_web` [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) · Dialyzer CI [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) · Coverage #102–#107 · polish #78–#80/#86 · webhook event matrix [#81](https://github.com/blksheep80/ex_pipedrive/issues/81).
 
-**Hex:** [`ex_pipedrive` 0.2.0](https://hex.pm/packages/ex_pipedrive) ([release v0.2.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.2.0)); first publish was `0.1.0` ([#85](https://github.com/blksheep80/ex_pipedrive/issues/85)). Siblings [`ex_pipedrive_web`](https://hex.pm/packages/ex_pipedrive_web), [`ex_pipedrive_oban`](https://hex.pm/packages/ex_pipedrive_oban), [`ex_pipedrive_phoenix`](https://hex.pm/packages/ex_pipedrive_phoenix) 0.1.0 ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)).
+**Hex:** [`ex_pipedrive` 0.2.0](https://hex.pm/packages/ex_pipedrive) ([release v0.2.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.2.0)); first publish was `0.1.0` ([#85](https://github.com/blksheep80/ex_pipedrive/issues/85)). Siblings [`ex_pipedrive_web`](https://github.com/blksheep80/ex_pipedrive_web), [`ex_pipedrive_oban`](https://github.com/blksheep80/ex_pipedrive_oban), [`ex_pipedrive_phoenix`](https://github.com/blksheep80/ex_pipedrive_phoenix) (Hex 0.1.x, [#128](https://github.com/blksheep80/ex_pipedrive/issues/128); own remotes [#130](https://github.com/blksheep80/ex_pipedrive/issues/130)).
 
 **Upstream / community:** LineDrive courtesy note [tmecklem/line_drive#33](https://github.com/tmecklem/line_drive/issues/33) ([#29](https://github.com/blksheep80/ex_pipedrive/issues/29) closed). Parity tracker [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) closed; reopen if upstream moves.
 
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Tracker is clear. Hex 0.2.0 + sibling 0.1.0 packages shipped. Next is product choice (Deal Coach, or Hex 0.3 later).
+Open HANDOFF.md. Tracker is clear. Hex 0.2.0 shipped. Optional packages are separate GitHub repos. Next is product choice (Deal Coach, or Hex 0.3 later).
 ```
 
 ## How to resume

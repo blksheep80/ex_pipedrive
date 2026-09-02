@@ -1,6 +1,4 @@
-# Core Mix project at the repo root only. Optional packages under packages/
-# use hex-publish-packages.yml (workflow_dispatch) so a core re-release does
-# not try to republish sibling 0.1.0.
+# Core Mix project only. Optional packages publish from their own repos.
 name: Hex publish
 
 on:

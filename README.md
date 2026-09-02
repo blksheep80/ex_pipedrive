@@ -28,13 +28,17 @@ def deps do
 end
 ```
 
-Optional sibling packages on Hex (`~> 0.1.0`, each depends on core `~> 0.2`):
+Optional sibling Hex packages (each depends on core `~> 0.2`; own GitHub repos):
 
 ```elixir
 {:ex_pipedrive_web, "~> 0.1.0"}      # inbound webhook Plug
 {:ex_pipedrive_oban, "~> 0.1.0"}     # cursor sync workers
 {:ex_pipedrive_phoenix, "~> 0.1.0"}  # marketplace OAuth install
 ```
+
+- [`ex_pipedrive_web`](https://github.com/blksheep80/ex_pipedrive_web) ([Hex](https://hex.pm/packages/ex_pipedrive_web))
+- [`ex_pipedrive_oban`](https://github.com/blksheep80/ex_pipedrive_oban) ([Hex](https://hex.pm/packages/ex_pipedrive_oban))
+- [`ex_pipedrive_phoenix`](https://github.com/blksheep80/ex_pipedrive_phoenix) ([Hex](https://hex.pm/packages/ex_pipedrive_phoenix))
 
 Docs: [https://hexdocs.pm/ex_pipedrive](https://hexdocs.pm/ex_pipedrive)
 
@@ -151,8 +155,8 @@ their `stream/2` helpers when definitions span cursor pages. Their legacy
 API token auth remains the simple path for single-tenant scripts.
 
 Phoenix marketplace install (authorize redirect + callback) lives in optional
-[`ex_pipedrive_phoenix`](packages/ex_pipedrive_phoenix) — independent of
-Überauth. Core OAuth does not depend on Phoenix.
+[`ex_pipedrive_phoenix`](https://github.com/blksheep80/ex_pipedrive_phoenix)
+— independent of Überauth. Core OAuth does not depend on Phoenix.
 
 ```elixir
 {:ex_pipedrive_phoenix, "~> 0.1.0"}
@@ -216,9 +220,9 @@ allows up to 40 webhook subscriptions per user.
 See the matrix on `ExPipedrive.Webhook.Event` / `Event.typed_resources/0`.
 
 The inbound Plug router lives in the optional
-[`ex_pipedrive_web`](packages/ex_pipedrive_web) package (Hex-ready, not
-published yet). It does not start an OTP application, Registry, or other
-fan-out process; the host application owns delivery after the handler callback.
+[`ex_pipedrive_web`](https://github.com/blksheep80/ex_pipedrive_web) package.
+It does not start an OTP application, Registry, or other fan-out process; the
+host application owns delivery after the handler callback.
 
 ```elixir
 {:ex_pipedrive_web, "~> 0.1.0"}
@@ -323,12 +327,11 @@ mix docs
 
 Dialyzer runs in CI on the primary matrix cell (Elixir 1.17 / OTP 27) with PLT caching. Locally, `mix dialyzer` uses PLTs under `priv/plts/` (gitignored). Stricter flags (`:error_handling`, `:underspecs`) can be added later once the baseline stays green.
 
-Inbound webhook Plug tests live in `packages/ex_pipedrive_web`; Oban sync
-workers in `packages/ex_pipedrive_oban`; Phoenix OAuth install in
-`packages/ex_pipedrive_phoenix`:
+Optional packages are separate repos. Clone them next to this one to path-dep
+core during local work:
 
 ```bash
-cd packages/ex_pipedrive_web   # or ex_pipedrive_oban / ex_pipedrive_phoenix
+cd ../ex_pipedrive_web   # or ex_pipedrive_oban / ex_pipedrive_phoenix
 mix deps.get
 mix test
 mix format --check-formatted

@@ -38,7 +38,7 @@ defmodule ExPipedrive.MixProject do
 
   # Runtime core: jason, tesla, telemetry, typed_struct.
   # plug_cowboy is test-only (fake Pipedrive server). Inbound webhook Plug
-  # lives in the sibling `ex_pipedrive_web` package (#82). Timex removed (#27).
+  # lives in `ex_pipedrive_web` (separate repo). Timex removed (#27).
   defp deps do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
