@@ -1,6 +1,6 @@
 # ExPipedrive handoff
 
-Status as of 2026-07-31. Use this when starting a new agent session in this repo.
+Status as of 2026-09-02. Use this when starting a new agent session in this repo.
 
 ## Current state
 
@@ -18,7 +18,7 @@ Status as of 2026-07-31. Use this when starting a new agent session in this repo
 - **Deals / Persons v2 + MVP flows** ([#8](https://github.com/blksheep80/ex_pipedrive/issues/8) / [#9](https://github.com/blksheep80/ex_pipedrive/issues/9) / [#10](https://github.com/blksheep80/ex_pipedrive/issues/10), [#43](https://github.com/blksheep80/ex_pipedrive/pull/43)): v2 get/create/update/(deal)delete; map-in write attrs; README + fake-server MVP flows.
 - **OAuth Token + TokenStore** ([#6](https://github.com/blksheep80/ex_pipedrive/issues/6), [#44](https://github.com/blksheep80/ex_pipedrive/pull/44)): `Oauth.Token`, `exchange_authorization_code` / `refresh` / `ensure_fresh`, pluggable `TokenStore` (+ Memory), `Client.from_token` / `from_token_store`.
 - **Hex / docs / CI prep** ([#28](https://github.com/blksheep80/ex_pipedrive/issues/28), [#45](https://github.com/blksheep80/ex_pipedrive/pull/45), [#85](https://github.com/blksheep80/ex_pipedrive/issues/85)): version `0.1.0`, CHANGELOG, ExDoc, CI matrix, Hex publish workflow; `HEX_API_KEY` secret set. First Hex publish via GitHub Release `v0.1.0`.
-- **Quality tooling** ([#32](https://github.com/blksheep80/ex_pipedrive/issues/32)): `doctor` gate; TypedStruct kept; Sobelow/ExMachina skipped; Dialyzer local-only for now (AUDIT).
+- **Quality tooling** ([#32](https://github.com/blksheep80/ex_pipedrive/issues/32)): `doctor` gate; TypedStruct kept; Sobelow/ExMachina skipped. **Dialyzer in CI** ([#84](https://github.com/blksheep80/ex_pipedrive/issues/84)): primary matrix cell + PLT cache.
 - On `main`, v0.1 foundation is complete. **v0.2** resource epic [#17](https://github.com/blksheep80/ex_pipedrive/issues/17) children [#47](https://github.com/blksheep80/ex_pipedrive/issues/47)–[#52](https://github.com/blksheep80/ex_pipedrive/issues/52) are done (Organizations–Search). Product variations remain a follow-up. Upstream search-options decision [#24](https://github.com/blksheep80/ex_pipedrive/issues/24): v2 `Search` uses explicit opts (`item_types`, `fields`, `exact_match`, …) instead of opaque keyword merge from LineDrive PR #22.
 - **Raw escape hatch** ([#15](https://github.com/blksheep80/ex_pipedrive/issues/15), [#59](https://github.com/blksheep80/ex_pipedrive/pull/59)): `ExPipedrive.Raw.request/4` for unsupported v1/v2 endpoints (query/body/headers pass-through; shared auth/JSON/`Error` normalization).
 - **Resource behaviour** ([#16](https://github.com/blksheep80/ex_pipedrive/issues/16), [#60](https://github.com/blksheep80/ex_pipedrive/pull/60)): `ExPipedrive.Resource` path/decode/encode + CRUD/list/stream helpers; Products/Stages adopt the pattern.
@@ -86,10 +86,9 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 Priority order (remaining open):
 
-1. Polish: [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) Dialyzer in CI
-2. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
+1. Packages: [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) `ex_pipedrive_web`, [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) Oban, [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) Phoenix OAuth
 
-**Done recently:** Coverage #102–#107 · polish #78–#80/#86 · webhook event matrix [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) · Waves A–C · admin meta · ActivityTypes · AUDIT refresh.
+**Done recently:** Dialyzer CI [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) · Coverage #102–#107 · polish #78–#80/#86 · webhook event matrix [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) · Waves A–C · admin meta · ActivityTypes · AUDIT refresh.
 
 **Hex:** [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published ([release v0.1.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.1.0)); [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) done.
 
@@ -98,7 +97,7 @@ Priority order (remaining open):
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Next: #84 Dialyzer in CI, or #82 extract ex_pipedrive_web (after #81).
+Open HANDOFF.md. Next: #82 extract ex_pipedrive_web, or #20 Oban / #21 Phoenix OAuth helpers.
 ```
 
 ## How to resume

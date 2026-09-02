@@ -30,6 +30,7 @@ mix deps.get
 mix test
 mix format --check-formatted
 mix credo --strict
+mix dialyzer
 ```
 
 ## Architecture Overview

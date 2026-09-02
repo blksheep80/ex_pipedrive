@@ -127,8 +127,6 @@ defmodule ExPipedrive.Structable do
           %{}
       end
 
-      defp extract_custom_fields(_), do: %{}
-
       defp parse_integer(visible_to) when is_binary(visible_to), do: String.to_integer(visible_to)
 
       defp parse_integer(visible_to), do: visible_to
