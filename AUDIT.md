@@ -1,6 +1,6 @@
 # ExPipedrive API coverage audit
 
-Status as of **2026-07-31**. Replaces the inherited LineDrive keep/adapt inventory
+Status as of **2026-09-02**. Replaces the inherited LineDrive keep/adapt inventory
 with a **current gap map**: implemented modules vs Pipedrive OpenAPI tags
 ([API v1](https://developers.pipedrive.com/docs/api/v1/openapi.yaml),
 [API v2](https://developers.pipedrive.com/docs/api/v2/openapi.yaml)).
@@ -131,8 +131,8 @@ Confirmed against OpenAPI tags (2026-07-31). Prefer **v2** when both exist.
 | Normalize list return shapes | [#86](https://github.com/blksheep80/ex_pipedrive/issues/86) — done (`PagedResult` + docs) |
 | Oban sync package | [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) — done (`packages/ex_pipedrive_oban`, not Hex-published yet) |
 | Phoenix OAuth helpers | [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) — done (`packages/ex_pipedrive_phoenix`, independent of Überauth) |
-| Upstream LineDrive notify | [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) **HOLD** until #66 substantially done |
-| Upstream parity tracker | [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) |
+| Upstream LineDrive notify | [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) — HOLD lifted; draft on issue; agent 403 on upstream |
+| Upstream parity tracker | [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) — rechecked 2026-09-02; leave open |
 
 ---
 
@@ -147,10 +147,10 @@ Confirmed against OpenAPI tags (2026-07-31). Prefer **v2** when both exist.
 
 ## Recommended next coverage order
 
-1. [#102](https://github.com/blksheep80/ex_pipedrive/issues/102) Deal products (+ [#103](https://github.com/blksheep80/ex_pipedrive/issues/103) installments if cheap).
-2. [#104](https://github.com/blksheep80/ex_pipedrive/issues/104) LeadFields (+ LeadSources).
-3. [#105](https://github.com/blksheep80/ex_pipedrive/issues/105) Projects cluster **or** [#106](https://github.com/blksheep80/ex_pipedrive/issues/106) Tasks — product decision.
-4. [#107](https://github.com/blksheep80/ex_pipedrive/issues/107) NoteFields.
-5. Polish wave (#78, #86, #81) interleaved with Hex `0.2.0` when coverage feels shippable.
+#102–#107 and the polish/packaging wave are **done**. Remaining GitHub work is community/tracker:
 
-Catch-all checklist: [#88](https://github.com/blksheep80/ex_pipedrive/issues/88). Do **not** invent endpoints — cite Pipedrive docs / OpenAPI when filing children.
+1. [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) courteous LineDrive notify (HOLD lifted; draft on the issue; human paste — agent 403).
+2. [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) living upstream-parity tracker (recheck after future LineDrive activity; not a coding ticket).
+3. Hex `0.2.0` when you want a coverage bump on Hex.
+
+Catch-all checklist: [#88](https://github.com/blksheep80/ex_pipedrive/issues/88) (split and implemented). Do **not** invent endpoints — cite Pipedrive docs / OpenAPI when filing children.
