@@ -37,8 +37,8 @@ defmodule ExPipedrive.MixProject do
   defp elixirc_paths(_), do: ["lib"]
 
   # Runtime core: jason, tesla, telemetry, typed_struct.
-  # plug is optional — required only for ExPipedrive.Incoming.Handler (webhooks).
-  # plug_cowboy is test-only (fake Pipedrive server). Timex removed (#27).
+  # plug_cowboy is test-only (fake Pipedrive server). Inbound webhook Plug
+  # lives in the sibling `ex_pipedrive_web` package (#82). Timex removed (#27).
   defp deps do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
@@ -46,7 +46,6 @@ defmodule ExPipedrive.MixProject do
       {:doctor, "~> 0.22", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
       {:jason, "~> 1.3"},
-      {:plug, ">= 1.16.0", optional: true},
       {:plug_cowboy, "~> 2.7", only: [:test]},
       {:telemetry, "~> 1.0"},
       {:tesla, "~> 1.12"},
@@ -58,7 +57,8 @@ defmodule ExPipedrive.MixProject do
     """
     Elixir client for the Pipedrive CRM API. v2-first (Deals, Persons, Orgs,
     Activities, Pipelines, Stages, Products, Search, Fields), with OAuth
-    TokenStore, retries/telemetry, Raw escape hatch, and webhook helpers.
+    TokenStore, retries/telemetry, Raw escape hatch, and webhook Event
+    normalization. Inbound Plug helpers live in `ex_pipedrive_web`.
     Forked from LineDrive.
     """
   end
@@ -193,8 +193,7 @@ defmodule ExPipedrive.MixProject do
           ExPipedrive.Webhooks,
           ExPipedrive.Webhooks.Subscription,
           ExPipedrive.Webhook.Event,
-          ExPipedrive.Webhook.Handler,
-          ExPipedrive.Incoming.Handler
+          ExPipedrive.Webhook.Handler
         ]
       ]
     ]

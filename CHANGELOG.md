@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Run Dialyzer in CI on the primary Elixir 1.17 matrix cell with PLT caching;
   document `mix dialyzer` in the local quality gate
   ([#84](https://github.com/blksheep80/ex_pipedrive/issues/84)).
+- Optional sibling package `ex_pipedrive_web` (`packages/ex_pipedrive_web`)
+  with inbound webhook Plug helpers; Event structs stay in core
+  ([#82](https://github.com/blksheep80/ex_pipedrive/issues/82)).
 - Expand `ExPipedrive.Webhook.Event` beyond deal/person: typed decode for
   organization, activity, lead, note, product, pipeline, stage, user,
   activityType, deal_product, deal_installment, project, task, and board;
@@ -30,6 +33,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Inbound webhook Plug** — `ExPipedrive.Incoming.Handler` moved to sibling
+  package `ex_pipedrive_web` as `ExPipedriveWeb.Incoming.Handler` (old module
+  names remain compatibility aliases there). Core no longer depends on Plug
+  ([#82](https://github.com/blksheep80/ex_pipedrive/issues/82)).
 - **Facade / twin cleanup** — Document blessed path (`ExPipedrive.Deals.get/2`,
   `list_page/2`, `stream/2`, …). Soft-deprecate legacy v1 twin names on resource
   modules and the root facade; nothing removed yet

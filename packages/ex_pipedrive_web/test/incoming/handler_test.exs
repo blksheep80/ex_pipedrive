@@ -1,10 +1,10 @@
-defmodule ExPipedrive.Incoming.HandlerTest do
+defmodule ExPipedriveWeb.Incoming.HandlerTest do
   use ExUnit.Case, async: true
 
   import Plug.Conn
   import Plug.Test
 
-  alias ExPipedrive.Incoming.Handler
+  alias ExPipedriveWeb.Incoming.Handler
 
   defmodule WebhookHandler do
     @behaviour ExPipedrive.Webhook.Handler
@@ -93,5 +93,17 @@ defmodule ExPipedrive.Incoming.HandlerTest do
     assert_raise ArgumentError, ~r/:auth_fn/, fn ->
       Handler.init(auth_fn: :invalid)
     end
+  end
+
+  test "ExPipedrive.Incoming.Handler remains a compatibility alias" do
+    conn =
+      :post
+      |> conn("/webhook", Jason.encode!(@webhook_body))
+      |> put_req_header("content-type", "application/json")
+      |> ExPipedrive.Incoming.Handler.call(
+        ExPipedrive.Incoming.Handler.init(on_event: fn _ -> :ok end)
+      )
+
+    assert conn.status == 200
   end
 end
