@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-02
+
 ### Added
 
 - Initial cursor-aware Oban sync worker with rate-limit snooze
   ([#20](https://github.com/blksheep80/ex_pipedrive/issues/20)).
+  First Hex publish ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)).

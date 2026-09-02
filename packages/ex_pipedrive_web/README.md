@@ -80,7 +80,7 @@ HEX_PUBLISH=1 mix hex.publish
 `HEX_PUBLISH=1` swaps the path dep for the Hex requirement (Hex rejects path
 deps). Publish core first when bumping a required core version.
 
-Not published to Hex yet — layout and metadata are publish-ready.
+Hex: [`ex_pipedrive_web` 0.1.0](https://hex.pm/packages/ex_pipedrive_web).
 
 ## Development
 

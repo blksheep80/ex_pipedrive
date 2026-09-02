@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-02
+
 ### Added
 
 - Initial Phoenix OAuth install helpers (authorize redirect + callback)
   ([#21](https://github.com/blksheep80/ex_pipedrive/issues/21)).
+  First Hex publish ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)).
