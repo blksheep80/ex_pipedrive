@@ -304,10 +304,11 @@ mix test
 mix format --check-formatted
 mix credo --strict
 mix doctor
+mix dialyzer
 mix docs
 ```
 
-Dialyzer (`mix dialyzer`) is optional locally before releases; not required in CI yet (see [AUDIT.md](https://github.com/blksheep80/ex_pipedrive/blob/main/AUDIT.md) tooling decisions).
+Dialyzer runs in CI on the primary matrix cell (Elixir 1.17 / OTP 27) with PLT caching. Locally, `mix dialyzer` uses PLTs under `priv/plts/` (gitignored). Stricter flags (`:error_handling`, `:underspecs`) can be added later once the baseline stays green.
 
 ### Hex release
 

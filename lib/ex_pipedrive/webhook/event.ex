@@ -183,8 +183,6 @@ defmodule ExPipedrive.Webhook.Event do
     Map.get(meta, "entity") || Map.get(meta, "object")
   end
 
-  defp meta_resource(_), do: nil
-
   defp decode(_resource, nil), do: nil
 
   defp decode(resource, payload) when is_map(payload) do

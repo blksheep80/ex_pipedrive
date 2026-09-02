@@ -23,6 +23,10 @@ erl_crash.dump
 ex_pipedrive-*.tar
 ex_pipedrive-*.tar
 
+# Dialyzer PLTs (rebuilt locally and in CI)
+/priv/plts/*.plt
+/priv/plts/*.plt.hash
+
 # Temporary files, for example, from tests.
 /tmp/
 

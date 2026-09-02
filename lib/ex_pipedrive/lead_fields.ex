@@ -73,9 +73,6 @@ defmodule ExPipedrive.LeadFields do
 
       {:error, %Error{} = error} ->
         raise error
-
-      {:error, other} ->
-        raise Error.from_transport(other)
     end
   end
 

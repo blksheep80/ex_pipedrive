@@ -56,6 +56,19 @@ jobs:
       - name: Run tests
         run: mix test
 
+      - name: Restore PLT cache
+        if: matrix.elixir == '1.17.2'
+        uses: actions/cache@v4
+        with:
+          path: priv/plts
+          key: plt-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            plt-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+
+      - name: Run dialyzer
+        if: matrix.elixir == '1.17.2'
+        run: mix dialyzer --format github
+
       - name: Build docs
         if: matrix.elixir == '1.17.2'
         run: mix docs

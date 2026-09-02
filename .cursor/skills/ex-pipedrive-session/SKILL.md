@@ -33,6 +33,7 @@ v0.1 foundation order lives in `HANDOFF.md`.
 mix test
 mix format --check-formatted
 mix credo --strict
+mix dialyzer
 ```
 
 ## Tracking split
