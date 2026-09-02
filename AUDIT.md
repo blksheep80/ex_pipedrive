@@ -129,7 +129,7 @@ Confirmed against OpenAPI tags (2026-07-31). Prefer **v2** when both exist.
 | `ex_pipedrive_web` package | [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) — done (`packages/ex_pipedrive_web`, not Hex-published yet) |
 | Dialyzer in CI | [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) — done (baseline flags + PLT cache) |
 | Normalize list return shapes | [#86](https://github.com/blksheep80/ex_pipedrive/issues/86) — done (`PagedResult` + docs) |
-| Oban sync package | [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) |
+| Oban sync package | [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) — done (`packages/ex_pipedrive_oban`, not Hex-published yet) |
 | Phoenix OAuth helpers | [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) |
 | Upstream LineDrive notify | [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) **HOLD** until #66 substantially done |
 | Upstream parity tracker | [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) |

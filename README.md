@@ -15,7 +15,7 @@ This repository is a fork of [tmecklem/line_drive](https://github.com/tmecklem/l
 - Pipedrive API v2 as the default, with explicit v1 fallback where needed
 - API token **and** OAuth (pluggable TokenStore; no Ecto in core)
 - Lean core library; optional `ex_pipedrive_web` for inbound webhook Plug,
-  later Oban sync / Phoenix OAuth helpers
+  `ex_pipedrive_oban` for cursor sync workers, later Phoenix OAuth helpers
 - Broad resource coverage over time (see epic [#66](https://github.com/blksheep80/ex_pipedrive/issues/66))
 
 ## Installation
@@ -313,10 +313,11 @@ mix docs
 
 Dialyzer runs in CI on the primary matrix cell (Elixir 1.17 / OTP 27) with PLT caching. Locally, `mix dialyzer` uses PLTs under `priv/plts/` (gitignored). Stricter flags (`:error_handling`, `:underspecs`) can be added later once the baseline stays green.
 
-Inbound webhook Plug tests live in `packages/ex_pipedrive_web`:
+Inbound webhook Plug tests live in `packages/ex_pipedrive_web`; Oban sync
+workers in `packages/ex_pipedrive_oban`:
 
 ```bash
-cd packages/ex_pipedrive_web
+cd packages/ex_pipedrive_web   # or packages/ex_pipedrive_oban
 mix deps.get
 mix test
 mix format --check-formatted
