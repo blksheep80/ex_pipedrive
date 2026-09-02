@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Run Dialyzer in CI on the primary Elixir 1.17 matrix cell with PLT caching;
   document `mix dialyzer` in the local quality gate
   ([#84](https://github.com/blksheep80/ex_pipedrive/issues/84)).
+- Optional sibling package `ex_pipedrive_phoenix` (`packages/ex_pipedrive_phoenix`)
+  for marketplace OAuth install helpers (independent of Überauth)
+  ([#21](https://github.com/blksheep80/ex_pipedrive/issues/21)).
 - Optional sibling package `ex_pipedrive_oban` (`packages/ex_pipedrive_oban`)
   with cursor-aware Oban sync workers and rate-limit snooze
   ([#20](https://github.com/blksheep80/ex_pipedrive/issues/20)).

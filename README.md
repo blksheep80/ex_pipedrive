@@ -14,8 +14,8 @@ This repository is a fork of [tmecklem/line_drive](https://github.com/tmecklem/l
 
 - Pipedrive API v2 as the default, with explicit v1 fallback where needed
 - API token **and** OAuth (pluggable TokenStore; no Ecto in core)
-- Lean core library; optional `ex_pipedrive_web` for inbound webhook Plug,
-  `ex_pipedrive_oban` for cursor sync workers, later Phoenix OAuth helpers
+- Lean core library; optional `ex_pipedrive_web` (webhook Plug),
+  `ex_pipedrive_oban` (cursor sync), `ex_pipedrive_phoenix` (OAuth install)
 - Broad resource coverage over time (see epic [#66](https://github.com/blksheep80/ex_pipedrive/issues/66))
 
 ## Installation
@@ -28,10 +28,12 @@ def deps do
 end
 ```
 
-For inbound webhook Plug helpers, also add [`ex_pipedrive_web`](packages/ex_pipedrive_web):
+Optional sibling packages (Hex-ready, not published yet):
 
 ```elixir
-{:ex_pipedrive_web, "~> 0.1.0"}
+{:ex_pipedrive_web, "~> 0.1.0"}      # inbound webhook Plug
+{:ex_pipedrive_oban, "~> 0.1.0"}     # cursor sync workers
+{:ex_pipedrive_phoenix, "~> 0.1.0"}  # marketplace OAuth install
 ```
 
 Docs: [https://hexdocs.pm/ex_pipedrive](https://hexdocs.pm/ex_pipedrive)
@@ -147,6 +149,14 @@ their `stream/2` helpers when definitions span cursor pages. Their legacy
 ```
 
 API token auth remains the simple path for single-tenant scripts.
+
+Phoenix marketplace install (authorize redirect + callback) lives in optional
+[`ex_pipedrive_phoenix`](packages/ex_pipedrive_phoenix) — independent of
+Überauth. Core OAuth does not depend on Phoenix.
+
+```elixir
+{:ex_pipedrive_phoenix, "~> 0.1.0"}
+```
 
 ### Public API surface
 
@@ -314,10 +324,11 @@ mix docs
 Dialyzer runs in CI on the primary matrix cell (Elixir 1.17 / OTP 27) with PLT caching. Locally, `mix dialyzer` uses PLTs under `priv/plts/` (gitignored). Stricter flags (`:error_handling`, `:underspecs`) can be added later once the baseline stays green.
 
 Inbound webhook Plug tests live in `packages/ex_pipedrive_web`; Oban sync
-workers in `packages/ex_pipedrive_oban`:
+workers in `packages/ex_pipedrive_oban`; Phoenix OAuth install in
+`packages/ex_pipedrive_phoenix`:
 
 ```bash
-cd packages/ex_pipedrive_web   # or packages/ex_pipedrive_oban
+cd packages/ex_pipedrive_web   # or ex_pipedrive_oban / ex_pipedrive_phoenix
 mix deps.get
 mix test
 mix format --check-formatted
