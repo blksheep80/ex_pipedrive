@@ -85,21 +85,18 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **v0.3 coverage epic** [#66](https://github.com/blksheep80/ex_pipedrive/issues/66): **closed** — children done (resources, polish, packaging #82/#20/#21, Hex #85).
 
-Priority order (remaining open):
-
-1. Community: [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) notify LineDrive — HOLD lifted; **draft is on the issue**. Opening an upstream GitHub issue from the agent token returned 403. Human paste (or skip). Accidental draft [LineDrive PR #32](https://github.com/tmecklem/line_drive/pull/32) already hit the wrong repo once.
-2. Living tracker: [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) upstream parity — rechecked 2026-09-02 (no new LineDrive issues or commits since the fork). Not implementation work.
+Priority order (remaining open): none. Hex **0.2.0** via [#124](https://github.com/blksheep80/ex_pipedrive/issues/124).
 
 **Done recently:** Phoenix OAuth helpers [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) · `ex_pipedrive_oban` [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) · `ex_pipedrive_web` [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) · Dialyzer CI [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) · Coverage #102–#107 · polish #78–#80/#86 · webhook event matrix [#81](https://github.com/blksheep80/ex_pipedrive/issues/81).
 
-**Hex:** [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published ([release v0.1.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.1.0)); [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) done.
+**Hex:** [`ex_pipedrive` 0.2.0](https://hex.pm/packages/ex_pipedrive) ([release v0.2.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.2.0)); first publish was `0.1.0` ([#85](https://github.com/blksheep80/ex_pipedrive/issues/85)). Sibling packages not published yet.
 
-**Upstream / community:** [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) last checked 2026-09-02. [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) notify LineDrive — draft ready; agent cannot open issues on `tmecklem/line_drive` (403).
+**Upstream / community:** LineDrive courtesy note [tmecklem/line_drive#33](https://github.com/tmecklem/line_drive/issues/33) ([#29](https://github.com/blksheep80/ex_pipedrive/issues/29) closed). Parity tracker [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) closed; reopen if upstream moves.
 
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Remaining: #29 LineDrive notify (human paste; draft on the issue). #26 is a living tracker, not new work.
+Open HANDOFF.md. Tracker is clear. Hex 0.2.0 shipped. Next is product choice (sibling Hex publish, Deal Coach, or Hex 0.3 later).
 ```
 
 ## How to resume

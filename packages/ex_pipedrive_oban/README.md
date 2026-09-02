@@ -12,7 +12,7 @@ an Oban instance or a repo.
 ```elixir
 def deps do
   [
-    {:ex_pipedrive, "~> 0.1.0"},
+    {:ex_pipedrive, "~> 0.2.0"},
     {:ex_pipedrive_oban, "~> 0.1.0"}
   ]
 end
@@ -81,10 +81,10 @@ Supported `resource` values: `deals`, `persons`, `organizations` (each via
 
 | This package | Core |
 |---|---|
-| `0.1.x` | `ex_pipedrive ~> 0.1` |
+| `0.1.x` | `ex_pipedrive ~> 0.2` |
 
 Inside this git repo Mix uses a **path** dependency on core. Hex consumers get
-`{:ex_pipedrive, "~> 0.1"}`.
+`{:ex_pipedrive, "~> 0.2"}`.
 
 ```bash
 cd packages/ex_pipedrive_oban

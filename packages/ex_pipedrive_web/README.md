@@ -13,7 +13,7 @@ same way a raw Plug router can.
 ```elixir
 def deps do
   [
-    {:ex_pipedrive, "~> 0.1.0"},
+    {:ex_pipedrive, "~> 0.2.0"},
     {:ex_pipedrive_web, "~> 0.1.0"}
   ]
 end
@@ -65,10 +65,10 @@ not start an OTP application or process mailbox.
 
 | This package | Core |
 |---|---|
-| `0.1.x` | `ex_pipedrive ~> 0.1` |
+| `0.1.x` | `ex_pipedrive ~> 0.2` |
 
 Inside this git repo, Mix uses a **path** dependency on core so CI tracks
-unreleased core changes. Hex consumers get `{:ex_pipedrive, "~> 0.1"}`.
+unreleased core changes. Hex consumers get `{:ex_pipedrive, "~> 0.2"}`.
 
 To publish this package:
 

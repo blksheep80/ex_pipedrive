@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-02
+
+Coverage and packaging since the first Hex release. **Breaking for inbound
+webhooks:** add [`ex_pipedrive_web`](packages/ex_pipedrive_web) if you used
+`ExPipedrive.Incoming.Handler` from core.
+
 ### Added
 
 - Run Dialyzer in CI on the primary Elixir 1.17 matrix cell with PLT caching;
@@ -222,4 +228,6 @@ First Hex release of **ExPipedrive**, a v2-first fork of
    build clients with `Client.from_token/2` or `from_token_store/4`.
 5. Use `ExPipedrive.Raw.request/4` for endpoints not yet wrapped.
 
+[unreleased]: https://github.com/blksheep80/ex_pipedrive/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.2.0
 [0.1.0]: https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.1.0
