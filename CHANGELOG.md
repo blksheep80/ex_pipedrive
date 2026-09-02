@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Refresh [AUDIT.md](AUDIT.md) so shipped coverage (#102–#107) is listed as
+  done; remaining gaps are ProjectPhases/Templates/Fields and documented
+  Defer/Partial tags
+  ([#126](https://github.com/blksheep80/ex_pipedrive/issues/126)).
+
 ## [0.2.0] - 2026-09-02
 
 Coverage and packaging since the first Hex release. **Breaking for inbound

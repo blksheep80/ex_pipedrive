@@ -36,7 +36,7 @@ Status as of 2026-09-02. Use this when starting a new agent session in this repo
 - **Wave C** ([#72](https://github.com/blksheep80/ex_pipedrive/issues/72)/[#97](https://github.com/blksheep80/ex_pipedrive/pull/97) Activity/Product Fields, [#75](https://github.com/blksheep80/ex_pipedrive/issues/75)/[#98](https://github.com/blksheep80/ex_pipedrive/pull/98) Goals, [#74](https://github.com/blksheep80/ex_pipedrive/issues/74)/[#99](https://github.com/blksheep80/ex_pipedrive/pull/99) Mailbox).
 - **Admin meta** ([#77](https://github.com/blksheep80/ex_pipedrive/issues/77)/[#100](https://github.com/blksheep80/ex_pipedrive/pull/100)): Currencies, Recents, Roles, PermissionSets, Teams.
 - **ActivityTypes CRUD** ([#87](https://github.com/blksheep80/ex_pipedrive/issues/87)/[#101](https://github.com/blksheep80/ex_pipedrive/pull/101)).
-- **AUDIT refresh** ([#83](https://github.com/blksheep80/ex_pipedrive/issues/83)): current gap map in [AUDIT.md](AUDIT.md); catch-all [#88](https://github.com/blksheep80/ex_pipedrive/issues/88) split into [#102](https://github.com/blksheep80/ex_pipedrive/issues/102)–[#107](https://github.com/blksheep80/ex_pipedrive/issues/107).
+- **AUDIT refresh** ([#83](https://github.com/blksheep80/ex_pipedrive/issues/83)): gap map in [AUDIT.md](AUDIT.md); catch-all [#88](https://github.com/blksheep80/ex_pipedrive/issues/88) split into [#102](https://github.com/blksheep80/ex_pipedrive/issues/102)–[#107](https://github.com/blksheep80/ex_pipedrive/issues/107) (shipped). Tables aligned to `main` in [#126](https://github.com/blksheep80/ex_pipedrive/issues/126).
 
 ## Locked decisions
 
