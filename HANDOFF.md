@@ -85,18 +85,18 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **v0.3 coverage epic** [#66](https://github.com/blksheep80/ex_pipedrive/issues/66): **closed** — children done (resources, polish, packaging #82/#20/#21, Hex #85).
 
-Priority order (remaining open): none. Hex **0.2.0** via [#124](https://github.com/blksheep80/ex_pipedrive/issues/124).
+Priority order (remaining open): none. Hex **0.2.0** via [#124](https://github.com/blksheep80/ex_pipedrive/issues/124). Sibling Hex **0.1.0** via [#128](https://github.com/blksheep80/ex_pipedrive/issues/128).
 
 **Done recently:** Phoenix OAuth helpers [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) · `ex_pipedrive_oban` [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) · `ex_pipedrive_web` [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) · Dialyzer CI [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) · Coverage #102–#107 · polish #78–#80/#86 · webhook event matrix [#81](https://github.com/blksheep80/ex_pipedrive/issues/81).
 
-**Hex:** [`ex_pipedrive` 0.2.0](https://hex.pm/packages/ex_pipedrive) ([release v0.2.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.2.0)); first publish was `0.1.0` ([#85](https://github.com/blksheep80/ex_pipedrive/issues/85)). Sibling packages not published yet.
+**Hex:** [`ex_pipedrive` 0.2.0](https://hex.pm/packages/ex_pipedrive) ([release v0.2.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.2.0)); first publish was `0.1.0` ([#85](https://github.com/blksheep80/ex_pipedrive/issues/85)). Siblings [`ex_pipedrive_web`](https://hex.pm/packages/ex_pipedrive_web), [`ex_pipedrive_oban`](https://hex.pm/packages/ex_pipedrive_oban), [`ex_pipedrive_phoenix`](https://hex.pm/packages/ex_pipedrive_phoenix) 0.1.0 ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)).
 
 **Upstream / community:** LineDrive courtesy note [tmecklem/line_drive#33](https://github.com/tmecklem/line_drive/issues/33) ([#29](https://github.com/blksheep80/ex_pipedrive/issues/29) closed). Parity tracker [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) closed; reopen if upstream moves.
 
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Tracker is clear. Hex 0.2.0 shipped. Next is product choice (sibling Hex publish, Deal Coach, or Hex 0.3 later).
+Open HANDOFF.md. Tracker is clear. Hex 0.2.0 + sibling 0.1.0 packages shipped. Next is product choice (Deal Coach, or Hex 0.3 later).
 ```
 
 ## How to resume

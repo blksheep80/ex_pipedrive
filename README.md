@@ -28,7 +28,7 @@ def deps do
 end
 ```
 
-Optional sibling packages (Hex-ready, not published yet):
+Optional sibling packages on Hex (`~> 0.1.0`, each depends on core `~> 0.2`):
 
 ```elixir
 {:ex_pipedrive_web, "~> 0.1.0"}      # inbound webhook Plug

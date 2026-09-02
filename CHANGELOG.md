@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Publish optional Hex packages `ex_pipedrive_web`, `ex_pipedrive_oban`, and
+  `ex_pipedrive_phoenix` 0.1.0
+  ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)).
+
 ### Changed
 
 - Refresh [AUDIT.md](AUDIT.md) so shipped coverage (#102–#107) is listed as

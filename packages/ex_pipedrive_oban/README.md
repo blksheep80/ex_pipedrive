@@ -91,7 +91,7 @@ cd packages/ex_pipedrive_oban
 HEX_PUBLISH=1 mix hex.publish
 ```
 
-Not published to Hex yet — layout and metadata are publish-ready.
+Hex: [`ex_pipedrive_oban` 0.1.0](https://hex.pm/packages/ex_pipedrive_oban).
 
 ## Development
 
