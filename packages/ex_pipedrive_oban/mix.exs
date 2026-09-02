@@ -46,7 +46,7 @@ defmodule ExPipedriveOban.MixProject do
   defp ex_pipedrive_dep do
     cond do
       System.get_env("HEX_PUBLISH") in ~w(1 true) ->
-        {:ex_pipedrive, "~> 0.1"}
+        {:ex_pipedrive, "~> 0.2"}
 
       true ->
         root = Path.expand("../..", __DIR__)
@@ -55,7 +55,7 @@ defmodule ExPipedriveOban.MixProject do
         if File.exists?(mix) and File.read!(mix) =~ ~r/app:\s*:ex_pipedrive/ do
           {:ex_pipedrive, path: root, override: true}
         else
-          {:ex_pipedrive, "~> 0.1"}
+          {:ex_pipedrive, "~> 0.2"}
         end
     end
   end

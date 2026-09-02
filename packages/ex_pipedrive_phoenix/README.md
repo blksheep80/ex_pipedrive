@@ -16,7 +16,7 @@ Core OAuth remains usable without Phoenix.
 ```elixir
 def deps do
   [
-    {:ex_pipedrive, "~> 0.1.0"},
+    {:ex_pipedrive, "~> 0.2.0"},
     {:ex_pipedrive_phoenix, "~> 0.1.0"}
   ]
 end
@@ -63,7 +63,7 @@ app key.
 
 | This package | Core |
 |---|---|
-| `0.1.x` | `ex_pipedrive ~> 0.1` |
+| `0.1.x` | `ex_pipedrive ~> 0.2` |
 
 ```bash
 cd packages/ex_pipedrive_phoenix

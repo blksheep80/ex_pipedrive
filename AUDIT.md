@@ -19,7 +19,7 @@ session sequencing; prefer GitHub issues for acceptance criteria.
 
 | Layer | Status |
 |---|---|
-| Hex | [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published |
+| Hex | [`ex_pipedrive` 0.2.0](https://hex.pm/packages/ex_pipedrive) published |
 | Client | Tesla + `Request` (default `/api/v2`, explicit `:v1`) + `x-api-token` |
 | Errors / retry | `Error`, `Response`, `Middleware.Retry` / `Telemetry` |
 | Escape hatches | `Raw.request/4`, pluggable OAuth `TokenStore` |
@@ -147,10 +147,9 @@ Confirmed against OpenAPI tags (2026-07-31). Prefer **v2** when both exist.
 
 ## Recommended next coverage order
 
-#102–#107 and the polish/packaging wave are **done**. Remaining GitHub work is community/tracker:
-
-1. [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) courteous LineDrive notify (HOLD lifted; draft on the issue; human paste — agent 403).
-2. [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) living upstream-parity tracker (recheck after future LineDrive activity; not a coding ticket).
-3. Hex `0.2.0` when you want a coverage bump on Hex.
+#102–#107 and the polish/packaging wave are **done**. GitHub issues are clear
+after LineDrive notify [#29](https://github.com/blksheep80/ex_pipedrive/issues/29)
+and parity tracker [#26](https://github.com/blksheep80/ex_pipedrive/issues/26).
+Hex `0.2.0` is the coverage bump ([#124](https://github.com/blksheep80/ex_pipedrive/issues/124)).
 
 Catch-all checklist: [#88](https://github.com/blksheep80/ex_pipedrive/issues/88) (split and implemented). Do **not** invent endpoints — cite Pipedrive docs / OpenAPI when filing children.
