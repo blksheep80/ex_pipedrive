@@ -131,11 +131,11 @@ Projects + ProjectBoards (#105), Tasks (#106), NoteFields (#107).
 | Finish `Resource` adoption | [#78](https://github.com/blksheep80/ex_pipedrive/issues/78) — core CRM modules done; nested/v1 may stay exceptions |
 | Facade / dual twin cleanup | [#79](https://github.com/blksheep80/ex_pipedrive/issues/79) — soft-deprecated; remove twins in a later major |
 | Webhook event expansion | [#81](https://github.com/blksheep80/ex_pipedrive/issues/81) — done |
-| `ex_pipedrive_web` package | [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) — done; Hex 0.1.0 ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)) |
+| `ex_pipedrive_web` package | [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) — done; Hex ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)); repo [`ex_pipedrive_web`](https://github.com/blksheep80/ex_pipedrive_web) ([#130](https://github.com/blksheep80/ex_pipedrive/issues/130)) |
 | Dialyzer in CI | [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) — done (baseline flags + PLT cache) |
 | Normalize list return shapes | [#86](https://github.com/blksheep80/ex_pipedrive/issues/86) — done (`PagedResult` + docs) |
-| Oban sync package | [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) — done; Hex 0.1.0 ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)) |
-| Phoenix OAuth helpers | [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) — done; Hex 0.1.0 ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)); independent of Überauth |
+| Oban sync package | [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) — done; Hex ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)); repo [`ex_pipedrive_oban`](https://github.com/blksheep80/ex_pipedrive_oban) ([#130](https://github.com/blksheep80/ex_pipedrive/issues/130)) |
+| Phoenix OAuth helpers | [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) — done; Hex ([#128](https://github.com/blksheep80/ex_pipedrive/issues/128)); repo [`ex_pipedrive_phoenix`](https://github.com/blksheep80/ex_pipedrive_phoenix) ([#130](https://github.com/blksheep80/ex_pipedrive/issues/130)); independent of Überauth |
 | Hex 0.2.0 | [#124](https://github.com/blksheep80/ex_pipedrive/issues/124) — done |
 | Upstream LineDrive notify | [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) — done ([tmecklem/line_drive#33](https://github.com/tmecklem/line_drive/issues/33)) |
 | Upstream parity tracker | [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) — closed 2026-09-02; reopen if LineDrive moves |
@@ -154,6 +154,5 @@ Projects + ProjectBoards (#105), Tasks (#106), NoteFields (#107).
 ## Recommended next
 
 Do **not** invent SDK endpoints. Remaining gaps above wait for a real caller
-(Deal Coach or similar). Sibling packages (`ex_pipedrive_web` / `_oban` /
-`_phoenix`) are publish-ready; Hex-publish when a consumer needs them as Hex
-deps rather than a git/path dep.
+(Deal Coach or similar). Optional packages are separate GitHub repos
+([#130](https://github.com/blksheep80/ex_pipedrive/issues/130)).
