@@ -83,22 +83,23 @@ Full tracker: https://github.com/blksheep80/ex_pipedrive/issues
 
 **v0.2 core track:** foundation + resources + Raw/Resource/rate-limit + Leads/Notes v1 + webhook surface are done.
 
-**Next (v0.3+ API coverage epic):** [#66](https://github.com/blksheep80/ex_pipedrive/issues/66)
+**v0.3 coverage epic** [#66](https://github.com/blksheep80/ex_pipedrive/issues/66): **closed** — children done (resources, polish, packaging #82/#20/#21, Hex #85).
 
 Priority order (remaining open):
 
-1. Upstream: [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) parity tracker. [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) notify LineDrive — **HOLD**.
+1. Community: [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) notify LineDrive — HOLD lifted; **draft is on the issue**. Opening an upstream GitHub issue from the agent token returned 403. Human paste (or skip). Accidental draft [LineDrive PR #32](https://github.com/tmecklem/line_drive/pull/32) already hit the wrong repo once.
+2. Living tracker: [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) upstream parity — rechecked 2026-09-02 (no new LineDrive issues or commits since the fork). Not implementation work.
 
 **Done recently:** Phoenix OAuth helpers [#21](https://github.com/blksheep80/ex_pipedrive/issues/21) · `ex_pipedrive_oban` [#20](https://github.com/blksheep80/ex_pipedrive/issues/20) · `ex_pipedrive_web` [#82](https://github.com/blksheep80/ex_pipedrive/issues/82) · Dialyzer CI [#84](https://github.com/blksheep80/ex_pipedrive/issues/84) · Coverage #102–#107 · polish #78–#80/#86 · webhook event matrix [#81](https://github.com/blksheep80/ex_pipedrive/issues/81).
 
 **Hex:** [`ex_pipedrive` 0.1.0](https://hex.pm/packages/ex_pipedrive) published ([release v0.1.0](https://github.com/blksheep80/ex_pipedrive/releases/tag/v0.1.0)); [#85](https://github.com/blksheep80/ex_pipedrive/issues/85) done.
 
-**Upstream / community:** [#26](https://github.com/blksheep80/ex_pipedrive/issues/26). [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) notify LineDrive maintainer — **HOLD** until epic [#66](https://github.com/blksheep80/ex_pipedrive/issues/66) coverage is substantially complete.
+**Upstream / community:** [#26](https://github.com/blksheep80/ex_pipedrive/issues/26) last checked 2026-09-02. [#29](https://github.com/blksheep80/ex_pipedrive/issues/29) notify LineDrive — draft ready; agent cannot open issues on `tmecklem/line_drive` (403).
 
 ## Suggested first agent prompt
 
 ```text
-Open HANDOFF.md. Remaining: #26 upstream parity tracker. #29 HOLD.
+Open HANDOFF.md. Remaining: #29 LineDrive notify (human paste; draft on the issue). #26 is a living tracker, not new work.
 ```
 
 ## How to resume
