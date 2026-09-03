@@ -15,6 +15,7 @@ Project skills (read when relevant):
 ```bash
 mix deps.get
 mix test
+mix coveralls
 mix format --check-formatted
 mix credo --strict
 mix dialyzer
