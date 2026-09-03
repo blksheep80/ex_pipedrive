@@ -1,14 +1,4 @@
 {
   "name": "ExPipedrive Elixir",
-  "user": "ubuntu",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": "."
-  },
-  "install": "bash .cursor/scripts/cloud-agent-install.sh",
-  "repositoryDependencies": [
-    "github.com/blksheep80/ex_pipedrive_web",
-    "github.com/blksheep80/ex_pipedrive_oban",
-    "github.com/blksheep80/ex_pipedrive_phoenix"
-  ]
+  "install": "bash .cursor/scripts/cloud-agent-install.sh"
 }
