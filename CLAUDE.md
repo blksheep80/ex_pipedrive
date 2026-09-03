@@ -35,4 +35,4 @@ mix dialyzer
 
 ## Architecture Overview
 
-Fork of LineDrive evolving to a v2-first client. Core stays lean (Tesla HTTP); OAuth TokenStore is pluggable; optional Hex packages live in their own GitHub repos (`ex_pipedrive_web` / `_oban` / `_phoenix`).
+Fork of LineDrive evolving to a v2-first client. Core stays lean (Tesla HTTP); OAuth TokenStore is pluggable; optional Hex packages live in their own GitHub repos **and trackers** (`ex_pipedrive_web` / `_oban` / `_phoenix`).

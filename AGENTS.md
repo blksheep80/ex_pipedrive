@@ -5,6 +5,15 @@ This project is **ExPipedrive**, an Elixir Pipedrive API client (fork of LineDri
 Canonical context: [HANDOFF.md](HANDOFF.md) and GitHub issues on `blksheep80/ex_pipedrive`.
 Day-to-day execution tracking: **bd (beads)** with prefix `expd-`.
 
+Optional add-ons are **separate repos** with their own trackers. Do not file
+`ex_pipedrive_web` / `_oban` / `_phoenix` work here:
+
+| Package | GitHub | Beads |
+|---|---|---|
+| `ex_pipedrive_web` | `blksheep80/ex_pipedrive_web` | `expdw-` |
+| `ex_pipedrive_oban` | `blksheep80/ex_pipedrive_oban` | `expdo-` |
+| `ex_pipedrive_phoenix` | `blksheep80/ex_pipedrive_phoenix` | `expdp-` |
+
 Project skills (read when relevant):
 
 - `.cursor/skills/ex-pipedrive-session/SKILL.md` — session resume / sequencing

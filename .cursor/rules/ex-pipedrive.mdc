@@ -11,5 +11,6 @@ Before substantial work in this repo:
 2. Follow project skills when relevant:
    - `.cursor/skills/ex-pipedrive-session/SKILL.md` — resume / what to work on
    - `.cursor/skills/ex-pipedrive-pr/SKILL.md` — fork-safe `gh` / PRs
-3. Track execution with beads (`bd`); keep GitHub issues as the product backlog.
+3. Track execution with beads (`expd-`); keep GitHub issues on **this** repo as the product backlog.
 4. Ensure `gh repo set-default --view` is `blksheep80/ex_pipedrive`.
+5. Add-on work belongs in `ex_pipedrive_web` (`expdw-`), `ex_pipedrive_oban` (`expdo-`), or `ex_pipedrive_phoenix` (`expdp-`) — not here.

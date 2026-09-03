@@ -41,7 +41,8 @@ mix dialyzer
 | Layer | Use for |
 |---|---|
 | `HANDOFF.md` | Where we are / locked decisions |
-| GitHub issues | Product backlog, acceptance criteria |
+| GitHub issues (`ex_pipedrive`) | Product backlog, acceptance criteria |
 | beads (`expd-`) | Work in flight; close with reason |
 
 Do not use TodoWrite / markdown TODO lists for task tracking in this repo.
+Add-on work belongs in `ex_pipedrive_web` (`expdw-`), `ex_pipedrive_oban` (`expdo-`), or `ex_pipedrive_phoenix` (`expdp-`).

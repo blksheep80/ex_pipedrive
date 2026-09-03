@@ -318,7 +318,7 @@ client =
 
 - Elixir / OTP: see [`.tool-versions`](https://github.com/blksheep80/ex_pipedrive/blob/main/.tool-versions) (Elixir 1.17.2 / OTP 27)
 - Optional Nix shell: [`devenv.nix`](https://github.com/blksheep80/ex_pipedrive/blob/main/devenv.nix) (`direnv allow` then `devenv shell`)
-- Issue tracking: [beads](https://github.com/gastownhall/beads) via `bd` (prefix `expd-`)
+- Issue tracking: [beads](https://github.com/gastownhall/beads) via `bd` (prefix `expd-`). Add-ons use `expdw-` / `expdo-` / `expdp-` in their own repos.
 
 ```bash
 mix deps.get

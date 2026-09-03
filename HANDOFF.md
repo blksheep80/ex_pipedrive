@@ -66,12 +66,12 @@ Without that, `gh pr create` can open PRs against `tmecklem/line_drive`.
 
 ## Local tooling
 
-- **Beads** (`bd`, prefix `expd-`): execution-of-record for work in flight. Cursor rule at `.cursor/rules/beads.mdc`. Fresh clone: `bd bootstrap`.
-- **GitHub issues**: product backlog / roadmap (acceptance criteria, milestones).
+- **Beads** (`bd`, prefix `expd-`): execution-of-record for work **in this repo**. Cursor rule at `.cursor/rules/beads.mdc`. Fresh clone: `bd bootstrap`.
+- **GitHub issues**: product backlog / roadmap for **core** (acceptance criteria, milestones). Add-on backlog lives on each add-on repo.
 - **Cursor skills**: `.cursor/skills/ex-pipedrive-session`, `.cursor/skills/ex-pipedrive-pr` (plus always-on `.cursor/rules/ex-pipedrive.mdc`).
 - **devenv** (optional, NixOS-friendly): `devenv.nix` pins Elixir 1.17 / OTP 27 + `dolt` for beads. `direnv allow` or `devenv shell`.
 - **asdf / mise**: `.tool-versions` remains the non-Nix source of truth for Elixir/OTP.
-- **Optional packages** (separate repos; clone next to this one for path deps): [`ex_pipedrive_web`](https://github.com/blksheep80/ex_pipedrive_web) (inbound webhook Plug), [`ex_pipedrive_oban`](https://github.com/blksheep80/ex_pipedrive_oban) (cursor sync workers), [`ex_pipedrive_phoenix`](https://github.com/blksheep80/ex_pipedrive_phoenix) (OAuth install).
+- **Optional packages** (separate repos **and trackers**; clone next to this one for path deps): [`ex_pipedrive_web`](https://github.com/blksheep80/ex_pipedrive_web) (`expdw-`, inbound webhook Plug), [`ex_pipedrive_oban`](https://github.com/blksheep80/ex_pipedrive_oban) (`expdo-`, cursor sync workers), [`ex_pipedrive_phoenix`](https://github.com/blksheep80/ex_pipedrive_phoenix) (`expdp-`, OAuth install).
 
 ## Issue backlog
 
@@ -103,5 +103,6 @@ Open HANDOFF.md. Tracker is clear. Hex 0.2.0 shipped. Optional packages are sepa
 
 1. Read this file (and the `ex-pipedrive-session` skill if present).
 2. `bd ready` for in-flight execution items.
-3. Prefer GitHub issues for the broader backlog; create/claim a bead when starting concrete work.
-4. Prefer this file + GitHub issues + beads over chat transcript memory.
+3. Prefer GitHub issues on **this** repo for the broader backlog; create/claim a bead when starting concrete work.
+4. Add-on work: `ex_pipedrive_web` (`expdw-`), `ex_pipedrive_oban` (`expdo-`), `ex_pipedrive_phoenix` (`expdp-`).
+5. Prefer this file + GitHub issues + beads over chat transcript memory.
