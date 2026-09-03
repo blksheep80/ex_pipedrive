@@ -1,5 +1,10 @@
 # ExPipedrive
 
+[![Hex.pm](https://img.shields.io/hexpm/v/ex_pipedrive.svg)](https://hex.pm/packages/ex_pipedrive)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ex_pipedrive/)
+[![CI](https://github.com/blksheep80/ex_pipedrive/actions/workflows/elixir.yml/badge.svg)](https://github.com/blksheep80/ex_pipedrive/actions/workflows/elixir.yml)
+[![Coverage Status](https://coveralls.io/repos/github/blksheep80/ex_pipedrive/badge.svg?branch=main)](https://coveralls.io/github/blksheep80/ex_pipedrive?branch=main)
+
 Elixir client for the [Pipedrive](https://www.pipedrive.com) CRM API.
 
 This repository is a fork of [tmecklem/line_drive](https://github.com/tmecklem/line_drive), rebranded as **ExPipedrive** (`ex_pipedrive` / `ExPipedrive.*`) and evolving toward a **v2-first** SDK.
@@ -318,12 +323,15 @@ client =
 ```bash
 mix deps.get
 mix test
+mix coveralls
 mix format --check-formatted
 mix credo --strict
 mix doctor
 mix dialyzer
 mix docs
 ```
+
+Coverage HTML: `mix coveralls.html` (opens `cover/excoveralls.html`). CI uploads lcov from the primary Elixir 1.17 cell to [Coveralls](https://coveralls.io/github/blksheep80/ex_pipedrive) and fails if total coverage drops below 75%.
 
 Dialyzer runs in CI on the primary matrix cell (Elixir 1.17 / OTP 27) with PLT caching. Locally, `mix dialyzer` uses PLTs under `priv/plts/` (gitignored). Stricter flags (`:error_handling`, `:underspecs`) can be added later once the baseline stays green.
 
