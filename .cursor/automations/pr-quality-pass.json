@@ -1,0 +1,41 @@
+{
+  "name": "ExPipedrive PR quality pass",
+  "description": "Review pull requests for real bugs and ExPipedrive conventions. Comment only — no drive-by refactors.",
+  "workflow": {
+    "triggers": [
+      {
+        "git": {
+          "pullRequest": {
+            "action": "GIT_PULL_REQUEST_ACTION_OPENED",
+            "repos": ["blksheep80/ex_pipedrive"],
+            "ignoreDraftPrs": true
+          }
+        }
+      },
+      {
+        "git": {
+          "pullRequest": {
+            "action": "GIT_PULL_REQUEST_ACTION_PUSHED",
+            "repos": ["blksheep80/ex_pipedrive"]
+          }
+        }
+      }
+    ],
+    "actions": [
+      {"prComment": {}}
+    ],
+    "prompts": [
+      {
+        "text": "You are reviewing a pull request on blksheep80/ex_pipedrive (Elixir Pipedrive SDK).\n\nRead HANDOFF.md and AGENTS.md for project conventions.\n\nReview the PR diff for:\n- Real bugs, incorrect API usage, or broken tests\n- Missing test coverage for new behavior\n- Violations of v2-first / lean-core decisions\n- Secrets or credentials accidentally committed\n\nDo NOT:\n- Request drive-by refactors unrelated to the PR\n- Nitpick formatting (CI runs mix format --check-formatted)\n- Block on subjective style preferences\n\nIf you find actionable issues, post a concise PR comment with file/line references.\nIf the PR looks good, post a brief approval comment or do nothing.\n\nQuality mindset matches mix credo --strict but focus on issues CI cannot catch."
+      }
+    ],
+    "memoryEnabled": false,
+    "agentOptions": {
+      "skipInstall": false
+    },
+    "gitConfig": {
+      "repo": "blksheep80/ex_pipedrive",
+      "branch": "main"
+    }
+  }
+}

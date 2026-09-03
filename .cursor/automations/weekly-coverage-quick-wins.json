@@ -1,0 +1,29 @@
+{
+  "name": "ExPipedrive weekly coverage quick-wins",
+  "description": "Every Monday, raise coverage on up to two high-ROI modules via meaningful tests.",
+  "workflow": {
+    "triggers": [
+      {
+        "cron": {
+          "cron": "0 9 * * 1"
+        }
+      }
+    ],
+    "actions": [
+      {"pr": {}}
+    ],
+    "prompts": [
+      {
+        "text": "Scheduled coverage pass for blksheep80/ex_pipedrive.\n\nFollow .cursor/skills/improve-test-coverage/SKILL.md:\n\n1. mix coveralls.json\n2. elixir .cursor/skills/improve-test-coverage/scripts/coverage_progress.exs\n3. elixir .cursor/skills/improve-test-coverage/scripts/find_quick_wins.exs\n4. Pick at most TWO modules not covered in prior runs (check automation memory).\n5. For each module, inspect uncovered lines and write behavior-focused tests using FakePipedriveServer fixtures.\n6. Verify: mix test (touched files), mix format --check-formatted, mix credo --strict.\n\nIf coverage rises and tests pass, open a DRAFT PR titled \"chore: coverage quick-wins (<modules>)\" with a summary of modules and new coverage %.\nIf nothing worth doing this week, post no PR and record in memory which modules were skipped.\n\nCreate a bead for the work: bd create \"Coverage quick-wins: <modules>\" --type task --priority 3\n\nDo not write trivial line-coverage tests. Do not touch unrelated modules."
+      }
+    ],
+    "memoryEnabled": true,
+    "agentOptions": {
+      "skipInstall": false
+    },
+    "gitConfig": {
+      "repo": "blksheep80/ex_pipedrive",
+      "branch": "main"
+    }
+  }
+}
