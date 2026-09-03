@@ -1,0 +1,33 @@
+{
+  "name": "ExPipedrive CI failure triage",
+  "description": "When Elixir CI fails on a PR, read the failing check and open a fix or comment with root cause.",
+  "workflow": {
+    "triggers": [
+      {
+        "git": {
+          "ciCompleted": {
+            "repos": ["blksheep80/ex_pipedrive"],
+            "conclusion": "GIT_CI_CONCLUSION_FAILURE"
+          }
+        }
+      }
+    ],
+    "actions": [
+      {"prComment": {}},
+      {"pr": {}}
+    ],
+    "prompts": [
+      {
+        "text": "Elixir CI failed on blksheep80/ex_pipedrive.\n\n1. Read the failing GitHub Actions check log (format, credo, dialyzer, test, or coveralls).\n2. Identify the root cause — do not guess without reading the log.\n3. If the fix is clearly within PR scope and small, implement it on a branch and open a draft PR (or push to the existing PR branch if appropriate).\n4. If the failure is unrelated to the PR or needs human judgment, post a PR comment explaining why.\n\nNever weaken CI configs, skip dialyzer, or lower the 75% Coveralls floor to make checks pass.\n\nLocal verification before pushing:\n- Run the narrowest failing command first (e.g. mix test path/to_test.exs)\n- Then mix format --check-formatted and mix credo --strict if those failed\n\nSee AGENTS.md for the full quality gate."
+      }
+    ],
+    "memoryEnabled": false,
+    "agentOptions": {
+      "skipInstall": false
+    },
+    "gitConfig": {
+      "repo": "blksheep80/ex_pipedrive",
+      "branch": "main"
+    }
+  }
+}

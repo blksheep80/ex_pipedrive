@@ -18,6 +18,14 @@ Project skills (read when relevant):
 
 - `.cursor/skills/ex-pipedrive-session/SKILL.md` — session resume / sequencing
 - `.cursor/skills/ex-pipedrive-pr/SKILL.md` — fork-safe `gh` / PRs
+- `.cursor/skills/improve-test-coverage/SKILL.md` — coverage quick-wins (75% CI floor)
+- `.cursor/skills/hunt-dead-code/SKILL.md` — transitive dead-code audit
+
+## Cloud agents
+
+Repo-managed environment: [`.cursor/environment.json`](.cursor/environment.json) (Elixir 1.17 / OTP 27, multi-repo siblings).
+
+Cursor Automations (import via `/automate`): [`.cursor/automations/`](.cursor/automations/)
 
 ## Build & Test
 

@@ -36,6 +36,15 @@ mix credo --strict
 mix dialyzer
 ```
 
+## Hygiene skills (optional beads)
+
+When raising coverage or pruning dead code:
+
+- `.cursor/skills/improve-test-coverage/SKILL.md` — `mix coveralls.json` + quick-win scripts
+- `.cursor/skills/hunt-dead-code/SKILL.md` — AST reachability analyzer + `roots.exs` ratchet
+
+Ticket with `bd create`, one module/cluster per PR.
+
 ## Tracking split
 
 | Layer | Use for |
